@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Nos plats</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+<style>
+
+
+.container{
+
+    width:1100px;
+
+    margin:70px auto;
+
+}
+
+
+
+.back{
+
+    color:#A55B45;
+
+    font-weight:600;
+
+}
+
+
+
+.plat-box{
+
+    margin-top:30px;
+
+    background:white;
+
+    border-radius:25px;
+
+    padding:40px;
+
+    display:flex;
+
+    gap:50px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+
+}
+
+
+
+.image{
+
+    width:45%;
+
+}
+
+
+
+.image img{
+
+    border-radius:20px;
+
+}
+
+
+
+.content{
+
+    width:55%;
+
+}
+
+
+
+.content h1{
+
+    font-size:42px;
+
+    color:#A6523C;
+
+    margin-bottom:20px;
+
+}
+
+
+
+.content h3{
+
+    color:#A6523C;
+
+    margin-top:25px;
+
+}
+
+
+
+.badges span{
+
+    display:inline-block;
+
+    background:#F3ECE7;
+
+    padding:7px 15px;
+
+    border-radius:20px;
+
+    margin-right:8px;
+
+}
+
+
+
+.story{
+
+    margin-top:40px;
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:35px;
+
+}
+
+
+
+.story h2{
+
+    color:#A6523C;
+
+}
+
+
+
+.story p{
+
+    line-height:1.8;
+
+    margin-top:15px;
+
+}
+
+
+
+.chef{
+
+    margin-top:30px;
+
+    background:#FFF5EF;
+
+    padding:20px;
+
+    border-left:5px solid #B85F44;
+
+    border-radius:15px;
+
+}
+
+
+
+</style>
+
+
+</head>
+
+
+
+<body>
+
+
+<header>
+
+
+<div class="logo">
+
+Boutique
+
+</div>
+
+
+<nav>
+
+
+<a href="index.html">
+Accueil
+</a>
+
+
+<a href="index.html#plats">
+Nos plats
+</a>
+
+
+<a href="cart.html">
+Panier
+</a>
+
+
+</nav>
+
+
+</header>
+
+
+
+
+
+<section class="container">
+
+
+<a href="index.html#plats" class="back">
+
+← Retour au menu
+
+</a>
+
+
+
+
+<div class="plat-box">
+
+
+
+<div class="image">
+
+
+<img id="plat-image">
+
+
+</div>
+
+
+
+
+<div class="content">
+
+
+<h1 id="plat-name">
+
+</h1>
+
+
+
+<p id="plat-description">
+
+</p>
+
+
+
+<h3>
+
+Ingredients
+
+</h3>
+
+
+<p id="ingredients">
+
+</p>
+
+
+
+
+<h3>
+
+Allergènes
+
+</h3>
+
+
+<div class="badges" id="allergens">
+
+
+</div>
+
+
+
+
+
+<h3>
+
+Valeurs nutritionnelles
+
+</h3>
+
+
+
+<p id="nutrition">
+
+</p>
+
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+<div class="story">
+
+
+<h2>
+
+Notre histoire
+
+</h2>
+
+
+<p id="story">
+
+</p>
+
+
+
+
+<div class="chef">
+
+
+<h3>
+
+👨‍🍳 Conseil du Chef
+
+</h3>
+
+
+<p id="chef">
+
+</p>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+</section>
+
+
+
+
+
+
+
+<script src="js/products.js"></script>
+
+
+
+<script>
+
+
+// 获取ID
+
+
+const params =
+new URLSearchParams(
+window.location.search
+);
+
+
+
+const id =
+params.get("id");
+
+
+
+// 获取产品
+
+
+const product =
+getProduct(id);
+
+
+
+
+// 显示图片
+
+
+document.getElementById(
+"plat-image"
+).src =
+product.image;
+
+
+
+
+// 名称
+
+
+document.getElementById(
+"plat-name"
+).innerHTML =
+product.name;
+
+
+
+
+// 简介
+
+
+document.getElementById(
+"plat-description"
+).innerHTML =
+product.description;
+
+
+
+
+
+// 食材
+
+
+document.getElementById(
+"ingredients"
+).innerHTML =
+product.ingredients.join(" • ");
+
+
+
+
+
+// 过敏
+
+
+let allergen="";
+
+
+product.allergens.forEach(item=>{
+
+
+allergen +=
+
+`
+<span>
+${item}
+</span>
+`;
+
+
+
+});
+
+
+
+document.getElementById(
+"allergens"
+).innerHTML =
+allergen;
+
+
+
+
+
+
+// 营养
+
+
+document.getElementById(
+"nutrition"
+).innerHTML =
+
+
+`
+
+Calories:
+${product.nutrition.calories}
+
+<br>
+
+Protein:
+${product.nutrition.protein}
+
+<br>
+
+Fat:
+${product.nutrition.fat}
+
+<br>
+
+Carbs:
+${product.nutrition.carbs}
+
+`;
+
+
+
+
+
+
+
+// 菜品故事
+
+
+document.getElementById(
+"story"
+).innerHTML =
+
+
+`
+
+Cette recette est préparée chaque jour
+avec des ingrédients soigneusement sélectionnés.
+
+Notre équipe travaille pour conserver
+le goût naturel et la qualité du produit.
+
+`;
+
+
+
+
+
+
+// Chef建议
+
+
+document.getElementById(
+"chef"
+).innerHTML =
+
+
+product.chefNote ||
+
+"À déguster avec une sauce maison.";
+
+
+
+</script>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,504 @@
+/* ===========================
+   Global
+=========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+
+    font-family:'Poppins',sans-serif;
+
+    background:#EFD7CF;
+
+    color:#5F4037;
+
+    line-height:1.6;
+
+}
+
+a{
+
+    text-decoration:none;
+
+    color:inherit;
+
+}
+
+img{
+
+    width:100%;
+
+    display:block;
+
+}
+
+/* ===========================
+   Header
+=========================== */
+
+header{
+
+    width:100%;
+
+    height:80px;
+
+    background:#FFF7F2;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:0 80px;
+
+    position:sticky;
+
+    top:0;
+
+    z-index:999;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.05);
+
+}
+
+.logo{
+
+    font-size:30px;
+
+    font-weight:700;
+
+    color:#9A503C;
+
+}
+
+nav{
+
+    display:flex;
+
+    gap:40px;
+
+}
+
+nav a{
+
+    font-size:17px;
+
+    font-weight:500;
+
+    transition:.3s;
+
+}
+
+nav a:hover{
+
+    color:#C46A4A;
+
+}
+
+/* ===========================
+   Hero
+=========================== */
+
+.hero{
+
+    padding:60px 20px 30px;
+
+    text-align:center;
+
+}
+
+.hero h1{
+
+    font-size:70px;
+
+    color:white;
+
+    font-weight:700;
+
+}
+
+.hero p{
+
+    margin-top:10px;
+
+    font-size:28px;
+
+    color:#8B4938;
+
+}
+
+/* ===========================
+   Today
+=========================== */
+
+.today{
+
+    width:1100px;
+
+    margin:auto;
+
+}
+
+.today-link{
+
+    display:block;
+
+}
+
+.today-card{
+
+    background:#FFFDFB;
+
+    border-radius:25px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:35px;
+
+    transition:.35s;
+
+    cursor:pointer;
+
+}
+
+.today-card:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:0 15px 35px rgba(0,0,0,.15);
+
+}
+
+.today-info{
+
+    width:65%;
+
+}
+
+.today-info h2{
+
+    font-size:34px;
+
+    color:#A54E37;
+
+    margin-bottom:10px;
+
+}
+
+.today-info h3{
+
+    color:#6F4B42;
+
+    margin-bottom:15px;
+
+}
+
+.today-info p{
+
+    margin-bottom:20px;
+
+}
+
+.tags{
+
+    display:flex;
+
+    gap:10px;
+
+    margin-bottom:25px;
+
+}
+
+.tags span{
+
+    padding:6px 16px;
+
+    background:#F3ECE7;
+
+    border-radius:20px;
+
+    font-size:13px;
+
+}
+
+.today button{
+
+    border:none;
+
+    background:#B85F44;
+
+    color:white;
+
+    padding:14px 35px;
+
+    border-radius:30px;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.today button:hover{
+
+    background:#9F4C33;
+
+}
+
+.today-image{
+
+    width:250px;
+
+}
+
+.today-image img{
+
+    border-radius:20px;
+
+}
+
+.intro{
+
+    margin:45px auto 80px;
+
+    width:70%;
+
+    text-align:center;
+
+    color:#68453B;
+
+}
+
+/* ===========================
+   Products
+=========================== */
+
+.title{
+
+    text-align:center;
+
+    font-size:60px;
+
+    color:white;
+
+    margin-bottom:50px;
+
+}
+
+.products{
+
+    width:1100px;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:30px;
+
+    padding-bottom:100px;
+
+}
+
+.products a{
+
+    display:block;
+
+}
+
+.card{
+
+    background:#FFFDFB;
+
+    border-radius:20px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:25px;
+
+    transition:.3s;
+
+    min-height:180px;
+
+}
+
+.card:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:0 12px 30px rgba(0,0,0,.12);
+
+}
+
+.card div{
+
+    width:65%;
+
+}
+
+.card h2{
+
+    color:#A44F39;
+
+    margin-bottom:12px;
+
+    font-size:24px;
+
+}
+
+.card p{
+
+    font-size:15px;
+
+    margin-bottom:18px;
+
+}
+
+.card span{
+
+    color:#B95D43;
+
+    font-weight:600;
+
+}
+
+.card img{
+
+    width:120px;
+
+    height:120px;
+
+    object-fit:cover;
+
+    border-radius:18px;
+
+}
+
+/* ===========================
+   Footer
+=========================== */
+
+footer{
+
+    background:#FFF7F2;
+
+    padding:35px;
+
+    text-align:center;
+
+    color:#8B5A4B;
+
+}
+
+/* ===========================
+   Responsive
+=========================== */
+
+@media(max-width:1200px){
+
+.today,
+.products{
+
+    width:92%;
+
+}
+
+}
+
+@media(max-width:768px){
+
+header{
+
+    padding:20px;
+
+    flex-direction:column;
+
+    height:auto;
+
+}
+
+nav{
+
+    margin-top:15px;
+
+    gap:20px;
+
+}
+
+.hero h1{
+
+    font-size:45px;
+
+}
+
+.hero p{
+
+    font-size:20px;
+
+}
+
+.today-card{
+
+    flex-direction:column;
+
+    text-align:center;
+
+}
+
+.today-info{
+
+    width:100%;
+
+}
+
+.today-image{
+
+    width:220px;
+
+    margin-top:30px;
+
+}
+
+.products{
+
+    grid-template-columns:1fr;
+
+}
+
+.card{
+
+    flex-direction:column;
+
+    text-align:center;
+
+}
+
+.card div{
+
+    width:100%;
+
+    margin-bottom:20px;
+
+}
+
+}

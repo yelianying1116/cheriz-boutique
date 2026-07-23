@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Boutique</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<div class="logo">
+Boutique
+</div>
+
+
+<nav>
+
+<a href="#">Accueil</a>
+
+<a href="#today">
+Plat du jour
+</a>
+
+<a href="#plats">
+Nos plats
+</a>
+
+<a href="cart.html">
+Panier
+</a>
+
+
+</nav>
+
+
+</header>
+
+
+
+
+
+<!-- =====================
+ Plat du jour
+===================== -->
+
+
+<section class="hero">
+
+
+<h1>
+Plat du jour
+</h1>
+
+
+<p>
+Chaque jour, un seul plat.
+</p>
+
+
+</section>
+
+
+
+<section id="today" class="today">
+
+
+<a id="daily-link">
+
+
+<div class="today-card">
+
+
+<div class="today-info">
+
+
+<h2 id="daily-name"></h2>
+
+
+<h3 id="daily-price"></h3>
+
+
+
+<p id="daily-description"></p>
+
+
+
+<div class="tags" id="daily-tags">
+
+
+</div>
+
+
+
+<button>
+
+Commander
+
+</button>
+
+
+</div>
+
+
+
+<div class="today-image">
+
+<img id="daily-image">
+
+</div>
+
+
+
+</div>
+
+
+</a>
+
+
+
+<div class="intro">
+
+
+<p>
+
+Dès que vous réservez votre plat du jour,
+votre commande est immédiatement prise en compte.
+
+</p>
+
+
+<p>
+
+Chaque matin, nous préparons votre repas
+avec des ingrédients frais.
+
+</p>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+<!-- =====================
+ Nos plats
+===================== -->
+
+
+<section id="plats">
+
+
+<h1 class="title">
+
+Nos plats
+
+</h1>
+
+
+
+<div class="products" id="menu-list">
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+<footer>
+
+© 2025 Boutique
+
+</footer>
+
+
+
+
+
+<!-- 数据 -->
+
+<script src="js/products.js"></script>
+
+
+
+<script>
+
+
+// ======================
+// 今日推荐
+// ======================
+
+
+const daily = getDailyProduct();
+
+
+
+document.getElementById(
+"daily-name"
+).innerHTML = daily.name;
+
+
+
+document.getElementById(
+"daily-price"
+).innerHTML = daily.price + " €";
+
+
+
+document.getElementById(
+"daily-description"
+).innerHTML = daily.shortDescription;
+
+
+
+document.getElementById(
+"daily-image"
+).src = daily.image;
+
+
+
+document.getElementById(
+"daily-link"
+).href =
+"product.html?id=" + daily.id;
+
+
+
+
+
+// 标签
+
+
+let tags="";
+
+
+daily.allergens.forEach(item=>{
+
+
+tags +=
+
+`
+<span>
+${item}
+</span>
+`
+
+});
+
+
+document.getElementById(
+"daily-tags"
+).innerHTML=tags;
+
+
+
+
+
+// ======================
+// Nos plats
+// ======================
+
+
+
+const menu =
+getMenuProducts();
+
+
+
+const menuBox =
+document.getElementById(
+"menu-list"
+);
+
+
+
+menu.forEach(product=>{
+
+
+menuBox.innerHTML +=
+
+
+`
+
+<a href="plat.html?id=${product.id}">
+
+
+<div class="card">
+
+
+<div>
+
+
+<h2>
+
+${product.name}
+
+</h2>
+
+
+<p>
+
+${product.shortDescription}
+
+</p>
+
+
+
+<span>
+
+Voir le plat →
+
+</span>
+
+
+</div>
+
+
+
+<img src="${product.image}">
+
+
+</div>
+
+
+</a>
+
+`;
+
+
+});
+
+
+
+</script>
+
+
+</body>
+
+</html>

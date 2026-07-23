@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Plat du jour</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+<style>
+
+
+.product-page{
+
+    width:1100px;
+
+    margin:70px auto;
+
+}
+
+
+
+.back{
+
+    color:#A55B45;
+
+    font-weight:600;
+
+}
+
+
+
+.product-box{
+
+
+    margin-top:30px;
+
+    background:white;
+
+    border-radius:25px;
+
+    padding:40px;
+
+    display:flex;
+
+    gap:50px;
+
+}
+
+
+
+.left{
+
+    width:45%;
+
+}
+
+
+
+.left img{
+
+    border-radius:20px;
+
+}
+
+
+
+.right{
+
+    width:55%;
+
+}
+
+
+
+.right h1{
+
+    font-size:42px;
+
+    color:#A6523C;
+
+}
+
+
+
+.price{
+
+    font-size:30px;
+
+    margin:15px 0;
+
+    font-weight:bold;
+
+}
+
+
+
+.stars{
+
+    color:#F2B233;
+
+    margin-bottom:20px;
+
+}
+
+
+
+.info{
+
+    margin-top:25px;
+
+}
+
+
+
+.info h3{
+
+    color:#A6523C;
+
+}
+
+
+
+.tags span{
+
+    display:inline-block;
+
+    background:#F3ECE7;
+
+    padding:7px 15px;
+
+    border-radius:20px;
+
+    margin-right:8px;
+
+}
+
+
+
+.quantity{
+
+    display:flex;
+
+    align-items:center;
+
+    margin:35px 0;
+
+}
+
+
+
+.quantity button{
+
+    width:40px;
+
+    height:40px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#B85F44;
+
+    color:white;
+
+    font-size:20px;
+
+}
+
+
+
+.quantity input{
+
+    width:60px;
+
+    text-align:center;
+
+    border:none;
+
+    font-size:20px;
+
+}
+
+
+
+.actions{
+
+    display:flex;
+
+    gap:20px;
+
+}
+
+
+
+.cart-btn{
+
+    background:#B85F44;
+
+    color:white;
+
+    border:none;
+
+    padding:15px 35px;
+
+    border-radius:30px;
+
+}
+
+
+
+.buy-btn{
+
+    background:white;
+
+    color:#B85F44;
+
+    border:2px solid #B85F44;
+
+    padding:15px 35px;
+
+    border-radius:30px;
+
+}
+
+
+
+.description{
+
+    margin-top:40px;
+
+    background:white;
+
+    padding:35px;
+
+    border-radius:20px;
+
+}
+
+
+
+.description h2{
+
+    color:#A6523C;
+
+}
+
+
+</style>
+
+
+</head>
+
+
+<body>
+
+
+
+<header>
+
+
+<div class="logo">
+
+Boutique
+
+</div>
+
+
+<nav>
+
+<a href="index.html">
+Accueil
+</a>
+
+
+<a href="index.html#plats">
+Nos plats
+</a>
+
+
+<a href="cart.html">
+Panier
+</a>
+
+
+</nav>
+
+
+</header>
+
+
+
+
+
+<section class="product-page">
+
+
+<a href="index.html" class="back">
+
+← Retour
+
+</a>
+
+
+
+<div class="product-box">
+
+
+
+<div class="left">
+
+
+<img id="product-image">
+
+
+</div>
+
+
+
+
+
+<div class="right">
+
+
+<h1 id="product-name">
+
+</h1>
+
+
+
+<div class="price" id="product-price">
+
+</div>
+
+
+
+
+<div class="stars">
+
+★★★★★
+
+</div>
+
+
+
+
+<p id="product-description">
+
+</p>
+
+
+
+
+<div class="info">
+
+
+<h3>
+
+Ingredients
+
+</h3>
+
+
+<p id="ingredients">
+
+</p>
+
+
+</div>
+
+
+
+
+
+<div class="info">
+
+
+<h3>
+
+Allergènes
+
+</h3>
+
+
+<div class="tags" id="allergens">
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="quantity">
+
+
+<button onclick="minus()">
+
+-
+
+</button>
+
+
+<input id="quantity" value="1">
+
+
+<button onclick="plus()">
+
++
+
+</button>
+
+
+</div>
+
+
+
+
+
+<div class="actions">
+
+
+<button class="cart-btn" onclick="addCart()">
+
+Ajouter au panier
+
+</button>
+
+
+
+<button class="buy-btn" onclick="buyNow()">
+
+Acheter maintenant
+
+</button>
+
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="description">
+
+
+<h2>
+
+Description
+
+</h2>
+
+
+<p id="full-description">
+
+</p>
+
+
+
+<h2>
+
+Valeurs nutritionnelles
+
+</h2>
+
+
+<p id="nutrition">
+
+</p>
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+<script src="js/products.js"></script>
+
+
+<script>
+
+
+// ========================
+// 获取ID
+// ========================
+
+
+const params =
+new URLSearchParams(
+window.location.search
+);
+
+
+const id =
+params.get("id");
+
+
+
+// 获取产品
+
+
+const product =
+getProduct(id);
+
+
+
+
+// 显示数据
+
+
+document.getElementById(
+"product-image"
+).src =
+product.image;
+
+
+
+document.getElementById(
+"product-name"
+).innerHTML =
+product.name;
+
+
+
+document.getElementById(
+"product-price"
+).innerHTML =
+product.price + " €";
+
+
+
+document.getElementById(
+"product-description"
+).innerHTML =
+product.shortDescription;
+
+
+
+document.getElementById(
+"full-description"
+).innerHTML =
+product.description;
+
+
+
+// 食材
+
+document.getElementById(
+"ingredients"
+).innerHTML =
+product.ingredients.join(" • ");
+
+
+
+
+// 过敏
+
+let allergenHTML="";
+
+
+product.allergens.forEach(item=>{
+
+
+allergenHTML +=
+
+`
+
+<span>
+${item}
+</span>
+
+`;
+
+
+});
+
+
+document.getElementById(
+"allergens"
+).innerHTML =
+allergenHTML;
+
+
+
+
+// 营养
+
+document.getElementById(
+"nutrition"
+).innerHTML =
+
+`
+Calories:
+${product.nutrition.calories}
+
+<br>
+
+Protein:
+${product.nutrition.protein}
+
+<br>
+
+Fat:
+${product.nutrition.fat}
+
+<br>
+
+Carbs:
+${product.nutrition.carbs}
+
+`;
+
+
+
+
+
+// 数量
+
+
+function plus(){
+
+let q=document.getElementById(
+"quantity"
+);
+
+
+q.value =
+parseInt(q.value)+1;
+
+
+}
+
+
+
+function minus(){
+
+let q=document.getElementById(
+"quantity"
+);
+
+
+if(q.value>1){
+
+q.value =
+parseInt(q.value)-1;
+
+}
+
+}
+
+
+
+
+// 加购物车
+
+function addCart(){
+
+
+let cart =
+JSON.parse(
+localStorage.getItem("cart")
+)
+||
+[];
+
+
+
+cart.push({
+
+id:product.id,
+
+name:product.name,
+
+price:product.price,
+
+image:product.image,
+
+quantity:
+document.getElementById("quantity").value
+
+});
+
+
+
+localStorage.setItem(
+"cart",
+JSON.stringify(cart)
+);
+
+
+
+alert("Produit ajouté au panier");
+
+
+}
+
+
+
+
+// 立即购买
+
+
+function buyNow(){
+
+location.href=
+"checkout.html?id="+product.id;
+
+}
+
+
+
+</script>
+
+
+
+</body>
+
+</html>

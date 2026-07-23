@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Panier</title>
+
+
+<link rel="stylesheet" href="css/style.css">
+
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+<style>
+
+
+.cart-page{
+
+    width:1000px;
+
+    margin:70px auto;
+
+}
+
+
+.cart-page h1{
+
+    text-align:center;
+
+    font-size:55px;
+
+    color:white;
+
+    margin-bottom:40px;
+
+}
+
+
+
+.cart-box{
+
+    background:white;
+
+    border-radius:25px;
+
+    padding:35px;
+
+}
+
+
+
+.cart-item{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:20px 0;
+
+    border-bottom:1px solid #eee;
+
+}
+
+
+
+.cart-item img{
+
+    width:90px;
+
+    height:90px;
+
+    object-fit:cover;
+
+    border-radius:15px;
+
+}
+
+
+
+.item-info{
+
+    width:300px;
+
+}
+
+
+
+.item-info h3{
+
+    color:#A6523C;
+
+}
+
+
+
+.qty{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+
+
+.qty button{
+
+    width:35px;
+
+    height:35px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#B85F44;
+
+    color:white;
+
+    cursor:pointer;
+
+}
+
+
+
+.delete{
+
+    color:#B85F44;
+
+    cursor:pointer;
+
+}
+
+
+
+.total{
+
+    margin-top:35px;
+
+    text-align:right;
+
+}
+
+
+
+.total h2{
+
+    color:#A6523C;
+
+}
+
+
+
+.checkout{
+
+    margin-top:30px;
+
+    display:block;
+
+    text-align:center;
+
+    background:#B85F44;
+
+    color:white;
+
+    padding:15px;
+
+    border-radius:30px;
+
+}
+
+
+
+.empty{
+
+    text-align:center;
+
+    padding:50px;
+
+    font-size:20px;
+
+}
+
+
+
+</style>
+
+</head>
+
+
+
+<body>
+
+
+
+<header>
+
+
+<div class="logo">
+
+Boutique
+
+</div>
+
+
+<nav>
+
+<a href="index.html">
+Accueil
+</a>
+
+
+<a href="index.html#plats">
+Nos plats
+</a>
+
+
+<a href="cart.html">
+Panier
+</a>
+
+
+</nav>
+
+
+</header>
+
+
+
+
+
+<section class="cart-page">
+
+
+<h1>
+
+Votre Panier
+
+</h1>
+
+
+
+<div class="cart-box" id="cart-box">
+
+
+</div>
+
+
+
+
+</section>
+
+
+
+
+
+
+<script>
+
+
+let cart =
+
+JSON.parse(
+
+localStorage.getItem("cart")
+
+)
+
+|| [];
+
+
+
+
+
+const box =
+
+document.getElementById(
+"cart-box"
+);
+
+
+
+
+
+function renderCart(){
+
+
+
+box.innerHTML="";
+
+
+
+if(cart.length===0){
+
+
+box.innerHTML=
+
+`
+
+<div class="empty">
+
+Votre panier est vide.
+
+<br><br>
+
+<a href="index.html">
+
+Retour aux plats
+
+</a>
+
+</div>
+
+`;
+
+
+return;
+
+}
+
+
+
+
+let total=0;
+
+
+
+
+
+cart.forEach((item,index)=>{
+
+
+
+total +=
+
+item.price *
+
+item.quantity;
+
+
+
+box.innerHTML +=
+
+
+
+`
+
+<div class="cart-item">
+
+
+<img src="${item.image}">
+
+
+
+<div class="item-info">
+
+
+<h3>
+
+${item.name}
+
+</h3>
+
+
+<p>
+
+${item.price} €
+
+</p>
+
+
+</div>
+
+
+
+
+<div class="qty">
+
+
+<button onclick="minus(${index})">
+
+-
+
+</button>
+
+
+
+<span>
+
+${item.quantity}
+
+</span>
+
+
+
+<button onclick="plus(${index})">
+
++
+
+</button>
+
+
+
+</div>
+
+
+
+
+<div>
+
+${
+
+(item.price*item.quantity).toFixed(2)
+
+} €
+
+</div>
+
+
+
+<div class="delete"
+onclick="removeItem(${index})">
+
+删除
+
+</div>
+
+
+</div>
+
+`;
+
+
+});
+
+
+
+
+box.innerHTML +=
+
+
+`
+
+<div class="total">
+
+
+<h2>
+
+Total:
+
+${total.toFixed(2)} €
+
+</h2>
+
+
+
+<a class="checkout"
+
+href="checkout.html">
+
+Commander
+
+</a>
+
+
+</div>
+
+`;
+
+
+
+}
+
+
+
+
+
+// 增加数量
+
+
+function plus(index){
+
+
+cart[index].quantity++;
+
+
+save();
+
+
+}
+
+
+
+
+
+// 减少数量
+
+
+function minus(index){
+
+
+
+if(cart[index].quantity>1){
+
+cart[index].quantity--;
+
+}
+
+
+save();
+
+
+
+}
+
+
+
+
+
+// 删除
+
+
+function removeItem(index){
+
+
+cart.splice(index,1);
+
+
+save();
+
+
+}
+
+
+
+
+
+function save(){
+
+
+localStorage.setItem(
+
+"cart",
+
+JSON.stringify(cart)
+
+);
+
+
+renderCart();
+
+
+}
+
+
+
+renderCart();
+
+
+
+</script>
+
+
+
+
+</body>
+
+</html>

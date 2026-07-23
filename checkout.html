@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>Checkout</title>
+
+
+<link rel="stylesheet" href="css/style.css">
+
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+
+<style>
+
+
+.checkout-page{
+
+    width:1100px;
+
+    margin:70px auto;
+
+}
+
+
+.checkout-page h1{
+
+    text-align:center;
+
+    color:white;
+
+    font-size:55px;
+
+    margin-bottom:40px;
+
+}
+
+
+
+.checkout-box{
+
+    display:flex;
+
+    gap:40px;
+
+}
+
+
+
+.customer{
+
+    width:55%;
+
+    background:white;
+
+    padding:35px;
+
+    border-radius:25px;
+
+}
+
+
+
+.customer h2{
+
+    color:#A6523C;
+
+    margin-bottom:25px;
+
+}
+
+
+
+.customer input,
+.customer textarea{
+
+
+    width:100%;
+
+    padding:15px;
+
+    margin-bottom:18px;
+
+    border:none;
+
+    background:#F7EFEA;
+
+    border-radius:15px;
+
+    font-size:15px;
+
+
+}
+
+
+
+.customer textarea{
+
+    height:120px;
+
+}
+
+
+
+.order{
+
+    width:45%;
+
+    background:white;
+
+    padding:35px;
+
+    border-radius:25px;
+
+}
+
+
+
+.order h2{
+
+    color:#A6523C;
+
+    margin-bottom:25px;
+
+}
+
+
+
+.order-item{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-bottom:20px;
+
+}
+
+
+
+.total{
+
+    border-top:1px solid #ddd;
+
+    padding-top:20px;
+
+    margin-top:20px;
+
+    font-size:22px;
+
+    color:#A6523C;
+
+}
+
+
+
+.pay{
+
+    width:100%;
+
+    margin-top:30px;
+
+    background:#B85F44;
+
+    color:white;
+
+    border:none;
+
+    padding:16px;
+
+    border-radius:30px;
+
+    font-size:17px;
+
+    cursor:pointer;
+
+}
+
+
+
+.pay:hover{
+
+    background:#99452e;
+
+}
+
+
+
+
+.success{
+
+    text-align:center;
+
+    background:white;
+
+    padding:50px;
+
+    border-radius:25px;
+
+}
+
+
+
+</style>
+
+
+</head>
+
+
+<body>
+
+
+
+<header>
+
+
+<div class="logo">
+
+Boutique
+
+</div>
+
+
+<nav>
+
+<a href="index.html">
+
+Accueil
+
+</a>
+
+
+<a href="index.html#plats">
+
+Nos plats
+
+</a>
+
+
+<a href="cart.html">
+
+Panier
+
+</a>
+
+
+</nav>
+
+
+</header>
+
+
+
+
+
+<section class="checkout-page">
+
+
+<h1>
+
+Commander
+
+</h1>
+
+
+
+
+<div class="checkout-box">
+
+
+
+<!-- 客户信息 -->
+
+
+<div class="customer">
+
+
+<h2>
+
+Informations client
+
+</h2>
+
+
+<input 
+id="name"
+placeholder="Nom complet">
+
+
+<input
+
+id="phone"
+
+placeholder="Téléphone">
+
+
+<input
+
+id="email"
+
+placeholder="Email">
+
+
+<textarea
+
+id="address"
+
+placeholder="Adresse de livraison">
+
+</textarea>
+
+
+
+</div>
+
+
+
+
+
+<!-- 订单 -->
+
+
+<div class="order">
+
+
+<h2>
+
+Votre commande
+
+</h2>
+
+
+
+<div id="order-list">
+
+
+</div>
+
+
+
+
+<div class="total">
+
+
+Total :
+
+<span id="total">
+
+0
+
+</span>
+
+€
+
+
+</div>
+
+
+
+<button class="pay" onclick="submitOrder()">
+
+Payer maintenant
+
+</button>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+
+<script>
+
+
+let cart =
+
+
+JSON.parse(
+
+localStorage.getItem("cart")
+
+)
+
+|| [];
+
+
+
+
+let orderBox =
+
+document.getElementById(
+"order-list"
+);
+
+
+
+let totalBox =
+
+document.getElementById(
+"total"
+);
+
+
+
+let total = 0;
+
+
+
+
+
+function showOrder(){
+
+
+
+orderBox.innerHTML="";
+
+
+cart.forEach(item=>{
+
+
+let price =
+
+item.price *
+
+item.quantity;
+
+
+
+total += price;
+
+
+
+orderBox.innerHTML +=
+
+
+`
+
+<div class="order-item">
+
+
+<span>
+
+${item.name}
+
+x${item.quantity}
+
+</span>
+
+
+<span>
+
+${price.toFixed(2)} €
+
+</span>
+
+
+</div>
+
+
+`;
+
+
+
+});
+
+
+
+totalBox.innerHTML =
+
+total.toFixed(2);
+
+
+
+}
+
+
+
+showOrder();
+
+
+
+
+
+
+
+function submitOrder(){
+
+
+
+let name =
+
+document.getElementById(
+"name"
+).value;
+
+
+
+let phone =
+
+document.getElementById(
+"phone"
+).value;
+
+
+
+let address =
+
+document.getElementById(
+"address"
+).value;
+
+
+
+
+
+
+if(
+name===""
+||
+phone===""
+||
+address===""
+
+){
+
+
+alert(
+"Veuillez remplir vos informations"
+);
+
+
+return;
+
+
+}
+
+
+
+
+alert(
+
+"Merci ! Votre commande est confirmée."
+
+);
+
+
+
+
+
+localStorage.removeItem(
+"cart"
+);
+
+
+
+
+location.href="index.html";
+
+
+
+}
+
+
+
+</script>
+
+
+
+
+</body>
+
+</html>
