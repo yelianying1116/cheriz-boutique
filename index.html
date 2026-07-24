@@ -5,336 +5,334 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>Chez Riz Boutique</title>
 
 <meta
 name="description"
-content="Fresh homemade meals prepared daily."
->
+content="Fresh homemade meals prepared daily.">
 
 <link
 rel="stylesheet"
-href="css/style.css"
->
+href="css/style.css">
 
 <link
 href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-rel="stylesheet"
->
+rel="stylesheet">
 
 </head>
 
 <body>
 
-<!-- =====================================
+<!-- =======================================
 HEADER
-====================================== -->
+======================================= -->
 
 <header class="header">
 
-<div class="container">
+    <div class="container">
 
-<a href="index.html" class="logo">
+        <!-- Logo -->
 
-Chez Riz
+        <a
+        href="index.html"
+        class="logo">
 
-</a>
+            Chez Riz
 
-<nav>
+        </a>
 
-<a href="#today">
+        <!-- Navigation -->
 
-Plat du jour
+        <nav class="navigation">
 
-</a>
+            <a href="#">
 
-<a href="#plats">
+                Accueil
 
-Nos plats
+            </a>
 
-</a>
+            <a href="#today">
 
-<a href="cart.html">
+                Plat du jour
 
-Panier
+            </a>
 
-</a>
+            <a href="#plats">
 
-</nav>
+                Nos plats
 
-</div>
+            </a>
+
+            <a href="cart.html">
+
+                Panier
+
+            </a>
+
+        </nav>
+
+    </div>
 
 </header>
+<!-- =======================================
+PLAT DU JOUR
+======================================= -->
 
-<!-- =====================================
-HERO
-====================================== -->
+<section id="today" class="hero-section">
 
-<section class="hero">
+    <div class="container hero-container">
 
-<div class="container">
+        <h1 class="hero-title">
 
-<h1>
+            Plat du jour
 
-Plat du jour
+        </h1>
 
-</h1>
+        <p class="hero-subtitle">
 
-<p>
+            Chaque jour, un seul plat.
 
-Chaque jour, un seul plat.
+        </p>
 
-</p>
+        <!-- 整张卡片可点击 -->
 
-</div>
+        <a
+        id="daily-link"
+        class="daily-card">
 
-</section>
+            <!-- 产品图片 -->
 
-<!-- =====================================
-TODAY
-====================================== -->
+            <div class="daily-image">
 
-<section
-id="today"
-class="today-section"
->
+                <img
+                id="daily-image"
+                src=""
+                alt="Plat du jour">
 
-<div class="container">
+            </div>
 
-<a
-id="daily-link"
-class="today-link"
->
+            <!-- 产品信息 -->
 
-<div class="today-card">
+            <div class="daily-content">
 
-<!-- 左侧 -->
+                <h2 id="daily-name">
 
-<div class="today-content">
+                </h2>
 
-<h2
-id="daily-name"
-></h2>
+                <div
+                id="daily-price"
+                class="daily-price">
 
-<div
-class="price"
-id="daily-price"
-></div>
+                </div>
 
-<p
-id="daily-description"
-></p>
+                <p
+                id="daily-description"
+                class="daily-description">
 
-<div
-class="tags"
-id="daily-tags"
->
+                </p>
 
-</div>
+                <div
+                id="daily-tags"
+                class="daily-tags">
 
-<button>
+                </div>
 
-Commander
+                <button
+                class="daily-button">
 
-</button>
+                    Commander
 
-</div>
+                </button>
 
-<!-- 右侧 -->
+            </div>
 
-<div class="today-image">
+        </a>
 
-<img
-id="daily-image"
-alt="Plat du jour"
->
+        <!-- 介绍文字 -->
 
-</div>
+        <div class="daily-introduction">
 
-</div>
+            <p>
 
-</a>
+                Dès que vous réservez votre plat du jour,
+                votre commande est immédiatement prise
+                en compte pour l'achat des ingrédients.
 
-<div class="intro">
+            </p>
 
-<p>
+            <p>
 
-Dès que vous réservez votre plat du jour,
-votre commande est immédiatement prise en compte.
+                Chaque matin dès 7 h,
+                nous préparons votre repas avec des produits frais,
+                puis il est emballé environ
+                30 minutes avant la livraison.
 
-</p>
+            </p>
 
-<p>
+        </div>
 
-Chaque matin,
-nous préparons votre repas avec des ingrédients frais.
-
-</p>
-
-</div>
-
-</div>
+    </div>
 
 </section>
+<!-- =======================================
+NOS PLATS
+======================================= -->
 
-<section
-id="plats"
-class="menu-section"
->
+<section id="plats" class="menu-section">
 
-<div class="container">
+    <div class="container">
 
-<h1 class="section-title">
+        <h2 class="section-title">
 
-Nos plats
+            Nos plats
 
-</h1>
+        </h2>
 
-<div
-id="menu-list"
-class="menu-grid"
->
+        <p class="section-subtitle">
 
-<!-- JavaScript 自动生成 -->
+            Découvrez notre sélection de plats faits maison.
 
-</div>
+        </p>
 
-</div>
+        <div
+        id="menu-list"
+        class="menu-grid">
+
+            <!--
+            JavaScript 会自动生成产品
+            每一个产品都是一个可点击卡片
+            -->
+
+        </div>
+
+    </div>
 
 </section>
-
-<!-- =====================================
+<!-- =======================================
 FOOTER
-====================================== -->
+======================================= -->
 
-<footer>
+<footer class="footer">
 
-<div class="container">
+    <div class="container">
 
-<p>
+        <p>
 
-© 2025 Chez Riz Boutique
+            © 2025 Chez Riz Boutique · Tous droits réservés.
 
-</p>
+        </p>
 
-</div>
+    </div>
 
 </footer>
 
-<!-- =====================================
+<!-- =======================================
 PRODUCT DATABASE
-====================================== -->
+======================================= -->
 
 <script src="js/products.js"></script>
 
-<!-- =====================================
+<!-- =======================================
 HOME PAGE SCRIPT
-====================================== -->
+======================================= -->
 
 <script>
 
-// ===========================
-// 今日推荐
-// ===========================
+// ==============================
+// Plat du jour
+// ==============================
 
 const daily = getDailyProduct();
 
-// 跳转链接
-document.getElementById("daily-link").href =
-"plat.html?id=" + daily.id;
+if (daily) {
 
-// 名称
-document.getElementById("daily-name").textContent =
-daily.name;
+    document.getElementById("daily-link").href =
+        "plat.html?id=" + daily.id;
 
-// 价格
-document.getElementById("daily-price").textContent =
-daily.price.toFixed(2) + " €";
+    document.getElementById("daily-name").textContent =
+        daily.name;
 
-// 描述
-document.getElementById("daily-description").textContent =
-daily.shortDescription;
+    document.getElementById("daily-price").textContent =
+        daily.price.toFixed(2) + " €";
 
-// 图片
-document.getElementById("daily-image").src =
-daily.image;
+    document.getElementById("daily-description").textContent =
+        daily.shortDescription;
 
-// 图片描述
-document.getElementById("daily-image").alt =
-daily.name;
+    document.getElementById("daily-image").src =
+        daily.image;
 
-// 标签
-const tagsBox =
-document.getElementById("daily-tags");
+    document.getElementById("daily-image").alt =
+        daily.name;
 
-daily.allergens.forEach(tag=>{
+    const tagsBox =
+        document.getElementById("daily-tags");
 
-const span =
-document.createElement("span");
+    daily.allergens.forEach(tag => {
 
-span.textContent = tag;
+        const span =
+            document.createElement("span");
 
-tagsBox.appendChild(span);
+        span.textContent = tag;
 
-});
+        tagsBox.appendChild(span);
 
+    });
 
-// ===========================
+}
+
+// ==============================
 // Nos plats
-// ===========================
+// ==============================
 
 const menu =
-getMenuProducts();
+    getMenuProducts();
 
 const menuBox =
-document.getElementById("menu-list");
+    document.getElementById("menu-list");
 
-menu.forEach(product=>{
+menu.forEach(product => {
 
-const card =
+    menuBox.innerHTML += `
 
-`
-<a
-href="plat.html?id=${product.id}"
-class="menu-item"
->
+    <a
+    href="plat.html?id=${product.id}"
+    class="menu-item">
 
-<div class="menu-card">
+        <article class="menu-card">
 
-<div class="menu-image">
+            <div class="menu-photo">
 
-<img
-src="${product.image}"
-alt="${product.name}"
->
+                <img
+                src="${product.image}"
+                alt="${product.name}">
 
-</div>
+            </div>
 
-<div class="menu-content">
+            <div class="menu-content">
 
-<h2>
+                <h3>
 
-${product.name}
+                    ${product.name}
 
-</h2>
+                </h3>
 
-<p>
+                <p>
 
-${product.shortDescription}
+                    ${product.shortDescription}
 
-</p>
+                </p>
 
-</div>
+            </div>
 
-</div>
+        </article>
 
-</a>
+    </a>
 
-`;
-
-menuBox.innerHTML += card;
+    `;
 
 });
 
