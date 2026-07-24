@@ -1,0 +1,633 @@
+/* ==========================================
+   GLOBAL
+========================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+
+    font-family:'Poppins',sans-serif;
+
+    background:#EFD7CF;
+
+    color:#5F4037;
+
+    line-height:1.6;
+
+}
+
+img{
+
+    display:block;
+
+    width:100%;
+
+}
+
+a{
+
+    text-decoration:none;
+
+    color:inherit;
+
+}
+
+button{
+
+    font-family:inherit;
+
+    cursor:pointer;
+
+}
+
+/* ==========================================
+   CONTAINER
+========================================== */
+
+.container{
+
+    width:100%;
+
+    max-width:1200px;
+
+    margin:auto;
+
+    padding:0 25px;
+
+}
+
+/* ==========================================
+   HEADER
+========================================== */
+
+.header{
+
+    position:sticky;
+
+    top:0;
+
+    z-index:999;
+
+    background:#FFF7F2;
+
+    box-shadow:0 4px 15px rgba(0,0,0,.06);
+
+}
+
+.header .container{
+
+    height:82px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.logo{
+
+    font-size:34px;
+    white-space:nowrap;
+    font-weight:700;
+
+    color:#A4543D;
+
+    letter-spacing:1px;
+
+}
+
+nav{
+
+    display:flex;
+    align-items:center;
+    gap:42px;
+
+}
+
+nav a{
+
+    font-size:17px;
+
+    font-weight:500;
+
+    transition:.25s;
+
+}
+
+nav a:hover{
+
+    color:#C56B4C;
+
+}
+
+/* ==========================================
+   HERO
+========================================== */
+
+.hero{
+
+    padding-top:60px;
+
+    padding-bottom:35px;
+
+    text-align:center;
+
+}
+
+.hero h1{
+
+    font-size:72px;
+
+    font-weight:700;
+
+    color:#ffffff;
+
+    line-height:1;
+
+}
+
+.hero p{
+
+    margin-top:18px;
+
+    font-size:28px;
+
+    color:#8D4E3D;
+
+    font-weight:400;
+
+}
+/* ==========================================
+   TODAY SECTION
+========================================== */
+.today-section{
+
+    padding-bottom:80px;
+
+}
+
+.today-link{
+
+    display:block;
+
+}
+
+.today-card{
+
+    background:#FFFDFB;
+
+    border-radius:28px;
+
+    padding:42px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:40px;
+
+    box-shadow:0 12px 30px rgba(0,0,0,.08);
+
+    transition:.3s;
+
+}
+
+.today-card:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:0 18px 45px rgba(0,0,0,.12);
+
+}
+
+.today-content{
+
+    flex:1;
+
+}
+
+.today-content h2{
+
+    font-size:38px;
+
+    color:#A4543D;
+
+    margin-bottom:15px;
+
+    line-height:1.2;
+
+}
+
+.price{
+
+    font-size:30px;
+
+    font-weight:700;
+
+    color:#6F463B;
+
+    margin-bottom:20px;
+
+}
+
+.today-content p{
+
+    font-size:18px;
+
+    color:#6D564D;
+
+    margin-bottom:24px;
+
+    max-width:560px;
+
+}
+
+.tags{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:12px;
+
+    margin-bottom:30px;
+
+}
+
+.tags span{
+
+    background:#F5EEE8;
+
+    padding:8px 18px;
+
+    border-radius:999px;
+
+    font-size:14px;
+
+    color:#6A4B42;
+
+    font-weight:500;
+
+}
+
+.today-content button{
+
+    background:#B86247;
+
+    color:white;
+
+    border:none;
+
+    border-radius:999px;
+
+    padding:15px 36px;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    transition:.25s;
+
+}
+
+.today-content button:hover{
+
+    background:#A45239;
+
+}
+
+.today-image{
+
+    width:340px;
+
+    flex-shrink:0;
+
+}
+
+.today-image img{
+
+    width:100%;
+    max-height:340px;
+
+
+    aspect-ratio:1/1;
+
+    object-fit:cover;
+
+    border-radius:22px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+}
+
+/* ==========================================
+   INTRO
+========================================== */
+
+.intro{
+
+    max-width:760px;
+
+    margin:55px auto 0;
+
+    text-align:center;
+
+}
+
+.intro p{
+
+    font-size:18px;
+
+    color:#6F5146;
+
+    margin-bottom:18px;
+
+    line-height:1.8;
+
+}
+/* ==========================================
+   NOS PLATS
+========================================== */
+.menu-section{
+
+    padding:20px 0 100px;
+
+}
+
+.section-title{
+
+    text-align:center;
+
+    font-size:64px;
+
+    font-weight:700;
+
+    color:#ffffff;
+
+    margin-bottom:55px;
+
+}
+
+.menu-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:30px;
+
+}
+
+.menu-item{
+
+    display:block;
+
+}
+
+.menu-card{
+
+    background:#FFFDFB;
+
+    border-radius:24px;
+
+    overflow:hidden;
+
+    transition:.3s;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.06);
+
+}
+
+.menu-card:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:0 18px 40px rgba(0,0,0,.12);
+
+}
+
+.menu-image{
+
+    width:100%;
+
+    height:240px;
+
+    overflow:hidden;
+
+}
+
+.menu-image img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+    transition:.35s;
+
+}
+
+.menu-card:hover img{
+
+    transform:scale(1.05);
+
+}
+
+.menu-content{
+
+    padding:25px;
+
+}
+
+.menu-content h2{
+
+    font-size:28px;
+
+    color:#A4543D;
+
+    margin-bottom:14px;
+
+    line-height:1.2;
+
+}
+
+.menu-content p{
+
+    font-size:16px;
+
+    color:#6D564D;
+
+    line-height:1.7;
+
+}
+
+/* ==========================================
+   FOOTER
+========================================== */
+
+footer{
+
+    background:#FFF7F2;
+
+    padding:40px 0;
+
+    margin-top:40px;
+
+}
+
+footer p{
+
+    text-align:center;
+
+    color:#8B5B4C;
+
+    font-size:15px;
+
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width:900px){
+
+    .today-card{
+
+        flex-direction:column-reverse;
+
+        text-align:center;
+
+        padding:30px;
+
+    }
+
+    .today-image{
+
+        width:260px;
+
+    }
+
+    .today-content p{
+
+        max-width:100%;
+
+    }
+
+    .tags{
+
+        justify-content:center;
+
+    }
+
+    .menu-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+@media (max-width:768px){
+
+    .header .container{
+
+        flex-direction:column;
+
+        justify-content:center;
+
+        gap:15px;
+
+        height:auto;
+
+        padding:20px 0;
+
+    }
+
+    nav{
+
+        gap:20px;
+
+        flex-wrap:wrap;
+
+        justify-content:center;
+
+    }
+
+    .hero{
+
+        padding-top:40px;
+
+    }
+
+    .hero h1{
+
+        font-size:48px;
+
+    }
+
+    .hero p{
+
+        font-size:22px;
+
+    }
+
+    .section-title{
+
+        font-size:44px;
+
+    }
+
+    .today-content h2{
+
+        font-size:30px;
+
+    }
+
+    .price{
+
+        font-size:24px;
+
+    }
+
+}
+
+@media (max-width:480px){
+
+    .container{
+
+        padding:0 18px;
+
+    }
+
+    .today-card{
+
+        padding:22px;
+
+    }
+
+    .today-image{
+
+        width:100%;
+
+    }
+
+    .menu-image{
+
+        height:200px;
+
+    }
+
+}
