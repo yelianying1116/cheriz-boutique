@@ -1,23 +1,21 @@
 // ===============================
-// Boutique Products Database
+// Configuration
 // ===============================
 
+// 每天只需要修改这里
+// 例如今天推荐 id=1
+// 明天推荐 id=5
+const DAILY_PRODUCT_ID = 1;
+
+
+// ===============================
+// Products Database
+// ===============================
 
 const products = [
 
-
-/*
-=================================
- Plat du jour
- 可以购买的每日推荐
-=================================
-*/
-
-
 {
     id:1,
-
-    type:"daily",
 
     name:"Vegan Mac 'N' Cheese",
 
@@ -25,9 +23,12 @@ const products = [
 
     image:"images/mac.jpg",
 
+    available:true,
+
+    category:"Main",
+
     shortDescription:
     "Creamy vegan pasta with cashew cheese sauce.",
-
 
     description:
     `
@@ -36,9 +37,7 @@ const products = [
     fresh herbs and crispy breadcrumbs.
     `,
 
-
-    ingredients:
-    [
+    ingredients:[
         "Pasta",
         "Cashew",
         "Oat Milk",
@@ -47,54 +46,38 @@ const products = [
         "Mustard"
     ],
 
-
-    allergens:
-    [
+    allergens:[
         "Gluten",
         "Nuts"
     ],
 
-
-    nutrition:
-    {
+    nutrition:{
         calories:"540 kcal",
         protein:"18g",
         fat:"21g",
         carbs:"64g"
     },
 
-
     chefNote:
     `
     Best enjoyed hot.
     Our chef recommends adding fresh herbs before serving.
     `
-
 },
-
-
-
-/*
-=================================
- Nos plats
- 菜单展示，只介绍
-=================================
-*/
-
 
 {
     id:2,
-
-    type:"menu",
 
     name:"Vegan Cheesecake",
 
     image:"images/cake.jpg",
 
+    available:true,
+
+    category:"Dessert",
 
     shortDescription:
     "Creamy caramel vegan cheesecake.",
-
 
     description:
     `
@@ -102,47 +85,38 @@ const products = [
     natural ingredients and a caramel flavor.
     `,
 
-
-    ingredients:
-    [
+    ingredients:[
         "Cashew",
         "Coconut",
         "Vanilla",
         "Caramel"
     ],
 
-
-    allergens:
-    [
+    allergens:[
         "Nuts"
     ],
 
-
-    nutrition:
-    {
+    nutrition:{
         calories:"390 kcal",
         protein:"8g",
         fat:"20g",
         carbs:"42g"
     }
-
 },
-
-
 
 {
     id:3,
-
-    type:"menu",
 
     name:"Buffalo Wings",
 
     image:"images/wings.jpg",
 
+    available:true,
+
+    category:"Snack",
 
     shortDescription:
     "Spicy cauliflower buffalo wings.",
-
 
     description:
     `
@@ -150,47 +124,38 @@ const products = [
     homemade spicy buffalo sauce.
     `,
 
-
-    ingredients:
-    [
+    ingredients:[
         "Cauliflower",
         "Spices",
         "Flour",
         "Sauce"
     ],
 
-
-    allergens:
-    [
+    allergens:[
         "Gluten"
     ],
 
-
-    nutrition:
-    {
+    nutrition:{
         calories:"310 kcal",
         protein:"10g",
         fat:"12g",
         carbs:"35g"
     }
-
 },
-
-
 
 {
     id:4,
-
-    type:"menu",
 
     name:"Sweet Potato Fries",
 
     image:"images/fries.jpg",
 
+    available:true,
+
+    category:"Snack",
 
     shortDescription:
     "Crispy sweet potato fries.",
-
 
     description:
     `
@@ -198,92 +163,74 @@ const products = [
     olive oil and herbs.
     `,
 
-
-    ingredients:
-    [
+    ingredients:[
         "Sweet Potato",
         "Olive Oil",
         "Rosemary",
         "Salt"
     ],
 
-
-    allergens:
-    [
+    allergens:[
         "None"
     ],
 
-
-    nutrition:
-    {
+    nutrition:{
         calories:"285 kcal",
         protein:"3g",
         fat:"8g",
         carbs:"45g"
     }
-
 },
-
-
 
 {
     id:5,
-
-    type:"menu",
 
     name:"Spiked Almond Latte",
 
     image:"images/latte.jpg",
 
+    available:true,
+
+    category:"Drink",
 
     shortDescription:
     "Fresh almond milk latte.",
-
 
     description:
     `
     Smooth coffee with homemade almond milk.
     `,
 
-
-    ingredients:
-    [
+    ingredients:[
         "Coffee",
         "Almond Milk"
     ],
 
-
-    allergens:
-    [
+    allergens:[
         "Nuts"
     ],
 
-
-    nutrition:
-    {
+    nutrition:{
         calories:"120 kcal",
         protein:"4g",
         fat:"5g",
         carbs:"12g"
     }
-
 },
-
-
 
 {
     id:6,
-
-    type:"menu",
 
     name:"Naughty Vegan Shake",
 
     image:"images/shake.jpg",
 
+    available:true,
+
+    category:"Drink",
 
     shortDescription:
     "Chocolate vegan shake.",
-
 
     description:
     `
@@ -291,75 +238,45 @@ const products = [
     with vegan ingredients.
     `,
 
-
-    ingredients:
-    [
+    ingredients:[
         "Cocoa",
         "Plant Milk",
         "Chocolate"
     ],
 
-
-    allergens:
-    [
+    allergens:[
         "Soy"
     ],
 
-
-    nutrition:
-    {
+    nutrition:{
         calories:"350 kcal",
         protein:"12g",
         fat:"14g",
         carbs:"40g"
     }
-
 }
-
 
 ];
 
 
-
 // ===============================
-// 获取单个产品
+// Functions
 // ===============================
-
 
 function getProduct(id){
 
-    return products.find(
-        product => product.id == id
-    );
+    return products.find(product=>product.id==id);
 
 }
-
-
-
-// ===============================
-// 获取今日推荐
-// ===============================
-
 
 function getDailyProduct(){
 
-    return products.find(
-        product => product.type==="daily"
-    );
+    return getProduct(DAILY_PRODUCT_ID);
 
 }
 
-
-
-// ===============================
-// 获取菜单
-// ===============================
-
-
 function getMenuProducts(){
 
-    return products.filter(
-        product => product.type==="menu"
-    );
+    return products.filter(product=>product.id!==DAILY_PRODUCT_ID);
 
 }
