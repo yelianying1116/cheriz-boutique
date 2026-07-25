@@ -14,7 +14,7 @@ html {
 
 body {
 
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Dekko', sans-serif;
     background-color: #E8C8C1;
     color: #6E4A44;
     line-height: 1.7;
@@ -81,7 +81,7 @@ HEADER
 }
 
 .navigation {
-
+    
     display: flex;
     gap: 35px;
     align-items: center;
