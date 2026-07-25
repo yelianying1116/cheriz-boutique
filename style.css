@@ -113,12 +113,9 @@ HEADER
 PLAT DU JOUR
 ========================================== */
 
-/* Hero Section Font Changed */
-
 .hero-section {
 
     padding: 80px 0;
-    font-family: 'Chewy', cursive;
 
 }
 
@@ -129,12 +126,9 @@ PLAT DU JOUR
 
 }
 
-
-/* Hero Title Font Changed */
-
 .hero-title {
 
-    font-family: 'Chewy', cursive;
+    font-family: 'Angkor', serif;
     font-size: 72px;
     font-weight: 700;
     color: #FFF4ED;
@@ -146,12 +140,9 @@ PLAT DU JOUR
 
 }
 
-
-/* Hero Subtitle Font Changed */
-
 .hero-subtitle {
 
-    font-family: 'Chewy', cursive;
+    font-family: 'Angkor', serif;
     font-size: 30px;
     color: #A44740;
     margin-bottom: 50px;
