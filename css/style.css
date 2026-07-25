@@ -617,6 +617,7 @@ MOBILE
     width:70%;
     margin:auto;
     gap:15px;
+    grid-template-columns:1fr;
 
 }
 
