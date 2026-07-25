@@ -14,7 +14,7 @@ html {
 
 body {
 
-    font-family: 'Poppins', cursive;
+    font-family: 'Poppins', sans-serif;
     background-color: #E8C8C1;
     color: #6E4A44;
     line-height: 1.7;
@@ -90,7 +90,7 @@ HEADER
     display: flex;
     gap: 35px;
     align-items: center;
-    font-family: 'Poppins', cursive;
+    font-family: 'Poppins', sans-serif;
 
 }
 
