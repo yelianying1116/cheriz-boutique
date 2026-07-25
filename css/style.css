@@ -36,6 +36,7 @@ img {
 
 }
 
+
 /* ==========================================
 CONTAINER
 ========================================== */
@@ -47,6 +48,7 @@ CONTAINER
     margin: auto;
 
 }
+
 
 /* ==========================================
 HEADER
@@ -80,11 +82,15 @@ HEADER
 
 }
 
+
+/* Navigation Font Changed */
+
 .navigation {
 
     display: flex;
     gap: 35px;
     align-items: center;
+    font-family: 'Dekko', cursive;
 
 }
 
@@ -101,6 +107,7 @@ HEADER
     color: #C46E5D;
 
 }
+
 
 /* ==========================================
 PLAT DU JOUR
@@ -121,6 +128,7 @@ PLAT DU JOUR
 
 .hero-title {
 
+    font-family: 'Angkor', serif;
     font-size: 72px;
     font-weight: 700;
     color: #FFF4ED;
@@ -134,11 +142,13 @@ PLAT DU JOUR
 
 .hero-subtitle {
 
+    font-family: 'Angkor', serif;
     font-size: 30px;
     color: #A44740;
     margin-bottom: 50px;
 
 }
+
 
 /* ==========================================
 DAILY CARD
@@ -255,6 +265,7 @@ DAILY CARD
 
 }
 
+
 /* ==========================================
 INTRODUCTION
 ========================================== */
@@ -274,6 +285,7 @@ INTRODUCTION
     margin-bottom: 15px;
 
 }
+
 
 /* ==========================================
 NOS PLATS
@@ -307,6 +319,7 @@ NOS PLATS
     color: #A44740;
 
 }
+
 
 /* ==========================================
 MENU GRID
@@ -367,6 +380,7 @@ MENU GRID
 
 }
 
+
 /* ==========================================
 FOOTER
 ========================================== */
@@ -388,6 +402,7 @@ FOOTER
     color: #777;
 
 }
+
 
 /* ==========================================
 TABLET
@@ -421,6 +436,7 @@ TABLET
     }
 
 }
+
 
 /* ==========================================
 MOBILE
