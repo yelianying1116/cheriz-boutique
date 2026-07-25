@@ -383,42 +383,29 @@ MENU GRID
 LAST WEEK MENU
 ========================================== */
 
+
 .last-week-grid {
 
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 25px;
+
+    grid-template-columns:
+    repeat(auto-fit, minmax(210px, 1fr));
+
+    gap: 30px;
 
 }
+
 
 .last-week-grid .menu-card {
 
-    width: 100%;
-
-}
-
-/* 平板 */
-
-@media(max-width:900px){
-
-    .last-week-grid .menu-card{
-
-        width:45%;
-
-    }
+    width:100%;
 
 }
 
 
-/* 手机 */
+.last-week-grid .menu-photo img {
 
-@media(max-width:768px){
-
-    .last-week-grid .menu-card{
-
-        width:100%;
-
-    }
+    height:220px;
 
 }
 
@@ -591,6 +578,18 @@ MOBILE
 
     }
 
+.last-week-grid {
+
+    grid-template-columns:1fr;
+
+}
+
+
+.last-week-grid .menu-photo img {
+
+    height:200px;
+
+}
     .hero-title{
 
         font-size:50px;
