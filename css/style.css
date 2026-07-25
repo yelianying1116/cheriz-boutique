@@ -310,7 +310,35 @@ NOS PLATS
     margin-bottom: 10px;
 
 }
+/* ==========================================
+DELIVERY TITLE ABOVE LAST WEEK MENU
+========================================== */
 
+.delivery-title {
+
+    display:block;
+
+    text-align:center;
+
+    font-size:36px;
+
+    color:#FFF4ED;
+
+    text-shadow:
+    4px 4px 0 rgba(203,120,100,.55);
+
+    margin-bottom:10px;
+
+    transition:.3s;
+
+}
+
+
+.delivery-title:hover {
+
+    color:#C46E5D;
+
+}
 .section-subtitle {
 
     text-align: center;
@@ -665,6 +693,11 @@ MOBILE
         font-size:24px;
 
     }
+    .delivery-title{
+
+    font-size:35px;
+
+}
 
     .daily-image{
 
