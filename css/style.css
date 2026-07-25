@@ -436,11 +436,6 @@ LAST WEEK MENU
 
 }
 
-
-.last-week-grid .menu-photo img {
-
-    height:220px;
-
 }
 
 /* ==========================================
@@ -614,14 +609,37 @@ MOBILE
 
 .last-week-grid {
 
-    grid-template-columns:1fr;
+    grid-template-columns:repeat(2,1fr);
+
+    gap:15px;
 
 }
 
 
 .last-week-grid .menu-photo img {
 
-    height:200px;
+    height:100px;
+
+}
+
+
+.last-week-grid .menu-content {
+
+    padding:10px;
+
+}
+
+
+.last-week-grid .menu-content h3 {
+
+    font-size:14px;
+
+}
+
+
+.last-week-grid .menu-content p {
+
+    font-size:12px;
 
 }
     .hero-title{
