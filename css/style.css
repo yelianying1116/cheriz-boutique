@@ -379,7 +379,48 @@ MENU GRID
     font-size: 15px;
 
 }
+/* ==========================================
+LAST WEEK MENU
+========================================== */
 
+.last-week-grid {
+
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 25px;
+
+}
+
+.last-week-grid .menu-card {
+
+    width: 100%;
+
+}
+
+/* 平板 */
+
+@media(max-width:900px){
+
+    .last-week-grid .menu-card{
+
+        width:45%;
+
+    }
+
+}
+
+
+/* 手机 */
+
+@media(max-width:768px){
+
+    .last-week-grid .menu-card{
+
+        width:100%;
+
+    }
+
+}
 
 /* ==========================================
 FOOTER
