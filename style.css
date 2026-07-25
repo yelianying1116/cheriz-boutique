@@ -107,7 +107,7 @@ PLAT DU JOUR
 ========================================== */
 
 .hero-section {
-
+    font-family: 'FFF Tusj', sans-serif;
     padding: 80px 0;
 
 }
@@ -206,7 +206,7 @@ DAILY CARD
 }
 
 .daily-description {
-
+    
     font-size: 16px;
     margin-bottom: 25px;
     color: #555;
