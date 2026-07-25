@@ -383,22 +383,56 @@ MENU GRID
 LAST WEEK MENU
 ========================================== */
 
-
 .last-week-grid {
 
     display: grid;
 
-    grid-template-columns:
-    repeat(auto-fit, minmax(210px, 1fr));
+    grid-template-columns: repeat(5, 1fr);
 
-    gap: 30px;
+    gap: 25px;
+
+    max-width: 850px;
+
+    margin: auto;
 
 }
 
 
 .last-week-grid .menu-card {
 
-    width:100%;
+    width: 100%;
+
+}
+
+
+/* 缩小上周菜单图片 */
+
+.last-week-grid .menu-photo img {
+
+    height: 130px;
+
+}
+
+
+/* 缩小文字区域 */
+
+.last-week-grid .menu-content {
+
+    padding: 15px;
+
+}
+
+
+.last-week-grid .menu-content h3 {
+
+    font-size:18px;
+
+}
+
+
+.last-week-grid .menu-content p {
+
+    font-size:13px;
 
 }
 
