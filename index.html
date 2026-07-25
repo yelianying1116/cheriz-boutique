@@ -249,6 +249,35 @@ NOS PLATS 2
 
 </section>
 <!-- =======================================
+NOS PLATS 2
+======================================= -->
+
+<section id="plats-2" class="menu-section">
+
+    <div class="container">
+
+        <h2 class="section-title">
+
+            Nos plats
+
+        </h2>
+
+        <p class="section-subtitle">
+
+            Découvrez notre sélection de plats faits maison.
+
+        </p>
+
+        <div
+        id="menu-list-2"
+        class="menu-grid">
+
+        </div>
+
+    </div>
+
+</section>
+<!-- =======================================
 FOOTER
 ======================================= -->
 
@@ -330,9 +359,12 @@ const menu =
 const menuBox =
     document.getElementById("menu-list");
 
+const menuBox2 =
+    document.getElementById("menu-list-2");
+
 menu.forEach(product => {
 
-    menuBox.innerHTML += `
+    const productCard = `
 
     <a
     href="plat.html?id=${product.id}"
@@ -369,6 +401,10 @@ menu.forEach(product => {
     </a>
 
     `;
+
+    menuBox.innerHTML += productCard;
+
+    menuBox2.innerHTML += productCard;
 
 });
 
