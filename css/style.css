@@ -347,7 +347,39 @@ DELIVERY TITLE ABOVE LAST WEEK MENU
     color: #A44740;
 
 }
+/* ==========================================
+DELIVERY LINK BEFORE LAST WEEK MENU
+========================================== */
 
+.delivery-link {
+
+    display: block;
+
+    text-align: center;
+
+    font-size: 36px;
+
+    font-family: 'Poppins', sans-serif;
+
+    font-weight: 600;
+
+    color: #FFF4ED;
+
+    text-shadow:
+    3px 3px 0 rgba(203,120,100,.55);
+
+    margin-bottom: 20px;
+
+    transition: .3s;
+
+}
+
+
+.delivery-link:hover {
+
+    color: #C46E5D;
+
+}
 
 /* ==========================================
 MENU GRID
