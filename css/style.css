@@ -328,11 +328,16 @@ MENU GRID
 .menu-grid {
 
     display: grid;
-    grid-template-columns: repeat(2,1fr);
-    gap: 35px;
+
+    grid-template-columns: repeat(3,1fr);
+
+    gap: 25px;
+
+    max-width: 900px;
+
+    margin:auto;
 
 }
-
 .menu-card {
 
     background: #FFF9F5;
@@ -355,19 +360,19 @@ MENU GRID
 
 .menu-photo img {
 
-    height: 260px;
+    height:210px;
 
 }
 
 .menu-content {
 
-    padding: 25px;
+    padding:15px;
 
 }
 
 .menu-content h3 {
 
-    font-size: 26px;
+    font-size: 20px;
     color: #B85F4D;
     margin-bottom: 15px;
 
@@ -376,7 +381,7 @@ MENU GRID
 .menu-content p {
 
     color: #666;
-    font-size: 15px;
+    font-size: 13px;
 
 }
 /* ==========================================
@@ -562,7 +567,7 @@ TABLET
 
     .menu-grid{
 
-        grid-template-columns:1fr;
+        grid-template-columns:repeat(2,1fr);
 
     }
 
@@ -609,7 +614,7 @@ MOBILE
 
 .last-week-grid {
 
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:1fr;
 
     gap:15px;
 
