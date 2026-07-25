@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>Notre histoire | Cheriz Cuisine maison à Lyon</title>
+
+
+<meta 
+name="description"
+content="Découvrez l'histoire de Cheriz, une cuisine maison à Lyon inspirée par les saveurs asiatiques, françaises et italiennes.">
+
+
+<link
+rel="stylesheet"
+href="css/style.css">
+
+
+<link
+href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+
+<link
+href="https://fonts.googleapis.com/css2?family=Angkor&display=swap"
+rel="stylesheet">
+
+
+</head>
+
+
+<body>
+
+
+<!-- HEADER -->
+
+<header class="header">
+
+<div class="container">
+
+
+<a href="index.html" class="logo">
+
+Cheriz
+
+</a>
+
+
+<nav class="navigation">
+
+
+<a href="index.html">
+
+Accueil
+
+</a>
+
+
+<a href="index.html#today">
+
+Plat du jour
+
+</a>
+
+
+<a href="index.html#plats">
+
+Nos plats
+
+</a>
+
+
+<a href="cart.html">
+
+Panier
+
+</a>
+
+
+</nav>
+
+
+</div>
+
+</header>
+
+
+
+
+
+<!-- HISTOIRE -->
+
+
+<section class="hero-section">
+
+
+<div class="container hero-container">
+
+
+
+<h1 class="hero-title">
+
+Notre histoire
+
+</h1>
+
+
+<p class="hero-subtitle">
+
+Une cuisine maison avec passion à Lyon
+
+</p>
+
+
+
+
+<div
+style="
+background:#FFF9F5;
+padding:45px;
+border-radius:30px;
+box-shadow:0 15px 35px rgba(0,0,0,0.08);
+text-align:left;
+font-size:18px;
+color:#6E4A44;
+">
+
+
+
+<p>
+
+Cheriz est né d'une envie simple :
+partager une cuisine maison authentique,
+préparée chaque jour avec des ingrédients frais.
+
+</p>
+
+
+
+<p>
+
+Inspirée par les cultures culinaires asiatiques,
+françaises et italiennes,
+notre cuisine mélange tradition,
+créativité et souvenirs de voyage.
+
+</p>
+
+
+
+<p>
+
+Chaque plat est préparé avec attention,
+en privilégiant la qualité des ingrédients
+et le plaisir de manger des recettes faites maison.
+
+</p>
+
+
+
+<p>
+
+Situé à Lyon,
+Cheriz propose une expérience différente :
+des plats préparés quotidiennement,
+pensés pour être dégustés facilement
+chez vous ou au travail.
+
+</p>
+
+
+
+</div>
+
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+<!-- FOOTER -->
+
+
+<footer class="footer">
+
+
+<div class="container">
+
+
+<div class="footer-links">
+
+
+<div class="footer-group">
+
+<h3>
+
+Cheriz
+
+</h3>
+
+
+<a href="notre-histoire.html">
+
+Notre histoire
+
+</a>
+
+
+<a href="nos-evenements.html">
+
+Nos événements
+
+</a>
+
+
+<a href="blog.html">
+
+Blog
+
+</a>
+
+
+</div>
+
+
+
+
+
+<div class="footer-group">
+
+<h3>
+
+Livraison
+
+</h3>
+
+
+<a href="horaires-de-livraison.html">
+
+Horaires de livraison
+
+</a>
+
+
+<a href="zone-de-livraison.html">
+
+Zone de livraison
+
+</a>
+
+
+</div>
+
+
+
+
+
+<div class="footer-group">
+
+<h3>
+
+Contact
+
+</h3>
+
+
+<a href="contact.html">
+
+Contact
+
+</a>
+
+
+<a href="mentions-legales.html">
+
+Mentions légales
+
+</a>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<p class="footer-bottom">
+
+© 2025 Cheriz Boutique · Tous droits réservés.
+
+</p>
+
+
+</div>
+
+
+</footer>
+
+
+
+</body>
+
+
+</html>
