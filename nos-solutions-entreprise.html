@@ -931,30 +931,57 @@ document.getElementById("email").value;
 
 
 
-// 后期接入邮箱发送功能的位置
+emailjs.send(
 
+"service_mrr88k7",
 
-console.log("Type de demande :", choice);
+"template_9ee1ssa",
 
-console.log("Nom :", nom);
+{
 
-console.log("Entreprise :", entreprise);
+choice: choice,
 
-console.log("Téléphone :", telephone);
+nom: nom,
 
-console.log("Email :", email);
+entreprise: entreprise,
 
+telephone: telephone,
+
+email: email
+
+}
+
+)
+
+.then(function(response) {
 
 
 alert(
 
-"Merci ! Votre demande a bien été enregistrée. Nous vous répondrons sous 24 heures."
+"Merci ! Votre demande a bien été envoyée. Nous vous répondrons sous 24 heures."
 
 );
 
 
-this.reset();
+document.getElementById("entreprise-form").reset();
 
+
+})
+
+.catch(function(error) {
+
+
+alert(
+
+"Une erreur est survenue. Veuillez réessayer."
+
+);
+
+
+console.log(error);
+
+
+});
 
 });
 
