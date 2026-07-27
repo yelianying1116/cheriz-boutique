@@ -10,7 +10,11 @@
 .homepage-hero{
 
     position:relative;
-    min-height:60vh;
+
+    width:100%;
+
+    aspect-ratio:16 / 9;
+
     display:flex;
     align-items:center;
 
@@ -26,7 +30,7 @@
     background-repeat:no-repeat;
 
 }
-
+    
 .hero-overlay{
 
     width:100%;
@@ -729,43 +733,33 @@
 
 @media(max-width:768px){
 
+    .homepage-hero{
+        min-height:320px;
+    }
+
     .why-grid{
-
         grid-template-columns:1fr;
-
     }
 
     .steps-grid{
-
         grid-template-columns:1fr;
-
     }
 
     .why-card,
     .step-card{
-
         padding:30px;
-
     }
 
     .why-icon{
-
         width:70px;
-
         height:70px;
-
         font-size:34px;
-
     }
 
     .step-number{
-
         width:60px;
-
         height:60px;
-
         font-size:22px;
-
     }
 
 }
