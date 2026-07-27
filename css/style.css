@@ -806,13 +806,47 @@ HEADER
 
 @media(max-width:768px){
 
-    .homepage-hero{
-        min-height:380px;
+    /* Header */
+
+    .header .container{
+        flex-direction: column;
+        gap: 15px;
     }
+
+    .navigation{
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .navigation a{
+        font-size: 18px;
+    }
+
+    /* Homepage Hero */
+
+    .homepage-hero{
+        min-height: 380px;
+        background-position: center center;
+    }
+
+    .homepage-hero h1{
+        font-size: 36px;
+        line-height: 1.2;
+    }
+
+    .homepage-hero p{
+        font-size: 18px;
+        line-height: 1.6;
+    }
+
+    /* Why Cheriz */
 
     .why-grid{
         grid-template-columns:1fr;
     }
+
+    /* Comment ça fonctionne */
 
     .steps-grid{
         grid-template-columns:1fr;
