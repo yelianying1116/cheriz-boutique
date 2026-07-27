@@ -10,17 +10,20 @@
 .homepage-hero{
 
     position:relative;
-
-    min-height:85vh;
-
+    min-height:60vh;
     display:flex;
-
     align-items:center;
 
-    background: red;
-    linear-gradient(rgba(0,0,0,.35),
-    rgba(0,0,0,.35)),
-    url("../images/home-banner.jpg") center center/cover;
+    background:
+    linear-gradient(
+        rgba(0,0,0,.35),
+        rgba(0,0,0,.35)
+    ),
+    url("../images/home-banner.jpg");
+
+    background-position:center;
+    background-size:cover;
+    background-repeat:no-repeat;
 
 }
 
