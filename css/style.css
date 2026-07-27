@@ -1,3 +1,76 @@
+/* ==========================================
+GLOBAL SETTINGS 
+========================================== */ 
+* { 
+   margin: 0; 
+   padding: 0; 
+   box-sizing: border-box; 
+} 
+html { 
+   scroll-behavior: smooth; 
+} 
+body {
+   font-family: 'Poppins', sans-serif; 
+   background-color: #E8C8C1; 
+   color: #6E4A44; 
+   line-height: 1.7; 
+} 
+a {
+   text-decoration: none; 
+   color: inherit; 
+}
+img { 
+   width: 100%; 
+   display: block; 
+   object-fit: cover;
+} 
+/*
+========================================== 
+CONTAINER 
+========================================== */ 
+.container { 
+   width: 90%; 
+   max-width: 1200px; 
+   margin: auto; 
+}
+/*
+========================================== 
+HEADER 
+========================================== */ 
+.header { 
+   background: white; 
+   padding: 22px 0; 
+   box-shadow: 0 2px 10px rgba(0,0,0,0.04); 
+   position: sticky; 
+   top: 0; 
+   z-index: 100; 
+}
+.header .container { 
+   display: flex; 
+   justify-content: space-between; 
+   align-items: center; 
+}
+.logo { 
+   font-family: 'Poppins', sans-serif; 
+   font-size: 30px; 
+   font-weight: 700; 
+   color: #2F6D49; 
+}
+/* Navigation Font Changed */
+.navigation { 
+   display: flex; 
+   gap: 35px; 
+   align-items: center; 
+   font-family: 'Poppins', sans-serif; 
+}
+.navigation a { 
+   font-size: 22px; 
+   font-weight: 500; 
+   transition: .3s; 
+}
+.navigation a:hover { 
+   color: #C46E5D; 
+}
 /* ==========================================================
    CHERIZ V2 HOMEPAGE
    Hero + Video + Common Section Style
