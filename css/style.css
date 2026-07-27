@@ -108,7 +108,7 @@ HEADER
 
     width:100%;
 
-    padding:120px 0;
+    padding:80px 0;
 
 }
 
@@ -810,7 +810,7 @@ HEADER
 
     .header .container{
         flex-direction: column;
-        gap: 15px;
+        gap: 16px;
     }
 
     .navigation{
@@ -825,20 +825,35 @@ HEADER
 
     /* Homepage Hero */
 
-    .homepage-hero{
-        min-height: 380px;
-        background-position: center center;
-    }
+   .homepage-hero{
 
-    .homepage-hero h1{
-        font-size: 36px;
-        line-height: 1.2;
-    }
+    min-height:500px;
+    background-size:cover;
+    background-position:center;
 
-    .homepage-hero p{
-        font-size: 18px;
-        line-height: 1.6;
-    }
+}
+
+.hero-overlay{
+
+    padding:50px 0;
+
+}
+
+.homepage-hero h1{
+
+    font-size:32px;
+    line-height:1.2;
+    margin-bottom:20px;
+
+}
+
+.homepage-hero p{
+
+    font-size:16px;
+    line-height:1.6;
+    margin-bottom:25px;
+
+}
 
     /* Why Cheriz */
 
