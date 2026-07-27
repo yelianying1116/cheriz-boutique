@@ -17,7 +17,7 @@
 
     align-items:center;
 
-    background:
+    background: red;
     linear-gradient(rgba(0,0,0,.35),
     rgba(0,0,0,.35)),
     url("../images/home-banner.jpg") center center/cover;
