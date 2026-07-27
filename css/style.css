@@ -1,631 +1,720 @@
-/* ==========================================
-GLOBAL SETTINGS
-========================================== */
+/* ==========================================================
+   CHERIZ V2 HOMEPAGE
+   Hero + Video + Common Section Style
+========================================================== */
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* ===========================
+   HERO
+=========================== */
 
-html {
-    scroll-behavior: smooth;
-}
+.homepage-hero{
 
-body {
+    position:relative;
 
-    font-family: 'Poppins', sans-serif;
-    background-color: #E8C8C1;
-    color: #6E4A44;
-    line-height: 1.7;
+    min-height:85vh;
 
-}
+    display:flex;
 
-a {
+    align-items:center;
 
-    text-decoration: none;
-    color: inherit;
+    background:
+    linear-gradient(rgba(0,0,0,.35),
+    rgba(0,0,0,.35)),
+    url("../images/home-banner.jpg") center center/cover;
 
 }
 
-img {
+.hero-overlay{
 
-    width: 100%;
-    display: block;
-    object-fit: cover;
+    width:100%;
 
-}
-
-
-/* ==========================================
-CONTAINER
-========================================== */
-
-.container {
-
-    width: 90%;
-    max-width: 1200px;
-    margin: auto;
+    padding:120px 0;
 
 }
 
+.hero-content{
 
-/* ==========================================
-HEADER
-========================================== */
-
-.header {
-
-    background: white;
-    padding: 22px 0;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
-
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    max-width:700px;
 
 }
 
-.header .container {
+.hero-badge{
 
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display:inline-block;
 
-}
+    background:#FFF9F5;
 
-.logo {
-    font-family: 'Poppins', sans-serif;
-    font-size: 30px;
-    font-weight: 700;
-    color: #2F6D49;
+    color:#B85F4D;
 
-}
+    padding:10px 22px;
 
+    border-radius:999px;
 
-/* Navigation Font Changed */
+    font-size:15px;
 
-.navigation {
+    font-weight:600;
 
-    display: flex;
-    gap: 35px;
-    align-items: center;
-    font-family: 'Poppins', sans-serif;
+    margin-bottom:28px;
 
 }
 
-.navigation a {
+.homepage-hero h1{
 
-    font-size: 22px;
-    font-weight: 500;
-    transition: .3s;
+    font-size:68px;
 
-}
+    line-height:1.1;
 
-.navigation a:hover {
+    color:white;
 
-    color: #C46E5D;
+    margin-bottom:30px;
 
-}
-
-
-/* ==========================================
-PLAT DU JOUR
-========================================== */
-
-.hero-section {
-
-    padding: 80px 0;
+    font-weight:700;
 
 }
 
-.hero-container {
+.homepage-hero p{
 
-    max-width: 900px;
-    text-align: center;
+    max-width:600px;
 
-}
+    color:white;
 
-.hero-title {
+    font-size:22px;
 
-    font-family: 'Angkor', serif;
-    font-size: 72px;
-    font-weight: 700;
-    color: #FFF4ED;
+    line-height:1.8;
 
-    text-shadow:
-    4px 4px 0 rgba(203,120,100,.55);
-
-    margin-bottom: 10px;
+    margin-bottom:45px;
 
 }
 
-.hero-subtitle {
+/* ===========================
+   BUTTONS
+=========================== */
 
-    font-family: 'Angkor', serif;
-    font-size: 30px;
-    color: #A44740;
-    margin-bottom: 50px;
+.hero-buttons{
 
-}
+    display:flex;
 
+    gap:20px;
 
-/* ==========================================
-DAILY CARD
-========================================== */
-
-.daily-card {
-
-    display: flex;
-    gap: 40px;
-
-    background: #FFF9F5;
-    border-radius: 30px;
-    padding: 35px;
-
-    box-shadow:
-    0 15px 35px rgba(0,0,0,0.08);
-
-    transition: .3s;
-
-    align-items: center;
+    flex-wrap:wrap;
 
 }
 
-.daily-card:hover {
+.btn-primary{
 
-    transform: translateY(-4px);
+    display:inline-flex;
 
-}
+    align-items:center;
 
-.daily-image {
+    justify-content:center;
 
-    width: 260px;
-    flex-shrink: 0;
+    padding:18px 34px;
 
-}
+    border-radius:999px;
 
-.daily-image img {
+    background:#C46E5D;
 
-    border-radius: 25px;
-    height: 260px;
+    color:white;
 
-}
-
-.daily-content {
-
-    flex: 1;
-    text-align: left;
-
-}
-
-.daily-content h2 {
-
-    font-size: 36px;
-    color: #B85F4D;
-    margin-bottom: 10px;
-
-}
-
-.daily-price {
-
-    font-size: 24px;
-    font-weight: 600;
-    margin-bottom: 15px;
-
-}
-
-.daily-description {
-
-    font-size: 16px;
-    margin-bottom: 25px;
-    color: #555;
-
-}
-
-.daily-tags {
-
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-
-    margin-bottom: 25px;
-
-}
-
-.daily-tags span {
-
-    background: #F6E6DF;
-    padding: 8px 16px;
-    border-radius: 30px;
-    font-size: 13px;
-    font-weight: 600;
-
-}
-
-.daily-button {
-
-    border: none;
-    padding: 15px 32px;
-    border-radius: 40px;
-
-    background: #C46E5D;
-    color: white;
-
-    cursor: pointer;
-    font-size: 16px;
-
-    transition: .3s;
-
-}
-
-.daily-button:hover {
-
-    background: #AD5645;
-
-}
-
-
-/* ==========================================
-INTRODUCTION
-========================================== */
-
-.daily-introduction {
-
-    margin-top: 40px;
-    padding: 30px;
-    font-size: 18px;
-    color: #8B4E44;
-    text-align: left;
-
-}
-
-.daily-introduction p {
-
-    margin-bottom: 15px;
-
-}
-
-
-/* ==========================================
-NOS PLATS
-========================================== */
-
-.menu-section {
-
-    padding-bottom: 100px;
-
-}
-
-.section-title {
-
-    font-size: 52px;
-    text-align: center;
-
-    color: #FFF4ED;
-
-    text-shadow:
-    4px 4px 0 rgba(203,120,100,.55);
-
-    margin-bottom: 10px;
-
-}
-/* ==========================================
-DELIVERY TITLE ABOVE LAST WEEK MENU
-========================================== */
-
-.delivery-title {
-
-    display:block;
-
-    text-align:center;
-
-    font-size:36px;
-
-    color:#FFF4ED;
-
-    text-shadow:
-    4px 4px 0 rgba(203,120,100,.55);
-
-    margin-bottom:10px;
+    font-weight:600;
 
     transition:.3s;
 
 }
 
+.btn-primary:hover{
 
-.delivery-title:hover {
+    background:#AD5645;
 
-    color:#C46E5D;
-
-}
-.section-subtitle {
-
-    text-align: center;
-    margin-bottom: 60px;
-    font-size: 20px;
-    color: #A44740;
+    transform:translateY(-3px);
 
 }
-/* ==========================================
-DELIVERY LINK BEFORE LAST WEEK MENU
-========================================== */
 
-.delivery-link {
+.btn-secondary{
 
-    display: block;
+    display:inline-flex;
 
-    text-align: center;
+    align-items:center;
 
-    font-size: 36px;
+    justify-content:center;
 
-    font-family: 'Poppins', sans-serif;
+    padding:18px 34px;
 
-    font-weight: 600;
+    border-radius:999px;
 
-    color: #FFF4ED;
+    background:white;
+
+    color:#6E4A44;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.btn-secondary:hover{
+
+    transform:translateY(-3px);
+
+}
+
+/* ===========================
+   COMMON SECTION TITLE
+=========================== */
+
+.section-heading{
+
+    text-align:center;
+
+    max-width:760px;
+
+    margin:0 auto 60px;
+
+}
+
+.section-badge{
+
+    display:inline-block;
+
+    padding:10px 20px;
+
+    background:#FFF9F5;
+
+    border-radius:999px;
+
+    color:#B85F4D;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    margin-bottom:18px;
+
+}
+
+.section-title{
+
+    font-size:56px;
+
+    color:#FFF4ED;
 
     text-shadow:
-    3px 3px 0 rgba(203,120,100,.55);
 
-    margin-bottom: 20px;
+    4px 4px 0 rgba(203,120,100,.55);
 
-    transition: .3s;
-
-}
-
-
-.delivery-link:hover {
-
-    color: #C46E5D;
+    margin-bottom:20px;
 
 }
 
-/* ==========================================
-MENU GRID
-========================================== */
+.section-description{
 
-.menu-grid {
+    font-size:19px;
 
-    display: grid;
+    color:#8B4E44;
 
-    grid-template-columns: repeat(3,1fr);
+    line-height:1.9;
 
-    gap: 25px;
+}
 
-    max-width: 900px;
+/* ===========================
+   VIDEO
+=========================== */
+
+.video-section{
+
+    padding:100px 0;
+
+}
+
+.video-wrapper{
+
+    max-width:1100px;
 
     margin:auto;
 
-}
-.menu-card {
+    overflow:hidden;
 
-    background: #FFF9F5;
-    border-radius: 25px;
+    border-radius:30px;
 
-    overflow: hidden;
+    background:white;
 
     box-shadow:
-    0 15px 35px rgba(0,0,0,.06);
 
-    transition: .3s;
-
-}
-
-.menu-card:hover {
-
-    transform: translateY(-5px);
+    0 20px 60px rgba(0,0,0,.12);
 
 }
 
-.menu-photo img {
+.video-wrapper video{
 
-    height:210px;
+    width:100%;
 
-}
-
-.menu-content {
-
-    padding:15px;
+    display:block;
 
 }
 
-.menu-content h3 {
+/* ===========================
+   HOVER
+=========================== */
 
-    font-size: 15px;
-    color: #B85F4D;
-    margin-bottom: 7px;
+.video-wrapper{
 
-}
-
-.menu-content p {
-
-    color: #666;
-    font-size: 9px;
-
-}
-/* ==========================================
-LAST WEEK MENU
-========================================== */
-
-.last-week-grid {
-
-    display: grid;
-
-    grid-template-columns: repeat(5, 1fr);
-
-    gap: 25px;
-
-    max-width: 850px;
-
-    margin: auto;
+    transition:.4s;
 
 }
 
+.video-wrapper:hover{
 
-.last-week-grid .menu-card {
+    transform:translateY(-6px);
 
-    width: 100%;
+    box-shadow:
+
+    0 30px 70px rgba(0,0,0,.16);
+
+}
+/* ==========================================================
+   CHERIZ V2
+   Plat du jour
+========================================================== */
+
+/* ===========================
+   PLAT DU JOUR
+=========================== */
+
+.hero-section{
+
+    padding:110px 0;
 
 }
 
+.daily-card{
 
-/* 缩小上周菜单图片 */
+    display:grid;
 
-.last-week-grid .menu-photo img {
+    grid-template-columns:380px 1fr;
 
-    height: 100px;
+    gap:45px;
 
-}
+    align-items:center;
 
+    background:#FFF9F5;
 
-/* 缩小文字区域 */
+    border-radius:32px;
 
-.last-week-grid .menu-content {
+    padding:40px;
 
-    padding: 15px;
+    box-shadow:
+    0 18px 45px rgba(0,0,0,.08);
 
-}
-
-
-.last-week-grid .menu-content h3 {
-
-    font-size:18px;
+    transition:.35s;
 
 }
 
+.daily-card:hover{
 
-.last-week-grid .menu-content p {
+    transform:translateY(-6px);
 
-    font-size:13px;
-
-}
-
-}
-
-/* ==========================================
-FOOTER
-========================================== */
-
-.footer {
-
-    background: white;
-
-    padding: 60px 0 30px;
-
-    border-top:
-    1px solid rgba(0,0,0,0.06);
+    box-shadow:
+    0 28px 60px rgba(0,0,0,.12);
 
 }
 
+.daily-image{
 
-
-.footer-links {
-
-    display: grid;
-
-    grid-template-columns: repeat(3,1fr);
-
-    gap: 50px;
-
-    text-align: left;
-
-    margin-bottom: 40px;
+    width:100%;
 
 }
 
+.daily-image img{
 
+    width:100%;
 
-.footer-group {
+    height:360px;
+
+    object-fit:cover;
+
+    border-radius:24px;
+
+}
+
+.daily-top{
 
     display:flex;
 
-    flex-direction:column;
+    justify-content:space-between;
 
-    gap:12px;
+    align-items:flex-start;
+
+    gap:20px;
+
+    margin-bottom:18px;
 
 }
 
+.daily-top h3{
 
+    font-size:40px;
 
-.footer-group h3 {
+    color:#B85F4D;
 
-    font-size:22px;
+    line-height:1.2;
+
+}
+
+.daily-price{
+
+    font-size:28px;
+
+    font-weight:700;
 
     color:#2F6D49;
 
-    margin-bottom:15px;
+    white-space:nowrap;
+
+}
+
+.daily-description{
+
+    font-size:18px;
+
+    color:#666;
+
+    line-height:1.8;
+
+    margin-bottom:28px;
+
+}
+
+.daily-tags{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:12px;
+
+    margin-bottom:32px;
+
+}
+
+.daily-tags span{
+
+    background:#F6E6DF;
+
+    color:#8B4E44;
+
+    padding:9px 18px;
+
+    border-radius:999px;
+
+    font-size:14px;
 
     font-weight:600;
 
 }
 
+.daily-actions{
 
+    display:flex;
 
-.footer-group a {
+    align-items:center;
 
-    font-size:16px;
+    gap:25px;
 
-    color:#6E4A44;
+    flex-wrap:wrap;
+
+}
+
+.daily-button{
+
+    border:none;
+
+    background:#C46E5D;
+
+    color:white;
+
+    padding:16px 34px;
+
+    border-radius:999px;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    cursor:pointer;
 
     transition:.3s;
 
 }
 
+.daily-button:hover{
 
-
-.footer-group a:hover {
-
-    color:#C46E5D;
-
-    transform:translateX(5px);
+    background:#AD5645;
 
 }
 
+.daily-note{
 
+    color:#2F6D49;
 
-.footer-bottom {
+    font-weight:600;
+
+    font-size:16px;
+
+}
+
+/* ===========================
+   INFORMATION CARDS
+=========================== */
+
+.daily-information{
+
+    margin-top:55px;
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:30px;
+
+}
+
+.info-card{
+
+    background:#FFF9F5;
+
+    border-radius:24px;
+
+    padding:30px;
 
     text-align:center;
 
-    padding-top:25px;
+    box-shadow:
+    0 15px 35px rgba(0,0,0,.06);
 
-    border-top:
-    1px solid rgba(0,0,0,0.06);
-
-    font-size:15px;
-
-    color:#777;
+    transition:.3s;
 
 }
 
+.info-card:hover{
 
-/* ==========================================
-TABLET
-========================================== */
+    transform:translateY(-5px);
 
-@media(max-width:900px){
+}
 
-    .daily-card{
+.info-card h3{
 
-        flex-direction: column;
-        text-align:center;
+    color:#B85F4D;
+
+    font-size:24px;
+
+    margin-bottom:15px;
+
+}
+
+.info-card p{
+
+    color:#666;
+
+    line-height:1.8;
+
+    font-size:16px;
+
+}
+/* ==========================================================
+   CHERIZ V2
+   Pourquoi Cheriz + Comment ça fonctionne
+========================================================== */
+
+/* ===========================
+   WHY CHERIZ
+=========================== */
+
+.why-section{
+
+    padding:110px 0;
+
+}
+
+.why-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:30px;
+
+}
+
+.why-card{
+
+    background:#FFF9F5;
+
+    padding:40px 30px;
+
+    border-radius:28px;
+
+    text-align:center;
+
+    box-shadow:
+    0 15px 35px rgba(0,0,0,.06);
+
+    transition:.35s;
+
+}
+
+.why-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:
+    0 25px 55px rgba(0,0,0,.10);
+
+}
+
+.why-icon{
+
+    width:80px;
+
+    height:80px;
+
+    margin:0 auto 25px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:38px;
+
+    border-radius:50%;
+
+    background:#F6E6DF;
+
+}
+
+.why-card h3{
+
+    font-size:24px;
+
+    color:#B85F4D;
+
+    margin-bottom:18px;
+
+}
+
+.why-card p{
+
+    color:#666;
+
+    line-height:1.8;
+
+    font-size:16px;
+
+}
+
+/* ===========================
+   COMMENT ÇA FONCTIONNE
+=========================== */
+
+.steps-section{
+
+    padding:110px 0;
+
+}
+
+.steps-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:30px;
+
+}
+
+.step-card{
+
+    position:relative;
+
+    background:#FFF9F5;
+
+    border-radius:28px;
+
+    padding:40px 30px;
+
+    text-align:center;
+
+    box-shadow:
+    0 15px 35px rgba(0,0,0,.06);
+
+    transition:.35s;
+
+}
+
+.step-card:hover{
+
+    transform:translateY(-8px);
+
+}
+
+.step-number{
+
+    width:70px;
+
+    height:70px;
+
+    margin:0 auto 25px;
+
+    border-radius:50%;
+
+    background:#2F6D49;
+
+    color:white;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:24px;
+
+    font-weight:700;
+
+}
+
+.step-card h3{
+
+    font-size:24px;
+
+    color:#B85F4D;
+
+    margin-bottom:18px;
+
+}
+
+.step-card p{
+
+    font-size:16px;
+
+    color:#666;
+
+    line-height:1.8;
+
+}
+
+/* ---------- Tablet ---------- */
+
+@media(max-width:1000px){
+
+    .why-grid{
+
+        grid-template-columns:repeat(2,1fr);
 
     }
 
-    .daily-content{
-
-        text-align:center;
-
-    }
-
-    .daily-tags{
-
-        justify-content:center;
-
-    }
-
-    .menu-grid{
+    .steps-grid{
 
         grid-template-columns:repeat(2,1fr);
 
@@ -633,401 +722,47 @@ TABLET
 
 }
 
-
-/* ==========================================
-MOBILE
-========================================== */
+/* ---------- Mobile ---------- */
 
 @media(max-width:768px){
 
-    .header .container{
-
-        flex-direction:column;
-        gap:20px;
-
-    }
-        .footer-links{
+    .why-grid{
 
         grid-template-columns:1fr;
 
-        text-align:center;
+    }
 
-        gap:35px;
+    .steps-grid{
+
+        grid-template-columns:1fr;
 
     }
 
+    .why-card,
+    .step-card{
 
-    .footer-group{
-
-        align-items:center;
-
-    }
-
-    .navigation{
-
-        flex-wrap:wrap;
-        justify-content:center;
-
-        gap:18px;
+        padding:30px;
 
     }
 
-.last-week-grid {
+    .why-icon{
 
-    width:70%;
-    margin:auto;
-    gap:15px;
-    grid-template-columns:1fr;
+        width:70px;
 
-}
+        height:70px;
 
-
-.last-week-grid .menu-photo img {
-
-    height:130px;
-
-}
-
-
-.last-week-grid .menu-content {
-
-    padding:7px;
-
-}
-
-
-.last-week-grid .menu-content h3 {
-
-    font-size:14px;
-
-}
-
-
-.last-week-grid .menu-content p {
-
-    font-size:12px;
-
-}
-    .hero-title{
-
-        font-size:50px;
+        font-size:34px;
 
     }
 
-    .section-title{
+    .step-number{
 
-        font-size:50px;
+        width:60px;
 
-    }
+        height:60px;
 
-    .hero-subtitle{
-
-        font-size:24px;
-
-    }
-    .delivery-title{
-
-    font-size:35px;
-
-}
-
-    .daily-image{
-
-        width:100%;
-
-    }
-
-    .daily-image img{
-
-        height:300px;
+        font-size:22px;
 
     }
 
 }
-
-
-/* ==========================================
-NOS SOLUTIONS ENTREPRISE
-========================================== */
-/* ---------- TITRES ---------- */
-
-.solution-title{
-
-    font-size:52px;
-    text-align:center;
-    color:#FFF4ED;
-    text-shadow:
-    4px 4px 0 rgba(203,120,100,.55);
-
-    margin-bottom:20px;
-
-}
-
-
-.solution-subtitle{
-
-    text-align:center;
-    color:#A44740;
-    line-height:1.8;
-    margin-bottom:50px;
-
-}
-
-
-
-/* ---------- HERO ---------- */
-
-.solution-hero{
-
-    padding:100px 0;
-    text-align:center;
-
-}
-
-
-.solution-main-title{
-
-    font-size:60px;
-    color:#FFF4ED;
-    text-shadow:
-    4px 4px 0 rgba(203,120,100,.55);
-
-    margin-bottom:20px;
-
-}
-
-
-.solution-main-subtitle{
-
-    font-size:28px;
-    color:#A44740;
-    margin-bottom:20px;
-
-}
-
-
-.solution-description{
-
-    max-width:850px;
-    margin:auto;
-    margin-bottom:40px;
-
-}
-
-
-.hero-button{
-
-    display:inline-block;
-    background:#C46E5D;
-    color:white;
-    padding:16px 30px;
-    border-radius:30px;
-    transition:.3s;
-    margin-bottom:50px;
-
-}
-
-
-.hero-button:hover{
-
-    background:#AD5645;
-
-}
-
-
-
-/* ---------- SECTION ---------- */
-
-.solution-benefits,
-.solution-steps,
-.installation-section,
-.employee-meal-section,
-.partner-section,
-.plats-section,
-.proposal-section,
-.contact-choice-section,
-.contact-entreprise-section{
-
-    padding:90px 0;
-
-}
-
-
-
-/* ---------- CARDS ---------- */
-
-.benefits-grid,
-.steps-grid{
-
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:30px;
-
-}
-
-
-.benefit-card,
-.step-card{
-
-    background:#FFF9F5;
-    padding:30px;
-    border-radius:25px;
-    box-shadow:
-    0 15px 35px rgba(0,0,0,.06);
-
-    text-align:center;
-
-}
-
-
-
-/* ---------- IMAGES ---------- */
-
-.solution-image img,
-.solution-hero-image img,
-.installation-image img,
-.employee-meal-image img,
-.partner-image img,
-.plats-image img{
-
-    max-width:900px;
-    margin:auto;
-    border-radius:25px;
-    margin-top:40px;
-
-}
-
-
-
-/* ---------- TEXT ---------- */
-
-.installation-description,
-.employee-meal-text,
-.employee-meal-note,
-.partner-text,
-.partner-highlight,
-.plats-description{
-
-    text-align:center;
-    margin-top:20px;
-
-}
-
-
-.partner-highlight{
-
-    font-size:28px;
-    color:#2F6D49;
-
-}
-
-
-
-/* ---------- CHOICE BUTTONS ---------- */
-
-.choice-buttons{
-
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:20px;
-
-}
-
-
-.choice-button{
-
-    background:white;
-    padding:20px;
-    border:none;
-    border-radius:20px;
-    cursor:pointer;
-    min-width:280px;
-    transition:.3s;
-
-}
-
-
-.choice-button:hover{
-
-    transform:translateY(-4px);
-
-}
-
-
-.selected-choice{
-
-    background:#C46E5D;
-    color:white;
-
-}
-
-
-
-/* ---------- FORM ---------- */
-
-.contact-form{
-
-    max-width:700px;
-    margin:auto;
-
-}
-
-
-.contact-form input{
-
-    width:100%;
-    padding:18px;
-    margin-bottom:20px;
-    border-radius:15px;
-    border:none;
-
-}
-
-
-.submit-button{
-
-    width:100%;
-    background:#2F6D49;
-    color:white;
-    padding:20px;
-    border:none;
-    border-radius:30px;
-    cursor:pointer;
-    transition:.3s;
-
-}
-
-
-.submit-button:hover{
-
-    background:#25593B;
-
-}
-
-
-
-/* ---------- MOBILE ---------- */
-
-@media(max-width:768px){
-
-.solution-main-title{
-
-    font-size:40px;
-
-}
-
-.solution-main-subtitle{
-
-    font-size:22px;
-
-}
-
-.choice-button{
-
-    width:100%;
-
-}
-
-}
-
