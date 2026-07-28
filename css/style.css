@@ -9,7 +9,7 @@
     top: 0;
     z-index: 1001;
     width: 100%;
-    background: #2F6D49;  
+    background: #FFF9F5;  
     overflow: hidden;
 }
 .ticker-track{
@@ -31,13 +31,19 @@
 }
 
 .ticker-track span{
+
     flex-shrink:0;
     padding:12px 60px;
+
     font-family:"Raleway",sans-serif;
     font-size:13px;
     font-weight:500;
+
     letter-spacing:2px;
     text-transform:uppercase;
+
+    color:#B85F4D;
+
 }
 
 @keyframes marquee{
