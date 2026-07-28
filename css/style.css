@@ -1,3 +1,29 @@
+/* ===== TOP BAR ===== */
+.ticker{
+    background:#000;
+    color:#c8102e;
+    overflow:hidden;
+    white-space:nowrap;
+    font-size:13px;
+    font-weight:900;
+    letter-spacing:0.4px;
+}
+
+.ticker span{
+    display:inline-block;
+    padding:11px 0;
+    animation:scroll 22s linear infinite;
+}
+
+@keyframes scroll{
+    0%{
+        transform:translateX(100%);
+    }
+    100%{
+        transform:translateX(-100%);
+    }
+}
+
 /* ==========================================
 GLOBAL SETTINGS 
 ========================================== */ 
