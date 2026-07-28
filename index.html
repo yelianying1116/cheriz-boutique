@@ -1179,17 +1179,25 @@ JAVASCRIPT
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
+    const ticker = document.querySelector(".ticker");
     const track = document.querySelector(".ticker-track");
 
-    if (!track) return;
+    if (!ticker || !track) return;
 
-    track.innerHTML += track.innerHTML;
+    // 保存原始内容
+    const originalItems = [...track.children];
+
+    // 如果内容宽度不足，就一直复制
+    while (track.scrollWidth < ticker.offsetWidth * 2) {
+
+        originalItems.forEach(item => {
+            track.appendChild(item.cloneNode(true));
+        });
+
+    }
 
 });
 </script>
 
 </body>
-
 </html>
-    
-    
