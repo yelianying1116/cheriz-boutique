@@ -86,7 +86,7 @@ HEADER
 
     width:100%;
 
-    aspect-ratio:16 / 9;
+    min-height:700px;
 
     display:flex;
     align-items:center;
@@ -98,8 +98,8 @@ HEADER
     ),
     url("../images/home-banner.jpg");
 
-    background-position:center;
     background-size:cover;
+    background-position:center;
     background-repeat:no-repeat;
 
 }
