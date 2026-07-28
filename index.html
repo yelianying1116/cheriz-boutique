@@ -1177,12 +1177,15 @@ JAVASCRIPT
 <script src="js/products.js"></script>
 
 <script>
+document.addEventListener("DOMContentLoaded", () => {
 
-//
-// 这里直接保留你原来 index.html 的 JavaScript
-// 不需要修改任何内容
-//
+    const track = document.querySelector(".ticker-track");
 
+    if (!track) return;
+
+    track.innerHTML += track.innerHTML;
+
+});
 </script>
 
 </body>
