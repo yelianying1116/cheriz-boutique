@@ -1,5 +1,17 @@
 /* ===== Luxury Infinite Marquee ===== */
 
+/* ==========================================
+   Announcement Bar
+========================================== */
+
+.ticker{
+    position: sticky;
+    top: 0;
+    z-index: 1001;
+    width: 100%;
+    background: #2F6D49;  
+    overflow: hidden;
+}
 .ticker-track{
     display:flex;
     align-items:center;
@@ -85,13 +97,16 @@ CONTAINER
 ========================================== 
 HEADER 
 ========================================== */ 
-.header { 
-   background: white; 
-   padding: 22px 0; 
-   box-shadow: 0 2px 10px rgba(0,0,0,0.04); 
-   position: sticky; 
-   top: 0; 
-   z-index: 100; 
+.header{
+    background:white;
+    padding:22px 0;
+    box-shadow:0 2px 10px rgba(0,0,0,.04);
+
+    position:sticky;
+
+    top:44px;      /* 根据 ticker 实际高度调整 */
+
+    z-index:100;
 }
 .header .container { 
    display: flex; 
