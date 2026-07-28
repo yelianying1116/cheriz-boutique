@@ -1,27 +1,48 @@
-/* ===== TOP BAR ===== */
+/* ===== Luxury Infinite Marquee ===== */
+
 .ticker{
-    background:#000;
-    color:#c8102e;
+    width:100%;
     overflow:hidden;
+    background:#000;
+    color:#fff;
     white-space:nowrap;
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.ticker-track{
+    display:flex;
+    width:max-content;
+    align-items:center;
+    animation:marquee 28s linear infinite;
+}
+
+.ticker-track span{
+    flex-shrink:0;
+    padding:12px 60px;
+    font-family:"Raleway",sans-serif;
     font-size:13px;
-    font-weight:900;
-    letter-spacing:0.4px;
+    font-weight:500;
+    letter-spacing:2px;
+    text-transform:uppercase;
 }
 
-.ticker span{
-    display:inline-block;
-    padding:11px 0;
-    animation:scroll 22s linear infinite;
+@keyframes marquee{
+
+    from{
+        transform:translateX(0);
+    }
+
+    to{
+        transform:translateX(-50%);
+    }
+
 }
 
-@keyframes scroll{
-    0%{
-        transform:translateX(100%);
-    }
-    100%{
-        transform:translateX(-100%);
-    }
+.ticker:hover .ticker-track{
+
+    animation-play-state:paused;
+
+}
 }
 
 /* ==========================================
