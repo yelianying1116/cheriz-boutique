@@ -1,12 +1,12 @@
 /* ===== Luxury Infinite Marquee ===== */
 
-.ticker{
-    width:100%;
-    overflow:hidden;
-    background:#000;
-    color:#fff;
-    white-space:nowrap;
-    border-bottom:1px solid rgba(255,255,255,.08);
+.ticker-track{
+    display:flex;
+    align-items:center;
+    flex-wrap:nowrap;
+    width:max-content;
+    will-change:transform;
+    animation:marquee 30s linear infinite;
 }
 
 .ticker-track{
