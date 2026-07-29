@@ -686,7 +686,15 @@ HEADER
     background:#F6E6DF;
 
 }
+.why-icon img{
 
+    width:42px;
+
+    height:42px;
+
+    object-fit:contain;
+
+}
 .why-card h3{
 
     font-size:24px;
