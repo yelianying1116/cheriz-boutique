@@ -12,7 +12,7 @@ const DAILY_DISH = {
     description:
         "Poulet croustillant accompagné de riz parfumé.",
 
-    image: "images/poulet-pane.jpg"
+    image: "images/plat du jour.jpg"
 
 };
 
