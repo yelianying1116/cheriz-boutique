@@ -5,12 +5,14 @@
 
 const DAILY_DISH = {
 
-    name: "Poulet pané",
+    name: "Poulet mariné grillé, riz",
 
-    price: "10,90",
+    price: "8,30",
 
     description:
-        "Poulet croustillant accompagné de riz parfumé.",
+        "Poulet mariné aux épices, délicatement grillé et servi avec du riz, 
+        accompagné d'une sauce légèrement 
+        relevée qui apporte une touche gourmande et chaleureuse.",
 
     image: "images/plat du jour.jpg"
 
