@@ -382,11 +382,10 @@ HEADER
 
 .daily-card{
 
-    display:grid;
+    display:flex;
+    flex-direction:column;
 
-    grid-template-columns:380px 1fr;
-
-    gap:45px;
+    gap:30px;
 
     align-items:center;
 
@@ -415,7 +414,7 @@ HEADER
 .daily-image{
 
     width:100%;
-
+    max-width:650px;
 }
 
 .daily-image img{
@@ -434,11 +433,11 @@ HEADER
 
     display:flex;
 
-    justify-content:space-between;
+   flex-direction:colum
 
-    align-items:flex-start;
+    align-items:center;
 
-    gap:20px;
+    gap:10px;
 
     margin-bottom:18px;
 
@@ -510,7 +509,7 @@ HEADER
 
     display:flex;
 
-    align-items:center;
+    justify-content:center;
 
     gap:25px;
 
@@ -944,15 +943,27 @@ HEADER
     border-radius:20px;
 
 }
+.daily-content{
 
+    width:100%;
+    max-width:650px;
+
+    text-align:center;
+
+}
 .daily-top{
+
+    display:flex;
 
     flex-direction:column;
 
+    align-items:center;
+
     gap:10px;
 
-}
+    margin-bottom:18px;
 
+}
 .daily-top h3{
 
     font-size:30px;
@@ -973,14 +984,15 @@ HEADER
 
 .daily-actions{
 
-    flex-direction:column;
+    display:flex;
 
-    align-items:flex-start;
+    justify-content:center;
 
-    gap:15px;
+    gap:25px;
+
+    flex-wrap:wrap;
 
 }
-
 .daily-button{
 
     width:100%;
