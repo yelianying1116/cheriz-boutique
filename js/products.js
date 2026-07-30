@@ -9,12 +9,13 @@ const DAILY_DISH = {
 
     price: "8,30",
 
-    description:
-        "Poulet mariné aux épices, délicatement grillé et servi avec du riz, 
-        accompagné d'une sauce légèrement 
-        relevée qui apporte une touche gourmande et chaleureuse.",
+    description: `
+        Poulet mariné aux épices, délicatement grillé et servi avec du riz,
+        accompagné d'une sauce légèrement relevée qui apporte une touche
+        gourmande et chaleureuse.
+    `,
 
-    image: "images/plat du jour.jpg"
+    image: "images/plat-du-jour.jpg"
 
 };
 
@@ -64,7 +65,7 @@ const products = [
         `
     },
 
-    // 其他产品......
+    // 在这里继续添加其他产品......
 
 ];
 
@@ -106,7 +107,7 @@ function displayDailyDish() {
     }
 
     if (descriptionElement) {
-        descriptionElement.textContent = DAILY_DISH.description;
+        descriptionElement.textContent = DAILY_DISH.description.trim();
     }
 
     if (imageElement) {
@@ -118,7 +119,53 @@ function displayDailyDish() {
 
 
 // ====================================
+// NOS PLATS DISPLAY
+// ====================================
+
+function displayProducts() {
+
+    const menuContainer = document.getElementById("menu-list-2");
+
+    if (!menuContainer) return;
+
+    menuContainer.innerHTML = "";
+
+    products.forEach(product => {
+
+        menuContainer.innerHTML += `
+
+            <article class="menu-card">
+
+                <div class="menu-photo">
+                    <img
+                        src="${product.image}"
+                        alt="${product.name}">
+                </div>
+
+                <div class="menu-content">
+
+                    <h3>${product.name}</h3>
+
+                    <p>${product.shortDescription}</p>
+
+                    <div class="menu-price">
+                        ${product.price} €
+                    </div>
+
+                </div>
+
+            </article>
+
+        `;
+
+    });
+
+}
+
+
+// ====================================
 // INITIALIZATION
 // ====================================
 
 displayDailyDish();
+displayProducts();
