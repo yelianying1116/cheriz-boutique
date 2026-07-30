@@ -30,7 +30,7 @@ const products = [
     {
         id: 1,
         name: "Vegan Mac 'N' Cheese",
-        price:,
+        price:"",
         image: "images/mac.jpg",
         available: true,
         category: "Main",
@@ -67,7 +67,7 @@ const products = [
 {
         id: 2,
         name: "Vegan ",
-        price:,
+        price:"",
         image: "images/cake.jpg",
         available: true,
         category: "Main",
@@ -104,7 +104,7 @@ const products = [
     {
         id: 3,
         name: "WVegan ",
-        price:,
+        price:"",
         image: "images/latte.jpg",
         available: true,
         category: "Main",
@@ -141,7 +141,7 @@ const products = [
 {
         id: 4,
         name: "VVegan ",
-        price:,
+        price:"",
         image: "images/shake.jpg",
         available: true,
         category: "Main",
@@ -178,7 +178,7 @@ const products = [
     {
         id: 5,
         name: "OVegan ",
-        price:,
+        price:"",
         image: "images/wings.jpg",
         available: true,
         category: "Main",
