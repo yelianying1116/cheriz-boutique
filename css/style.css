@@ -1083,7 +1083,7 @@ HEADER
 
     width:100%;
 
-    height:220px;
+    height:320px;
 
     object-fit:cover;
 
@@ -1092,7 +1092,7 @@ HEADER
 
 .menu-content{
 
-    padding:20px;
+    padding:12px 15px;
 
     text-align:center;
 
@@ -1118,12 +1118,15 @@ HEADER
 
     font-size:18px;
 
+    font-weight:600;
+
     color:#B85F4D;
 
-    line-height:1.4;
+    line-height:1.3;
+
+    margin:0;
 
 }
-
 
 
 /* Tablet */
