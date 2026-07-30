@@ -291,13 +291,7 @@ function displayProducts() {
 
                 <div class="menu-content">
 
-                    <h3>${product.name}</h3>
-
-                    <p>${product.shortDescription}</p>
-
-                    <div class="menu-price">
-                        ${product.price} 
-                    </div>
+                     <h3>${product.name}</h3>
 
                 </div>
 
