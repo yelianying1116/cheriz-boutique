@@ -30,7 +30,7 @@ const products = [
     {
         id: 1,
         name: "Vegan Mac 'N' Cheese",
-        price: 8.50,
+        price:,
         image: "images/mac.jpg",
         available: true,
         category: "Main",
@@ -64,7 +64,154 @@ const products = [
             Our chef recommends adding fresh herbs before serving.
         `
     },
-
+{
+        id: 2,
+        name: "Vegan ",
+        price:,
+        image: "images/cake.jpg",
+        available: true,
+        category: "Main",
+        shortDescription:
+            "Creamy vegan pasta with cashew cheese sauce.",
+        description: `
+            Our Vegan Mac 'N' Cheese is a delicious plant-based
+            dish prepared with homemade cashew sauce,
+            fresh herbs and crispy breadcrumbs.
+        `,
+        ingredients: [
+            "Pasta",
+            "Cashew",
+            "Oat Milk",
+            "Garlic",
+            "Onion",
+            "Mustard"
+        ],
+        allergens: [
+            "Gluten",
+            "Nuts"
+        ],
+        nutrition: {
+            calories: "540 kcal",
+            protein: "18g",
+            fat: "21g",
+            carbs: "64g"
+        },
+        chefNote: `
+            Best enjoyed hot.
+            Our chef recommends adding fresh herbs before serving.
+        `
+    },
+    {
+        id: 3,
+        name: "WVegan ",
+        price:,
+        image: "images/latte.jpg",
+        available: true,
+        category: "Main",
+        shortDescription:
+            "Creamy vegan pasta with cashew cheese sauce.",
+        description: `
+            Our Vegan Mac 'N' Cheese is a delicious plant-based
+            dish prepared with homemade cashew sauce,
+            fresh herbs and crispy breadcrumbs.
+        `,
+        ingredients: [
+            "Pasta",
+            "Cashew",
+            "Oat Milk",
+            "Garlic",
+            "Onion",
+            "Mustard"
+        ],
+        allergens: [
+            "Gluten",
+            "Nuts"
+        ],
+        nutrition: {
+            calories: "540 kcal",
+            protein: "18g",
+            fat: "21g",
+            carbs: "64g"
+        },
+        chefNote: `
+            Best enjoyed hot.
+            Our chef recommends adding fresh herbs before serving.
+        `
+    },
+{
+        id: 4,
+        name: "VVegan ",
+        price:,
+        image: "images/shake.jpg",
+        available: true,
+        category: "Main",
+        shortDescription:
+            "Creamy vegan pasta with cashew cheese sauce.",
+        description: `
+            Our Vegan Mac 'N' Cheese is a delicious plant-based
+            dish prepared with homemade cashew sauce,
+            fresh herbs and crispy breadcrumbs.
+        `,
+        ingredients: [
+            "Pasta",
+            "Cashew",
+            "Oat Milk",
+            "Garlic",
+            "Onion",
+            "Mustard"
+        ],
+        allergens: [
+            "Gluten",
+            "Nuts"
+        ],
+        nutrition: {
+            calories: "540 kcal",
+            protein: "18g",
+            fat: "21g",
+            carbs: "64g"
+        },
+        chefNote: `
+            Best enjoyed hot.
+            Our chef recommends adding fresh herbs before serving.
+        `
+    },
+    {
+        id: 5,
+        name: "OVegan ",
+        price:,
+        image: "images/wings.jpg",
+        available: true,
+        category: "Main",
+        shortDescription:
+            "Creamy vegan pasta with cashew cheese sauce.",
+        description: `
+            Our Vegan Mac 'N' Cheese is a delicious plant-based
+            dish prepared with homemade cashew sauce,
+            fresh herbs and crispy breadcrumbs.
+        `,
+        ingredients: [
+            "Pasta",
+            "Cashew",
+            "Oat Milk",
+            "Garlic",
+            "Onion",
+            "Mustard"
+        ],
+        allergens: [
+            "Gluten",
+            "Nuts"
+        ],
+        nutrition: {
+            calories: "540 kcal",
+            protein: "18g",
+            fat: "21g",
+            carbs: "64g"
+        },
+        chefNote: `
+            Best enjoyed hot.
+            Our chef recommends adding fresh herbs before serving.
+        `
+    },
     // 在这里继续添加其他产品......
 
 ];
