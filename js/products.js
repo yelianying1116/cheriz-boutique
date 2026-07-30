@@ -296,7 +296,7 @@ function displayProducts() {
                     <p>${product.shortDescription}</p>
 
                     <div class="menu-price">
-                        ${product.price} €
+                        ${product.price} 
                     </div>
 
                 </div>
