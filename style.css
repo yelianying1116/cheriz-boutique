@@ -326,11 +326,9 @@ MENU GRID
 ========================================== */
 
 .menu-grid {
-
     display: grid;
-    grid-template-columns: repeat(2,1fr);
-    gap: 35px;
-
+    grid-template-columns: repeat(6, 1fr);
+    gap: 20px;
 }
 
 .menu-card {
@@ -471,10 +469,9 @@ TABLET
     }
 
     .menu-grid{
-
-        grid-template-columns:1fr;
-
-    }
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px 12px;
+   }
 
 }
 
