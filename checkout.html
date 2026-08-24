@@ -206,7 +206,67 @@
 
 }
 
+.delivery-notice {
 
+    margin-top: 20px;
+    padding: 18px 20px;
+
+    background: #FFF4ED;
+
+    border-radius: 15px;
+
+    color: #6E4A44;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+.delivery-notice strong {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #A6523C;
+
+    font-size: 16px;
+}
+
+.delivery-notice p {
+
+    margin-bottom: 8px;
+}
+
+.delivery-notice p:last-child {
+
+    margin-bottom: 0;
+}
+
+.delivery-confirm {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 10px;
+
+    margin-top: 18px;
+
+    font-size: 14px;
+
+    cursor: pointer;
+}
+
+.delivery-confirm input {
+
+    margin-top: 4px;
+
+    width: 16px;
+    height: 16px;
+
+    flex-shrink: 0;
+}
 
 </style>
 
@@ -309,15 +369,36 @@ placeholder="Email">
 
 
 <textarea
-
 id="address"
+placeholder="Adresse complète de livraison : numéro, rue, code postal, ville"
+required></textarea>
+<div class="delivery-notice">
 
-placeholder="Adresse de livraison">
+    <strong>⚠️ Livraison</strong>
 
-</textarea>
+    <p>
+        La livraison se fait uniquement au pied de l'immeuble.
+        Merci d’être présent à l’heure prévue pour réceptionner votre repas.
+    </p>
 
+    <p>
+        Afin de respecter les horaires de livraison des autres clients,
+        tout retard peut entraîner une livraison en fin de tournée
+        ou l’annulation de la livraison.
+    </p>
 
+</div>
+<label class="delivery-confirm">
 
+    <input
+        type="checkbox"
+        id="delivery-confirmation">
+
+    <span>
+        J’ai lu et j’accepte les conditions de livraison.
+    </span>
+
+</label>
 </div>
 
 
