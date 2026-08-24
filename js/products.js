@@ -310,3 +310,130 @@ function displayProducts() {
 
 displayDailyDish();
 displayProducts();
+// ====================================
+// DAILY DISH BUTTONS
+// ====================================
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const normalButton =
+        document.querySelector(".daily-normal");
+
+    const vipButton =
+        document.querySelector(".daily-vip");
+
+    const membershipButton =
+        document.querySelector(".daily-membership");
+
+
+    // 普通客户
+    if (normalButton) {
+
+        normalButton.addEventListener("click", () => {
+
+            addDailyDishToCart(15.50);
+
+        });
+
+    }
+
+
+    // VIP客户
+    if (vipButton) {
+
+        vipButton.addEventListener("click", () => {
+
+            addDailyDishToCart(9.90);
+
+        });
+
+    }
+
+
+    // 新VIP会员
+    if (membershipButton) {
+
+        membershipButton.addEventListener("click", () => {
+
+            addMembershipToCart();
+
+        });
+
+    }
+
+});
+
+
+// ====================================
+// ADD DAILY DISH TO CART
+// ====================================
+
+function addDailyDishToCart(price) {
+
+    let cart =
+        JSON.parse(
+            localStorage.getItem("cart")
+        ) || [];
+
+
+    cart.push({
+
+        name: DAILY_DISH.name,
+
+        price: price,
+
+        quantity: 1,
+
+        image: DAILY_DISH.image
+
+    });
+
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+
+    window.location.href = "cart.html";
+
+}
+
+
+// ====================================
+// ADD VIP MEMBERSHIP TO CART
+// ====================================
+
+function addMembershipToCart() {
+
+    let cart =
+        JSON.parse(
+            localStorage.getItem("cart")
+        ) || [];
+
+
+    cart.push({
+
+        name:
+            "Adhésion VIP + 1er repas",
+
+        price: 39.60,
+
+        quantity: 1,
+
+        image: DAILY_DISH.image,
+
+        type: "vip-membership"
+
+    });
+
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+
+    window.location.href = "cart.html";
+
+}
