@@ -325,10 +325,10 @@ NOS PLATS
 MENU GRID
 ========================================== */
 
-.menu-grid { 
-    display: grid !important; 
-    grid-template-columns: repeat(6, 1fr); 
-    gap: 20px; 
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 20px;
 }
 
 .menu-card {
@@ -468,11 +468,11 @@ TABLET
 
     }
 
-    .menu-grid { 
-        display: grid !important;
-        grid-template-columns: repeat(2, 1fr); 
-        gap: 18px 12px; 
-    } 
+    .menu-grid{
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px 12px;
+   }
+
 }
 
 
