@@ -576,3 +576,21 @@ MOBILE
     }
 
 }
+/* ==========================================
+   HOMEPAGE HERO
+========================================== */
+
+.homepage-hero {
+    min-height: 650px;
+    background-image: url("../images/home-banner.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+.hero-overlay {
+    min-height: 650px;
+    display: flex;
+    align-items: center;
+}
