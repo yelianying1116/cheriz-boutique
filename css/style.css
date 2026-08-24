@@ -495,18 +495,16 @@ LAST WEEK MENU
 }
 
 .step-card {
-    background: #FFF9F5;
-    border-radius: 20px;
-    padding: 28px 20px;
+    background: transparent;
+    border-radius: 0;
+    padding: 20px 15px;
     text-align: center;
-    box-shadow: 0 8px 20px rgba(0,0,0,.04);
-    transition: .3s;
+    box-shadow: none;
 }
 
 .step-card:hover {
-    transform: translateY(-4px);
+    transform: none;
 }
-
 .step-number {
     width: 50px;
     height: 50px;
@@ -989,14 +987,13 @@ MOBILE
 
     .steps-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 14px;
+        gap: 20px 10px;
     }
 
     .step-card {
-        padding: 22px 14px;
-        border-radius: 18px;
+        padding: 15px 8px;
+        border-radius: 0;
     }
-
     .step-number {
         width: 42px;
         height: 42px;
