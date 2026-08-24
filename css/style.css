@@ -833,3 +833,33 @@ MOBILE
 .homepage-hero .btn-secondary {
     color: #FFFFFF !important;
 }
+/* ==========================================
+   SECTION HEADINGS - CENTER
+========================================== */
+
+.section-heading {
+    text-align: center;
+}
+
+.section-heading .section-badge {
+    display: block;
+    text-align: center;
+}
+
+.section-heading .section-title {
+    text-align: center;
+}
+
+.section-heading .section-description {
+    text-align: center;
+}
+
+
+/* ==========================================
+   DELIVERY TITLE - CENTER
+========================================== */
+
+.delivery-title {
+    display: block;
+    text-align: center;
+}
