@@ -394,6 +394,96 @@ LAST WEEK MENU
     width: 100%;
 
 }
+/* ===========================
+   COMMENT ÇA FONCTIONNE
+=========================== */
+
+.steps-section{
+
+    padding:110px 0;
+
+}
+
+.steps-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:30px;
+
+}
+
+.step-card{
+
+    position:relative;
+
+    background:#FFF9F5;
+
+    border-radius:28px;
+
+    padding:40px 30px;
+
+    text-align:center;
+
+    box-shadow:
+    0 15px 35px rgba(0,0,0,.06);
+
+    transition:.35s;
+
+}
+
+.step-card:hover{
+
+    transform:translateY(-8px);
+
+}
+
+.step-number{
+
+    width:70px;
+
+    height:70px;
+
+    margin:0 auto 25px;
+
+    border-radius:50%;
+
+    background:#2F6D49;
+
+    color:white;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:24px;
+
+    font-weight:700;
+
+}
+
+.step-card h3{
+
+    font-size:24px;
+
+    color:#B85F4D;
+
+    margin-bottom:18px;
+
+}
+
+.step-card p{
+
+    font-size:16px;
+
+    color:#666;
+
+    line-height:1.8;
+
+}
 
 /* 平板 */
 
