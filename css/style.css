@@ -594,3 +594,25 @@ MOBILE
     display: flex;
     align-items: center;
 }
+/* ==========================================
+   HOMEPAGE HERO - MOBILE
+========================================== */
+
+@media (max-width: 768px) {
+
+    .homepage-hero {
+        min-height: 520px;
+        height: 520px;
+
+        background-image: url("../images/home-banner.jpg");
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+
+    .hero-overlay {
+        min-height: 520px;
+        height: 520px;
+    }
+
+}
