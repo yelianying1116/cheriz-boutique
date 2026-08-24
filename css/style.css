@@ -616,3 +616,14 @@ MOBILE
     }
 
 }
+/* ==========================================
+   HOMEPAGE HERO - BLACK TEXT
+========================================== */
+
+.homepage-hero .hero-badge,
+.homepage-hero h1,
+.homepage-hero p,
+.homepage-hero .btn-primary,
+.homepage-hero .btn-secondary {
+    color: #000000;
+}
