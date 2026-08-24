@@ -293,12 +293,11 @@ DAILY CARD
     opacity: .9;
 }
 .membership-refund {
-    display: block;
+    margin: 8px 5px 0;
     font-size: 11px;
-    line-height: 1.4;
-    margin-top: 8px;
-    opacity: 0.85;
-    font-weight: 400;
+    line-height: 1.5;
+    color: #777;
+    text-align: center;
 }
 .mobile-note {
     display: none;
