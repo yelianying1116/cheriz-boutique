@@ -480,85 +480,59 @@ LAST WEEK MENU
 
 }
 
-.steps-grid{
+/* ===========================
+   COMMENT ÇA FONCTIONNE
+=========================== */
 
-    display:grid;
-
-    grid-template-columns:repeat(4,1fr);
-
-    gap:30px;
-
+.steps-section {
+    padding: 80px 0;
 }
 
-.step-card{
-
-    position:relative;
-
-    background:#FFF9F5;
-
-    border-radius:28px;
-
-    padding:40px 30px;
-
-    text-align:center;
-
-    box-shadow:
-    0 15px 35px rgba(0,0,0,.06);
-
-    transition:.35s;
-
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
 }
 
-.step-card:hover{
-
-    transform:translateY(-8px);
-
+.step-card {
+    background: #FFF9F5;
+    border-radius: 20px;
+    padding: 28px 20px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,.04);
+    transition: .3s;
 }
 
-.step-number{
-
-    width:70px;
-
-    height:70px;
-
-    margin:0 auto 25px;
-
-    border-radius:50%;
-
-    background:#2F6D49;
-
-    color:white;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    font-size:24px;
-
-    font-weight:700;
-
+.step-card:hover {
+    transform: translateY(-4px);
 }
 
-.step-card h3{
+.step-number {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    background: #2F6D49;
+    color: white;
 
-    font-size:24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    color:#B85F4D;
-
-    margin-bottom:18px;
-
+    font-size: 17px;
+    font-weight: 600;
 }
 
-.step-card p{
+.step-card h3 {
+    font-size: 20px;
+    color: #B85F4D;
+    margin-bottom: 10px;
+}
 
-    font-size:16px;
-
-    color:#666;
-
-    line-height:1.8;
-
+.step-card p {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.6;
 }
 
 /* 平板 */
@@ -1017,4 +991,37 @@ MOBILE
         animation-duration: 22s;
     }
 
+}
+@media (max-width: 768px) {
+
+    .steps-section {
+        padding: 60px 0;
+    }
+
+    .steps-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+    }
+
+    .step-card {
+        padding: 22px 14px;
+        border-radius: 18px;
+    }
+
+    .step-number {
+        width: 42px;
+        height: 42px;
+        margin-bottom: 12px;
+        font-size: 15px;
+    }
+
+    .step-card h3 {
+        font-size: 17px;
+        margin-bottom: 7px;
+    }
+
+    .step-card p {
+        font-size: 12px;
+        line-height: 1.5;
+    }
 }
