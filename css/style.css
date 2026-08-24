@@ -1011,3 +1011,7 @@ MOBILE
         line-height: 1.5;
     }
 }
+.tax-highlight {
+    color: #FF0000 !important;
+    font-weight: 700;
+}
