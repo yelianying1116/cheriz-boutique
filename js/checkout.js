@@ -51,10 +51,10 @@ function showOrder() {
 
 
 // ====================================
-// 暂时的付款按钮
+// STRIPE PAYMENT
 // ====================================
 
-function submitOrder() {
+async function submitOrder() {
 
     const name =
         document.getElementById("name").value.trim();
@@ -68,6 +68,11 @@ function submitOrder() {
     const address =
         document.getElementById("address").value.trim();
 
+    const deliveryAgreement =
+        document.getElementById("delivery-agreement");
+
+
+    // 检查客户资料
 
     if (
         name === "" ||
@@ -84,9 +89,136 @@ function submitOrder() {
     }
 
 
-    alert(
-        "Les informations sont correctement remplies. Le paiement Stripe sera ajouté à cette étape."
-    );
+    // 检查配送条款
+
+    if (
+        deliveryAgreement &&
+        !deliveryAgreement.checked
+    ) {
+
+        alert(
+            "Veuillez lire et accepter les conditions de livraison."
+        );
+
+        return;
+    }
+
+
+    // 检查购物车
+
+    if (
+        !cart ||
+        cart.length === 0
+    ) {
+
+        alert(
+            "Votre panier est vide."
+        );
+
+        return;
+    }
+
+
+    // 找到付款按钮
+
+    const payButton =
+        document.querySelector(".pay");
+
+
+    if (payButton) {
+
+        payButton.disabled = true;
+
+        payButton.textContent =
+            "Préparation du paiement...";
+
+    }
+
+
+    try {
+
+        const response = await fetch(
+
+            "https://TON-SERVICE.onrender.com/create-checkout-session",
+
+            {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type":
+                        "application/json"
+
+                },
+
+                body: JSON.stringify({
+
+                    cart: cart,
+
+                    customer: {
+
+                        name: name,
+
+                        phone: phone,
+
+                        email: email,
+
+                        address: address
+
+                    }
+
+                })
+
+            }
+
+        );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+
+                data.error ||
+                "Erreur lors de la préparation du paiement."
+
+            );
+
+        }
+
+
+        // 跳转 Stripe
+
+        window.location.href =
+            data.url;
+
+
+    } catch (error) {
+
+        console.error(error);
+
+
+        alert(
+
+            "Une erreur est survenue. Veuillez réessayer."
+
+        );
+
+
+        if (payButton) {
+
+            payButton.disabled = false;
+
+            payButton.textContent =
+                "Payer maintenant";
+
+        }
+
+    }
 
 }
 
