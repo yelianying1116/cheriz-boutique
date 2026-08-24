@@ -1094,13 +1094,20 @@ document.addEventListener("DOMContentLoaded", () => {
     // 保存原始内容
     const originalItems = [...track.children];
 
-    // 如果内容宽度不足，就一直复制
-    while (track.scrollWidth < ticker.offsetWidth * 2) {
+    // 最多复制 10 次，防止无限循环导致网页卡死
+    let count = 0;
+    const maxCopies = 10;
+
+    while (
+        track.scrollWidth < ticker.offsetWidth * 2 &&
+        count < maxCopies
+    ) {
 
         originalItems.forEach(item => {
             track.appendChild(item.cloneNode(true));
         });
 
+        count++;
     }
 
 });
