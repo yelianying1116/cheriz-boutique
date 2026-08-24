@@ -139,7 +139,7 @@ async function submitOrder() {
 
         const response = await fetch(
 
-            "https://TON-SERVICE.onrender.com/create-checkout-session",
+            "https://cheriz-payment.onrender.com/create-checkout-session",
 
             {
 
