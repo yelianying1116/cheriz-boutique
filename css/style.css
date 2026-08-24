@@ -419,7 +419,123 @@ LAST WEEK MENU
     }
 
 }
+/* ==========================================
+   POURQUOI CHERIZ
+========================================== */
 
+.why-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+}
+
+.why-card {
+    text-align: center;
+    background: #FFF9F5;
+    border-radius: 25px;
+    padding: 30px 20px;
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,0.06);
+}
+
+.why-icon {
+    width: 80px;
+    height: 80px;
+
+    margin: 0 auto 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.why-icon img {
+    width: 60px;
+    height: 60px;
+
+    object-fit: contain;
+}
+
+.why-card h3 {
+    font-size: 22px;
+    color: #B85F4D;
+    margin-bottom: 12px;
+}
+
+.why-card p {
+    font-size: 15px;
+    color: #666;
+}
+
+
+/* ==========================================
+   TABLET
+========================================== */
+
+@media (max-width: 900px) {
+
+    .why-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .why-card {
+        padding: 25px 15px;
+    }
+
+    .why-icon {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 15px;
+    }
+
+    .why-icon img {
+        width: 50px;
+        height: 50px;
+    }
+
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 768px) {
+
+    .why-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .why-card {
+        padding: 20px 10px;
+        border-radius: 20px;
+    }
+
+    .why-icon {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 12px;
+    }
+
+    .why-icon img {
+        width: 45px;
+        height: 45px;
+    }
+
+    .why-card h3 {
+        font-size: 18px;
+        margin-bottom: 8px;
+    }
+
+    .why-card p {
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+}
 /* ==========================================
 FOOTER
 ========================================== */
