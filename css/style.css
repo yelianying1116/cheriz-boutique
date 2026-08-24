@@ -572,42 +572,31 @@ LAST WEEK MENU
 .why-card {
     text-align: center;
     background: #FFF9F5;
-    border-radius: 25px;
-    padding: 30px 20px;
-
-    box-shadow:
-        0 15px 35px rgba(0,0,0,0.06);
+    border-radius: 20px;
+    padding: 25px 18px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.04);
 }
 
 .why-icon {
-    width: 80px;
-    height: 80px;
-
-    margin: 0 auto 20px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 65px;
+    height: 65px;
+    margin: 0 auto 15px;
 }
 
 .why-icon img {
-    width: 60px;
-    height: 60px;
-
-    object-fit: contain;
+    width: 50px;
+    height: 50px;
 }
 
 .why-card h3 {
-    font-size: 22px;
-    color: #B85F4D;
-    margin-bottom: 12px;
+    font-size: 20px;
+    margin-bottom: 8px;
 }
 
 .why-card p {
-    font-size: 15px;
-    color: #666;
+    font-size: 13px;
+    line-height: 1.5;
 }
-
 
 /* ==========================================
    TABLET
