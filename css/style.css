@@ -243,10 +243,20 @@ DAILY CARD
 
 }
 
-.daily-button {
+/* ==========================================
+   PLAT DU JOUR - 3 COMMANDES
+========================================== */
 
+.daily-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.daily-button {
     border: none;
-    padding: 15px 32px;
+    padding: 14px 28px;
     border-radius: 40px;
 
     background: #C46E5D;
@@ -257,14 +267,74 @@ DAILY CARD
 
     transition: .3s;
 
+    min-width: 330px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    line-height: 1.4;
 }
 
 .daily-button:hover {
-
     background: #AD5645;
+    transform: translateY(-2px);
+}
+
+.button-main {
+    font-weight: 600;
+}
+
+.button-note {
+    display: block;
+    font-size: 13px;
+    margin-top: 3px;
+    opacity: .9;
+}
+
+.mobile-note {
+    display: none;
+}
+
+/* 手机 */
+
+@media (max-width: 900px) {
+
+    .daily-actions {
+        align-items: center;
+        width: 100%;
+    }
+
+    .daily-button {
+        width: 100%;
+        max-width: 380px;
+        min-width: 0;
+    }
 
 }
 
+@media (max-width: 768px) {
+
+    .daily-actions {
+        align-items: center;
+    }
+
+    .daily-button {
+        width: 100%;
+        max-width: 360px;
+        padding: 14px 18px;
+    }
+
+    .desktop-note {
+        display: none;
+    }
+
+    .mobile-note {
+        display: block;
+    }
+
+}
 
 /* ==========================================
 INTRODUCTION
