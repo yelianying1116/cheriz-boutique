@@ -544,7 +544,17 @@ function submitOrder(){
 
         return;
     }
+const deliveryConfirmation =
+    document.getElementById("delivery-confirmation");
 
+if (!deliveryConfirmation.checked) {
+
+    alert(
+        "Veuillez confirmer que vous avez lu et accepté les conditions de livraison."
+    );
+
+    return;
+}
     alert(
         "Merci ! Votre commande est confirmée."
     );
