@@ -466,9 +466,13 @@ LAST WEEK MENU
 }
 
 .last-week-grid .menu-card {
-
     width: 100%;
-
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+}
+.last-week-grid .menu-card:hover {
+    transform: none;
 }
 /* ===========================
    COMMENT ÇA FONCTIONNE
