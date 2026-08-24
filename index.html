@@ -31,17 +31,37 @@
 
     <div class="ticker-track">
 
-        <span>
-            ✦ Commande sur réservation.
-        </span>
+        <div class="ticker-group">
 
-        <span>
-            ✦ Merci de vous assurer de vouloir commander avant le paiement.
-        </span>
+            <span>
+                ✦ Commande sur réservation.
+            </span>
 
-        <span>
-            ✦ Après confirmation, aucune modification ni annulation. Préparation dès 7h30.
-        </span>
+            <span>
+                ✦ Merci de vous assurer de vouloir commander avant le paiement.
+            </span>
+
+            <span>
+                ✦ Après confirmation, aucune modification ni annulation. Préparation dès 7h30.
+            </span>
+
+        </div>
+
+        <div class="ticker-group" aria-hidden="true">
+
+            <span>
+                ✦ Commande sur réservation.
+            </span>
+
+            <span>
+                ✦ Merci de vous assurer de vouloir commander avant le paiement.
+            </span>
+
+            <span>
+                ✦ Après confirmation, aucune modification ni annulation. Préparation dès 7h30.
+            </span>
+
+        </div>
 
     </div>
 
@@ -1082,36 +1102,6 @@ JAVASCRIPT
 ======================================= -->
 
 <script src="js/products.js"></script>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-
-    const ticker = document.querySelector(".ticker");
-    const track = document.querySelector(".ticker-track");
-
-    if (!ticker || !track) return;
-
-    // 保存原始内容
-    const originalItems = [...track.children];
-
-    // 最多复制 10 次，防止无限循环导致网页卡死
-    let count = 0;
-    const maxCopies = 10;
-
-    while (
-        track.scrollWidth < ticker.offsetWidth * 2 &&
-        count < maxCopies
-    ) {
-
-        originalItems.forEach(item => {
-            track.appendChild(item.cloneNode(true));
-        });
-
-        count++;
-    }
-
-});
-</script>
 
 </body>
 </html>
