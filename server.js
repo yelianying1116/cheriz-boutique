@@ -6,6 +6,65 @@ const Stripe = require("stripe");
 const app = express();
 
 app.use(cors());
+// ==========================================
+// STRIPE WEBHOOK
+// ==========================================
+
+app.post(
+    "/stripe-webhook",
+    express.raw({ type: "application/json" }),
+    async (req, res) => {
+
+        const sig = req.headers["stripe-signature"];
+
+        let event;
+
+        try {
+
+            event = stripe.webhooks.constructEvent(
+                req.body,
+                sig,
+                process.env.STRIPE_WEBHOOK_SECRET
+            );
+
+        } catch (err) {
+
+            console.error(
+                "Webhook signature verification failed:",
+                err.message
+            );
+
+            return res.status(400).send(
+                `Webhook Error: ${err.message}`
+            );
+
+        }
+
+
+        // ==========================================
+        // PAYMENT SUCCESS
+        // ==========================================
+
+        if (event.type === "checkout.session.completed") {
+
+            const session = event.data.object;
+
+            console.log("=================================");
+            console.log("PAIEMENT STRIPE RÉUSSI");
+            console.log("Session ID :", session.id);
+            console.log("Montant :", session.amount_total / 100, "€");
+            console.log("Email :", session.customer_details?.email);
+            console.log("=================================");
+
+        }
+
+
+        res.json({
+            received: true
+        });
+
+    }
+);
 app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
