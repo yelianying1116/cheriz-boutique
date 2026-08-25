@@ -727,52 +727,37 @@ TABLET
 MOBILE
 ========================================== */
 
-@media(max-width:768px){
+@media (max-width: 768px) {
 
-    .header .container{
-
-        flex-direction:column;
-        gap:20px;
-
+    .header {
+        padding: 10px 0;
     }
 
-    .navigation{
-
-        flex-wrap:wrap;
-        justify-content:center;
-
-        gap:18px;
-
+    .header .container {
+        width: 94%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
     }
 
-    .hero-title{
-
-        font-size:50px;
-
+    .logo {
+        font-size: 20px;
+        flex-shrink: 0;
     }
 
-    .section-title{
-
-        font-size:50px;
-
+    .navigation {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 10px;
+        white-space: nowrap;
     }
 
-    .hero-subtitle{
-
-        font-size:24px;
-
-    }
-
-    .daily-image{
-
-        width:100%;
-
-    }
-
-    .daily-image img{
-
-        height:300px;
-
+    .navigation a {
+        font-size: 13px;
+        font-weight: 500;
     }
 
 }
