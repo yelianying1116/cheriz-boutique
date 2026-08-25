@@ -414,19 +414,12 @@ MENU GRID
 }
 
 .menu-card {
-
     background: #FFF9F5;
-    border-radius: 25px;
-
+    border-radius: 12px;
     overflow: hidden;
-
-    box-shadow:
-    0 15px 35px rgba(0,0,0,.06);
-
+    box-shadow: 0 4px 12px rgba(0,0,0,.04);
     transition: .3s;
-
 }
-
 .menu-card:hover {
 
     transform: translateY(-5px);
