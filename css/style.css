@@ -739,7 +739,11 @@ MOBILE
 @media (max-width: 768px) {
 
     .header {
-        padding: 10px 0;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+
+        padding: 8px 0;
     }
 
     .header .container {
@@ -747,7 +751,7 @@ MOBILE
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        gap: 8px;
+        gap: 6px;
     }
 
     .logo {
@@ -760,12 +764,12 @@ MOBILE
         flex-wrap: nowrap;
         justify-content: flex-end;
         align-items: center;
-        gap: 10px;
+        gap: 8px;
         white-space: nowrap;
     }
 
     .navigation a {
-        font-size: 13px;
+        font-size: 12px;
         font-weight: 500;
     }
 
