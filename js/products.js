@@ -210,6 +210,81 @@ const products = [
             Our chef recommends adding fresh herbs before serving.
         `
     },
+        {
+        id: 6,
+        name: "Champignons de Paris sautés au porc, riz blanc",
+        price:"",
+        image: "images/nos plats Champignons de Paris sautés au porc,  riz blanc.jpg",
+        available: true,
+        category: "Main",
+        shortDescription:
+            "Creamy vegan pasta with cashew cheese sauce.",
+        description: `
+            Our Vegan Mac 'N' Cheese is a delicious plant-based
+            dish prepared with homemade cashew sauce,
+            fresh herbs and crispy breadcrumbs.
+        `,
+        ingredients: [
+            "Pasta",
+            "Cashew",
+            "Oat Milk",
+            "Garlic",
+            "Onion",
+            "Mustard"
+        ],
+        allergens: [
+            "Gluten",
+            "Nuts"
+        ],
+        nutrition: {
+            calories: "540 kcal",
+            protein: "18g",
+            fat: "21g",
+            carbs: "64g"
+        },
+        chefNote: `
+            Best enjoyed hot.
+            Our chef recommends adding fresh herbs before serving.
+        `
+    },
+        {
+        id: 7,
+        name: "Curry de lentilles et pommes de terre, servi avec du riz blanc",
+        price:"",
+        image: "images/nos plats Curry de lentilles et pommes de terre, servi avec du riz blanc.jpg",
+        available: true,
+        category: "Main",
+        shortDescription:
+            "Creamy vegan pasta with cashew cheese sauce.",
+        description: `
+            Our Vegan Mac 'N' Cheese is a delicious plant-based
+            dish prepared with homemade cashew sauce,
+            fresh herbs and crispy breadcrumbs.
+        `,
+        ingredients: [
+            "Pasta",
+            "Cashew",
+            "Oat Milk",
+            "Garlic",
+            "Onion",
+            "Mustard"
+        ],
+        allergens: [
+            "Gluten",
+            "Nuts"
+        ],
+        nutrition: {
+            calories: "540 kcal",
+            protein: "18g",
+            fat: "21g",
+            carbs: "64g"
+        },
+        chefNote: `
+            Best enjoyed hot.
+            Our chef recommends adding fresh herbs before serving.
+        `
+    },
+    
     // 在这里继续添加其他产品......
 
 ];
