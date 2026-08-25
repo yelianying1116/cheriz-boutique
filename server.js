@@ -45,18 +45,52 @@ app.post(
         // PAYMENT SUCCESS
         // ==========================================
 
-        if (event.type === "checkout.session.completed") {
+if (event.type === "checkout.session.completed") {
 
-            const session = event.data.object;
+    const session = event.data.object;
 
-            console.log("=================================");
-            console.log("PAIEMENT STRIPE RÉUSSI");
-            console.log("Session ID :", session.id);
-            console.log("Montant :", session.amount_total / 100, "€");
-            console.log("Email :", session.customer_details?.email);
-            console.log("=================================");
+    console.log("=================================");
+    console.log("PAIEMENT STRIPE RÉUSSI");
 
-        }
+    console.log(
+        "Session ID :",
+        session.id
+    );
+
+    console.log(
+        "Nom :",
+        session.metadata?.customer_name
+    );
+
+    console.log(
+        "Téléphone :",
+        session.metadata?.customer_phone
+    );
+
+    console.log(
+        "Email :",
+        session.customer_email
+    );
+
+    console.log(
+        "Adresse de livraison :",
+        session.metadata?.delivery_address
+    );
+
+    console.log(
+        "Montant :",
+        session.amount_total / 100,
+        "€"
+    );
+
+    console.log(
+        "Statut :",
+        session.payment_status
+    );
+
+    console.log("=================================");
+
+}
 
 
         res.json({
