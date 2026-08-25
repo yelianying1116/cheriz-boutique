@@ -244,8 +244,8 @@ try {
 
     const adminEmail = await resend.emails.send({
 
-        from:
-            "Cheriz <onboarding@resend.dev>",
+from:
+    "Cheriz <commande@bienmangercommunity.com>",
 
         to: [
             "yelianying1116@gmail.com"
