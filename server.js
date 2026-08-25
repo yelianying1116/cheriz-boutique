@@ -767,6 +767,40 @@ app.post("/create-checkout-session", async (req, res) => {
     try {
 
 const { cart, customer } = req.body;
+                // ==========================================
+        // CHECK SPECIAL MEMBER
+        // ==========================================
+
+        if (customer && customer.email) {
+
+            const customerResult = await pool.query(
+
+                `
+                SELECT
+                    special_member
+                FROM customers
+                WHERE email = $1
+                `,
+
+                [customer.email]
+            );
+
+
+            if (
+                customerResult.rows.length > 0 &&
+                customerResult.rows[0].special_member === true
+            ) {
+
+                return res.status(403).json({
+
+                    error:
+                        "Ce tarif n'est pas disponible pour votre compte membre spécial."
+
+                });
+
+            }
+
+        }
 
         if (!cart || !Array.isArray(cart) || cart.length === 0) {
 
