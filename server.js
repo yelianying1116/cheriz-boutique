@@ -2,7 +2,7 @@
 const express = require("express");
 const cors = require("cors");
 const Stripe = require("stripe");
-
+const { Resend } = require("resend");
 const app = express();
 
 app.use(cors());
