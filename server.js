@@ -232,144 +232,323 @@ if (
     });
 
 
+   // ==========================================
+// ENVOYER LES EMAILS
+// ==========================================
+
+try {
+
     // ==========================================
-    // ENVOYER L'EMAIL
+    // 1. EMAIL POUR CHERIZ
     // ==========================================
 
-    try {
+    const adminEmail = await resend.emails.send({
 
-        const { data, error } =
+        from:
+            "Cheriz <onboarding@resend.dev>",
+
+        to: [
+            "yelianying1116@gmail.com"
+        ],
+
+        subject:
+            `Nouvelle commande payée - ${totalAmount} €`,
+
+        html: `
+
+            <h2>
+                Nouvelle commande payée
+            </h2>
+
+            <h3>
+                Client
+            </h3>
+
+            <p>
+                <strong>Nom :</strong>
+                ${customerName}
+            </p>
+
+            <p>
+                <strong>Téléphone :</strong>
+                ${customerPhone}
+            </p>
+
+            <p>
+                <strong>Email :</strong>
+                ${customerEmail}
+            </p>
+
+            <h3>
+                Livraison
+            </h3>
+
+            <p>
+                <strong>Adresse :</strong>
+                ${deliveryAddress}
+            </p>
+
+            <h3>
+                Commande
+            </h3>
+
+            <table
+                border="1"
+                cellpadding="0"
+                cellspacing="0"
+                style="border-collapse:collapse;"
+            >
+
+                <thead>
+
+                    <tr>
+
+                        <th style="padding:8px;">
+                            Produit
+                        </th>
+
+                        <th style="padding:8px;">
+                            Quantité
+                        </th>
+
+                        <th style="padding:8px;">
+                            Total
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    ${productsHtml}
+
+                </tbody>
+
+            </table>
+
+            <h3>
+                Total :
+                ${totalAmount} €
+            </h3>
+
+            <p>
+                <strong>
+                    Paiement : PAID
+                </strong>
+            </p>
+
+        `
+
+    });
+
+
+    // ==========================================
+    // 2. EMAIL POUR LE CLIENT
+    // ==========================================
+
+    if (customerEmail) {
+
+        const customerEmailResult =
             await resend.emails.send({
 
                 from:
                     "Cheriz <onboarding@resend.dev>",
 
-               to: [
-    "yelianying1116@gmail.com"
-],
+                to: [
+                    customerEmail
+                ],
 
                 subject:
-                    `Nouvelle commande payée - ${totalAmount} €`,
+                    "Paiement confirmé et commande enregistrée",
 
                 html: `
 
-                    <h2>
-                        Nouvelle commande payée
-                    </h2>
-
-                    <h3>
-                        Client
-                    </h3>
-
-                    <p>
-                        <strong>Nom :</strong>
-                        ${customerName}
-                    </p>
-
-                    <p>
-                        <strong>Téléphone :</strong>
-                        ${customerPhone}
-                    </p>
-
-                    <p>
-                        <strong>Email :</strong>
-                        ${customerEmail}
-                    </p>
-
-                    <h3>
-                        Livraison
-                    </h3>
-
-                    <p>
-                        <strong>Adresse :</strong>
-                        ${deliveryAddress}
-                    </p>
-
-                    <h3>
-                        Commande
-                    </h3>
-
-                    <table
-                        border="1"
-                        cellpadding="0"
-                        cellspacing="0"
-                        style="border-collapse:collapse;"
+                    <div
+                        style="
+                            font-family: Arial, sans-serif;
+                            max-width: 600px;
+                            margin: auto;
+                            color: #6E4A44;
+                            line-height: 1.6;
+                        "
                     >
 
-                        <thead>
+                        <h2
+                            style="
+                                color: #2F6D49;
+                                text-align: center;
+                            "
+                        >
+                            Paiement confirmé et commande enregistrée
+                        </h2>
 
-                            <tr>
+                        <p>
+                            Bonjour ${customerName},
+                        </p>
 
-                                <th style="padding:8px;">
-                                    Produit
-                                </th>
+                        <p>
+                            Nous avons bien reçu votre paiement
+                            et votre commande a été enregistrée.
+                        </p>
 
-                                <th style="padding:8px;">
-                                    Quantité
-                                </th>
+                        <h3>
+                            Votre commande
+                        </h3>
 
-                                <th style="padding:8px;">
-                                    Total
-                                </th>
+                        <table
+                            border="1"
+                            cellpadding="0"
+                            cellspacing="0"
+                            width="100%"
+                            style="
+                                border-collapse: collapse;
+                                margin-top: 15px;
+                            "
+                        >
 
-                            </tr>
+                            <thead>
 
-                        </thead>
+                                <tr>
 
-                        <tbody>
+                                    <th
+                                        style="
+                                            padding: 10px;
+                                            text-align: left;
+                                        "
+                                    >
+                                        Produit
+                                    </th>
 
-                            ${productsHtml}
+                                    <th
+                                        style="
+                                            padding: 10px;
+                                            text-align: center;
+                                        "
+                                    >
+                                        Quantité
+                                    </th>
 
-                        </tbody>
+                                    <th
+                                        style="
+                                            padding: 10px;
+                                            text-align: right;
+                                        "
+                                    >
+                                        Total
+                                    </th>
 
-                    </table>
+                                </tr>
 
-                    <h3>
-                        Total :
-                        ${totalAmount} €
-                    </h3>
+                            </thead>
 
-                    <p>
-                        <strong>
-                            Paiement : PAID
-                        </strong>
-                    </p>
+                            <tbody>
+
+                                ${productsHtml}
+
+                            </tbody>
+
+                        </table>
+
+                        <h3
+                            style="
+                                margin-top: 20px;
+                                color: #2F6D49;
+                            "
+                        >
+                            Total payé :
+                            ${totalAmount} €
+                        </h3>
+
+                        <p>
+                            <strong>
+                                Paiement : confirmé
+                            </strong>
+                        </p>
+
+                        <p>
+                            <strong>
+                                Adresse de livraison :
+                            </strong>
+                            ${deliveryAddress}
+                        </p>
+
+                        <p>
+                            Merci pour votre commande chez Cheriz.
+                        </p>
+
+                    </div>
 
                 `
 
             });
 
 
-        if (error) {
+        // ==========================================
+        // CLIENT EMAIL LOG
+        // ==========================================
+
+        if (customerEmailResult.error) {
 
             console.error(
-                "Erreur Resend :",
-                error
+                "Erreur email client :",
+                customerEmailResult.error
             );
 
         } else {
 
             console.log(
-                "EMAIL ENVOYÉ AVEC SUCCÈS"
+                "EMAIL CLIENT ENVOYÉ AVEC SUCCÈS"
             );
 
             console.log(
-                "Email ID :",
-                data?.id
+                "Email client :",
+                customerEmail
+            );
+
+            console.log(
+                "Email ID client :",
+                customerEmailResult.data?.id
             );
 
         }
 
-    } catch (emailError) {
+    }
+
+
+    // ==========================================
+    // ADMIN EMAIL LOG
+    // ==========================================
+
+    if (adminEmail.error) {
 
         console.error(
-            "Erreur envoi email :",
-            emailError
+            "Erreur email Cheriz :",
+            adminEmail.error
+        );
+
+    } else {
+
+        console.log(
+            "EMAIL CHERIZ ENVOYÉ AVEC SUCCÈS"
+        );
+
+        console.log(
+            "Email ID Cheriz :",
+            adminEmail.data?.id
         );
 
     }
 
 
+} catch (emailError) {
+
+    console.error(
+        "Erreur générale envoi email :",
+        emailError
+    );
+
+}
     console.log("=================================");
 
 }
