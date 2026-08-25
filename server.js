@@ -916,41 +916,54 @@ app.post("/create-checkout-session", async (req, res) => {
     try {
 
 const { cart, customer } = req.body;
-                // ==========================================
-        // CHECK SPECIAL MEMBER
+
+ // ==========================================
+// CHECK CUSTOMER / VIP CREDITS
+// ==========================================
+
+if (customer && customer.email) {
+
+    const customerResult = await pool.query(
+
+        `
+        SELECT
+            special_member,
+            vip_credits
+        FROM customers
+        WHERE email = $1
+        `,
+
+        [customer.email.trim().toLowerCase()]
+
+    );
+
+
+    if (customerResult.rows.length > 0) {
+
+        const customerData =
+            customerResult.rows[0];
+
+
+        // ==========================================
+        // SPECIAL MEMBER
         // ==========================================
 
-        if (customer && customer.email) {
+        if (
+            customerData.special_member === true
+        ) {
 
-            const customerResult = await pool.query(
+            return res.status(403).json({
 
-                `
-                SELECT
-                    special_member
-                FROM customers
-                WHERE email = $1
-                `,
+                error:
+                    "Ce tarif n'est pas disponible pour votre compte membre spécial."
 
-                [customer.email]
-            );
-
-
-            if (
-                customerResult.rows.length > 0 &&
-                customerResult.rows[0].special_member === true
-            ) {
-
-                return res.status(403).json({
-
-                    error:
-                        "Ce tarif n'est pas disponible pour votre compte membre spécial."
-
-                });
-
-            }
+            });
 
         }
 
+    }
+
+}
         if (!cart || !Array.isArray(cart) || cart.length === 0) {
 
             return res.status(400).json({
