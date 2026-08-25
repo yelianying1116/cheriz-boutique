@@ -1118,6 +1118,57 @@ app.get("/add-vip-credits-column", async (req, res) => {
 
 });
 // ==========================================
+// TEMP - LIST CUSTOMERS
+// ==========================================
+
+app.get("/list-customers", async (req, res) => {
+
+    try {
+
+        const key = req.query.key;
+
+        if (key !== process.env.ADMIN_SECRET) {
+
+            return res.status(403).json({
+                success: false,
+                error: "Accès refusé."
+            });
+
+        }
+
+        const result = await pool.query(`
+            SELECT
+                email,
+                name,
+                vip_credits,
+                vip_unlimited,
+                special_member,
+                special_credits
+            FROM customers
+            ORDER BY id
+        `);
+
+        res.json({
+            success: true,
+            customers: result.rows
+        });
+
+    } catch (error) {
+
+        console.error(
+            "List customers error:",
+            error
+        );
+
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+
+    }
+
+});
+// ==========================================
 // START SERVER
 // ==========================================
 
