@@ -7,8 +7,6 @@ const DAILY_DISH = {
 
     name: "Poulet mariné grillé, riz",
 
-    price: "8,30",
-
     description: `
         Poulet mariné aux épices, délicatement grillé et servi avec du riz,
         accompagné d'une sauce légèrement relevée qui apporte une touche
@@ -241,16 +239,11 @@ function getMenuProducts() {
 function displayDailyDish() {
 
     const nameElement = document.getElementById("daily-name");
-    const priceElement = document.getElementById("daily-price");
     const descriptionElement = document.getElementById("daily-description");
     const imageElement = document.getElementById("daily-image");
 
     if (nameElement) {
         nameElement.textContent = DAILY_DISH.name;
-    }
-
-    if (priceElement) {
-        priceElement.textContent = DAILY_DISH.price + " €";
     }
 
     if (descriptionElement) {
