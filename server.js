@@ -88,6 +88,34 @@ if (event.type === "checkout.session.completed") {
         session.payment_status
     );
 
+
+    // ==========================================
+    // RÉCUPÉRER LES PRODUITS DE LA COMMANDE
+    // ==========================================
+
+    const lineItems =
+        await stripe.checkout.sessions.listLineItems(
+            session.id
+        );
+
+
+    console.log("Produits commandés :");
+
+    lineItems.data.forEach(item => {
+
+        console.log(
+            "-",
+            item.description,
+            "x",
+            item.quantity,
+            "=",
+            (item.amount_total / 100).toFixed(2),
+            "€"
+        );
+
+    });
+
+
     console.log("=================================");
 
 }
