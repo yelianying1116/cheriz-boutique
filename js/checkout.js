@@ -51,7 +51,7 @@ function showOrder() {
 
 
 // ====================================
-// STRIPE PAYMENT
+// 提交订单
 // ====================================
 
 async function submitOrder() {
@@ -68,11 +68,8 @@ async function submitOrder() {
     const address =
         document.getElementById("address").value.trim();
 
-    const deliveryAgreement =
-        document.getElementById("delivery-agreement");
 
-
-    // 检查客户资料
+    // 检查客户信息
 
     if (
         name === "" ||
@@ -89,27 +86,9 @@ async function submitOrder() {
     }
 
 
-    // 检查配送条款
-
-    if (
-        deliveryAgreement &&
-        !deliveryAgreement.checked
-    ) {
-
-        alert(
-            "Veuillez lire et accepter les conditions de livraison."
-        );
-
-        return;
-    }
-
-
     // 检查购物车
 
-    if (
-        !cart ||
-        cart.length === 0
-    ) {
+    if (cart.length === 0) {
 
         alert(
             "Votre panier est vide."
@@ -119,42 +98,36 @@ async function submitOrder() {
     }
 
 
-    // 找到付款按钮
+    // ====================================
+    // 等待提示
+    // ====================================
 
     const payButton =
         document.querySelector(".pay");
 
+    payButton.disabled = true;
 
-    if (payButton) {
-
-        payButton.disabled = true;
-
-        payButton.textContent =
-            "Préparation du paiement...";
-
-    }
+    payButton.textContent =
+        "Préparation du paiement...";
 
 
     try {
 
+        // ====================================
+        // 发送订单到 Render
+        // ====================================
+
         const response = await fetch(
-
             "https://cheriz-payment.onrender.com/create-checkout-session",
-
             {
 
                 method: "POST",
 
                 headers: {
-
-                    "Content-Type":
-                        "application/json"
-
+                    "Content-Type": "application/json"
                 },
 
                 body: JSON.stringify({
-
-                    cart: cart,
 
                     customer: {
 
@@ -166,57 +139,49 @@ async function submitOrder() {
 
                         address: address
 
-                    }
+                    },
+
+                    cart: cart
 
                 })
 
             }
-
         );
 
 
-        const data =
-            await response.json();
+        const data = await response.json();
 
 
         if (!response.ok) {
 
             throw new Error(
-
                 data.error ||
-                "Erreur lors de la préparation du paiement."
-
+                "Une erreur est survenue."
             );
 
         }
 
 
-        // 跳转 Stripe
+        // ====================================
+        // 前往 Stripe
+        // ====================================
 
-        window.location.href =
-            data.url;
+        window.location.href = data.url;
 
 
     } catch (error) {
 
         console.error(error);
 
-
         alert(
-
-            "Une erreur est survenue. Veuillez réessayer."
-
+            "Impossible de préparer le paiement. Veuillez réessayer."
         );
 
 
-        if (payButton) {
+        payButton.disabled = false;
 
-            payButton.disabled = false;
-
-            payButton.textContent =
-                "Payer maintenant";
-
-        }
+        payButton.textContent =
+            "Payer maintenant";
 
     }
 
