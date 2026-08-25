@@ -67,7 +67,43 @@ async function submitOrder() {
 
     const address =
         document.getElementById("address").value.trim();
+    // ====================================
+    // 检查特殊会员资格
+    // ====================================
 
+    try {
+
+        const customerCheckResponse = await fetch(
+            `https://cheriz-payment.onrender.com/check-customer?email=${encodeURIComponent(email)}`
+        );
+
+        const customerCheck = await customerCheckResponse.json();
+
+        if (
+            customerCheck.found &&
+            customerCheck.customer.special_member === true
+        ) {
+
+            alert(
+                "Ce tarif n'est pas disponible pour votre compte membre spécial."
+            );
+
+            return;
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Erreur vérification membre :",
+            error
+        );
+
+        alert(
+            "Impossible de vérifier votre compte. Veuillez réessayer."
+        );
+
+        return;
+    }
 
     // 检查客户信息
 
