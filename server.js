@@ -130,19 +130,31 @@ console.log("=================================");
         }));
 
 
-        const session = await stripe.checkout.sessions.create({
+     const session = await stripe.checkout.sessions.create({
 
-            mode: "payment",
+    mode: "payment",
 
-            line_items: lineItems,
+    line_items: lineItems,
 
-            success_url:
-                "https://cheriz.boutique.bienmangercommunity.com/success.html",
+    customer_email: customer.email,
 
-            cancel_url:
-                "https://cheriz.boutique.bienmangercommunity.com/checkout.html",
+    metadata: {
 
-        });
+        customer_name: customer.name,
+
+        customer_phone: customer.phone,
+
+        delivery_address: customer.address
+
+    },
+
+    success_url:
+        "https://cheriz.boutique.bienmangercommunity.com/success.html",
+
+    cancel_url:
+        "https://cheriz.boutique.bienmangercommunity.com/checkout.html"
+
+});
 
 
         res.json({
