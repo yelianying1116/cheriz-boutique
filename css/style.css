@@ -339,7 +339,13 @@ DAILY CARD
     .mobile-note {
         display: block;
     }
+    .desktop-nav-text {
+    display: none;
+   }
 
+    .mobile-nav-text {
+    display: inline;
+   }
 }
 
 /* ==========================================
@@ -727,6 +733,9 @@ TABLET
 MOBILE
 ========================================== */
 
+.mobile-nav-text {
+    display: none;
+}
 @media (max-width: 768px) {
 
     .header {
