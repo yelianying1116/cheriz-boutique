@@ -860,27 +860,28 @@ app.get("/add-special-member", async (req, res) => {
 
         }
 
-        await pool.query(
-            `
-            INSERT INTO customers
-            (
-                email,
-                special_member,
-                vip_unlimited,
-                special_credits
-            )
-            VALUES ($1, TRUE, FALSE, 0)
+await pool.query(
+    `
+    INSERT INTO customers
+    (
+        email,
+        special_member,
+        vip_unlimited,
+        vip_credits,
+        special_credits
+    )
+    VALUES ($1, TRUE, FALSE, 3, 0)
 
-            ON CONFLICT (email)
+    ON CONFLICT (email)
 
-            DO UPDATE SET
-                special_member = TRUE,
-                vip_unlimited = FALSE,
-                updated_at = CURRENT_TIMESTAMP
-            `,
-            [email.trim().toLowerCase()]
-        );
-
+    DO UPDATE SET
+        special_member = TRUE,
+        vip_unlimited = FALSE,
+        vip_credits = 3,
+        updated_at = CURRENT_TIMESTAMP
+    `,
+    [email.trim().toLowerCase()]
+);
         console.log(
             "SPECIAL MEMBER ADDED:",
             email
