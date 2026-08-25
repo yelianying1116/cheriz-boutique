@@ -759,6 +759,82 @@ app.get("/check-customer", async (req, res) => {
 
 });
 // ==========================================
+// TEST SPECIAL MEMBER
+// 临时测试账号
+// ==========================================
+
+app.get("/create-test-special-member", async (req, res) => {
+
+    try {
+
+        await pool.query(
+            `
+            INSERT INTO customers
+            (
+                email,
+                name,
+                phone,
+                vip_unlimited,
+                special_member,
+                special_credits
+            )
+            VALUES
+            (
+                'test-special-membre@cheriz.test',
+                'Test Special Membre',
+                '0000000000',
+                FALSE,
+                TRUE,
+                0
+            )
+
+            ON CONFLICT (email)
+
+            DO UPDATE SET
+
+                special_member = TRUE,
+                vip_unlimited = FALSE,
+                updated_at = CURRENT_TIMESTAMP
+            `
+        );
+
+        res.json({
+
+            success: true,
+
+            message:
+                "Test special member created.",
+
+            email:
+                "test-special-membre@cheriz.test",
+
+            special_member:
+                true,
+
+            vip_unlimited:
+                false
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Create test special member error:",
+            error
+        );
+
+        res.status(500).json({
+
+            success: false,
+
+            error: error.message
+
+        });
+
+    }
+
+});
+// ==========================================
 // CREATE STRIPE CHECKOUT SESSION
 // ==========================================
 
