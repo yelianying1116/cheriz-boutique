@@ -984,6 +984,7 @@ app.post("/create-checkout-session", async (req, res) => {
             customerData.special_member === true
         ) {
 
+            // Special member can ONLY use 9.90 € VIP benefit
             if (orderPrice !== 9.90) {
 
                 return res.status(403).json({
@@ -993,6 +994,7 @@ app.post("/create-checkout-session", async (req, res) => {
 
             }
 
+            // No credits left
             if (
                 Number(customerData.vip_credits) <= 0
             ) {
@@ -1010,6 +1012,8 @@ app.post("/create-checkout-session", async (req, res) => {
         // VIP 9.90 €
         // ==========================================
 
+        let useVipCredit = false;
+
         if (orderPrice === 9.90) {
 
             if (!customerData) {
@@ -1021,7 +1025,10 @@ app.post("/create-checkout-session", async (req, res) => {
 
             }
 
-            // VIP unlimited
+            // ==========================================
+            // VIP UNLIMITED
+            // ==========================================
+
             if (
                 customerData.vip_unlimited === true
             ) {
@@ -1033,11 +1040,16 @@ app.post("/create-checkout-session", async (req, res) => {
 
             }
 
-            // Special member with credits
+            // ==========================================
+            // SPECIAL MEMBER CREDIT
+            // ==========================================
+
             else if (
                 customerData.special_member === true &&
                 Number(customerData.vip_credits) > 0
             ) {
+
+                useVipCredit = true;
 
                 console.log(
                     "SPECIAL MEMBER CREDIT ORDER:",
@@ -1048,7 +1060,10 @@ app.post("/create-checkout-session", async (req, res) => {
 
             }
 
-            // No VIP right
+            // ==========================================
+            // NO VIP RIGHT
+            // ==========================================
+
             else {
 
                 return res.status(403).json({
@@ -1064,27 +1079,49 @@ app.post("/create-checkout-session", async (req, res) => {
         // CREATE STRIPE LINE ITEMS
         // ==========================================
 
-        const lineItems = cart.map(item => ({
+        const lineItems = cart.map(item => {
 
-            price_data: {
+            let unitAmount =
+                Math.round(
+                    Number(item.price) * 100
+                );
 
-                currency: "eur",
+            // ==========================================
+            // SPECIAL MEMBER CREDIT
+            // 9.90 € benefit = 0 € actually paid
+            // ==========================================
 
-                product_data: {
+            if (
+                useVipCredit &&
+                Number(item.price) === 9.90
+            ) {
 
-                    name: item.name
+                unitAmount = 0;
+
+            }
+
+            return {
+
+                price_data: {
+
+                    currency: "eur",
+
+                    product_data: {
+
+                        name: item.name
+
+                    },
+
+                    unit_amount: unitAmount
 
                 },
 
-                unit_amount: Math.round(
-                    Number(item.price) * 100
-                )
+                quantity:
+                    Number(item.quantity)
 
-            },
+            };
 
-            quantity: Number(item.quantity)
-
-        }));
+        });
 
         // ==========================================
         // CREATE STRIPE CHECKOUT SESSION
@@ -1109,7 +1146,10 @@ app.post("/create-checkout-session", async (req, res) => {
                         customer.phone || "",
 
                     delivery_address:
-                        customer.address || ""
+                        customer.address || "",
+
+                    vip_credit_used:
+                        useVipCredit ? "true" : "false"
 
                 },
 
