@@ -64,9 +64,9 @@ const products = [
     },
 {
         id: 2,
-        name: "Vegan ",
+        name: "Bœuf braisé aux pommes de terre, sauce soja, riz blanc",
         price:"",
-        image: "images/cake.jpg",
+        image: "images/nos plats Bœuf braisé aux pommes de terre, sauce soja, , riz blanc.jpg",
         available: true,
         category: "Main",
         shortDescription:
@@ -101,9 +101,9 @@ const products = [
     },
     {
         id: 3,
-        name: "WVegan ",
+        name: "Bœuf mijoté aux pommes de terre, riz blanc",
         price:"",
-        image: "images/latte.jpg",
+        image: "images/nos plats Bœuf mijoté aux pommes de terre,  riz blanc.jpg",
         available: true,
         category: "Main",
         shortDescription:
