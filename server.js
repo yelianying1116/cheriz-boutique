@@ -977,6 +977,58 @@ console.log("NOUVELLE COMMANDE");
 console.log("Client :", customer);
 console.log("Panier :", cart);
 console.log("=================================");
+
+        // ==========================================
+// CHECK VIP CREDIT FOR 9.90 €
+// ==========================================
+
+const orderPrice =
+    Number(cart[0].price);
+
+if (orderPrice === 9.90) {
+
+    const customerResult = await pool.query(
+
+        `
+        SELECT
+            vip_credits,
+            vip_unlimited
+        FROM customers
+        WHERE email = $1
+        `,
+
+        [customer.email.trim().toLowerCase()]
+
+    );
+
+    if (customerResult.rows.length === 0) {
+
+        return res.status(403).json({
+
+            error:
+                "Vous devez être membre VIP pour bénéficier du tarif de 9,90 €."
+
+        });
+
+    }
+
+    const customerData =
+        customerResult.rows[0];
+
+if (
+    customerData.vip_unlimited !== true &&
+    customerData.vip_credits <= 0
+) {
+
+    return res.status(403).json({
+
+        error:
+            "Votre crédit VIP est épuisé."
+
+    });
+
+}
+        
         const lineItems = cart.map(item => ({
 
             price_data: {
