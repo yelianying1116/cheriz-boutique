@@ -610,50 +610,7 @@ app.get("/test-database", async (req, res) => {
 
 });
 
-// ==========================================
-// TEMP - ADD VIP CREDITS COLUMN
-// ==========================================
 
-app.get("/add-vip-credits-column", async (req, res) => {
-
-    try {
-
-        const key = req.query.key;
-
-        if (key !== process.env.ADMIN_SECRET) {
-
-            return res.status(403).json({
-                success: false,
-                error: "Accès refusé."
-            });
-
-        }
-
-        await pool.query(`
-            ALTER TABLE customers
-            ADD COLUMN IF NOT EXISTS vip_credits INTEGER DEFAULT 0;
-        `);
-
-        res.json({
-            success: true,
-            message: "vip_credits column added successfully."
-        });
-
-    } catch (error) {
-
-        console.error(
-            "Add vip_credits column error:",
-            error
-        );
-
-        res.status(500).json({
-            success: false,
-            error: error.message
-        });
-
-    }
-
-});
 // ==========================================
 // CREATE CUSTOMERS TABLE
 // ==========================================
@@ -1120,7 +1077,50 @@ app.get("/check-table", async (req, res) => {
     }
 
 });
+// ==========================================
+// TEMP - ADD VIP CREDITS COLUMN
+// ==========================================
 
+app.get("/add-vip-credits-column", async (req, res) => {
+
+    try {
+
+        const key = req.query.key;
+
+        if (key !== process.env.ADMIN_SECRET) {
+
+            return res.status(403).json({
+                success: false,
+                error: "Accès refusé."
+            });
+
+        }
+
+        await pool.query(`
+            ALTER TABLE customers
+            ADD COLUMN IF NOT EXISTS vip_credits INTEGER DEFAULT 0;
+        `);
+
+        res.json({
+            success: true,
+            message: "vip_credits column added successfully."
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Add vip_credits column error:",
+            error
+        );
+
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+
+    }
+
+});
 // ==========================================
 // START SERVER
 // ==========================================
