@@ -4,6 +4,7 @@ const cors = require("cors");
 const Stripe = require("stripe");
 const { Resend } = require("resend");
 const app = express();
+const { Pool } = require("pg");
 
 app.use(cors());
 // ==========================================
@@ -329,6 +330,12 @@ const PORT = process.env.PORT || 3000;
 
 // Stripe Secret Key
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
+    }
+});
 const resend = new Resend(
     process.env.RESEND_API_KEY
 );
@@ -343,7 +350,31 @@ app.get("/", (req, res) => {
 
 });
 
+app.get("/test-database", async (req, res) => {
 
+    try {
+
+        const result = await pool.query(
+            "SELECT NOW()"
+        );
+
+        res.json({
+            success: true,
+            databaseTime: result.rows[0].now
+        });
+
+    } catch (error) {
+
+        console.error("Database error:", error);
+
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+
+    }
+
+});
 // ==========================================
 // CREATE STRIPE CHECKOUT SESSION
 // ==========================================
