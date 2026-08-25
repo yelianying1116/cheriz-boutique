@@ -427,6 +427,16 @@ app.get("/test-database", async (req, res) => {
             success: false,
             error: error.message
         });
+
+    }
+
+});
+
+
+// ==========================================
+// CREATE CUSTOMERS TABLE
+// ==========================================
+
 app.get("/create-customers-table", async (req, res) => {
 
     try {
@@ -458,8 +468,11 @@ app.get("/create-customers-table", async (req, res) => {
         `);
 
         res.json({
+
             success: true,
+
             message: "Customers table created."
+
         });
 
     } catch (error) {
@@ -470,14 +483,22 @@ app.get("/create-customers-table", async (req, res) => {
         );
 
         res.status(500).json({
+
             success: false,
+
             error: error.message
+
         });
 
-      }
-
-     });
     }
+
+});
+
+
+// ==========================================
+// CHECK CUSTOMER
+// ==========================================
+
 app.get("/check-customer", async (req, res) => {
 
     try {
@@ -485,53 +506,79 @@ app.get("/check-customer", async (req, res) => {
         const email = req.query.email;
 
         if (!email) {
+
             return res.status(400).json({
+
                 error: "请提供 email"
+
             });
+
         }
 
         const result = await pool.query(
+
             `
+
             SELECT
+
                 email,
+
                 name,
+
                 phone,
+
                 vip_unlimited,
+
                 special_member,
+
                 special_credits
+
             FROM customers
+
             WHERE email = $1
+
             `,
+
             [email]
+
         );
 
         if (result.rows.length === 0) {
 
             return res.json({
+
                 found: false
+
             });
 
         }
 
         res.json({
+
             found: true,
+
             customer: result.rows[0]
+
         });
 
     } catch (error) {
 
         console.error(
+
             "Check customer error:",
+
             error
+
         );
 
         res.status(500).json({
+
             error: error.message
+
         });
 
     }
 
-  });
 });
 // ==========================================
 // CREATE STRIPE CHECKOUT SESSION
