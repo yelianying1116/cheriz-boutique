@@ -460,20 +460,51 @@ LAST WEEK MENU
 
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 25px;
+    gap: 20px;
 
 }
 
 .last-week-grid .menu-card {
+
     width: 100%;
     background: transparent;
-    border-radius: 25;
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,.04);
     transition: .3s;
+
 }
+
 .last-week-grid .menu-card:hover {
-    transform: none;
+
+    transform: translateY(-5px);
+
+}
+
+/* 图片与 Nos plats 保持完全一致 */
+
+.last-week-grid .menu-photo img {
+
+    height: 260px;
+
+}
+
+/* 文字区域与 Nos plats 保持一致 */
+
+.last-week-grid .menu-content {
+
+    padding: 12px 5px 20px;
+
+}
+
+/* 只有字体大小保持现在的大小 */
+
+.last-week-grid .menu-content h3 {
+
+    font-size: 19px;
+    color: #B85F4D;
+    margin-bottom: 15px;
+
 }
 /* ===========================
    COMMENT ÇA FONCTIONNE
