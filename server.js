@@ -407,6 +407,26 @@ app.get("/", (req, res) => {
 });
 
 app.get("/test-database", async (req, res) => {
+
+    try {
+
+        const result = await pool.query(
+            "SELECT NOW()"
+        );
+
+        res.json({
+            success: true,
+            databaseTime: result.rows[0].now
+        });
+
+    } catch (error) {
+
+        console.error("Database error:", error);
+
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
 app.get("/create-customers-table", async (req, res) => {
 
     try {
@@ -454,31 +474,64 @@ app.get("/create-customers-table", async (req, res) => {
             error: error.message
         });
 
-    }
+      }
 
-});
+     });
+    }
+app.get("/check-customer", async (req, res) => {
+
     try {
 
+        const email = req.query.email;
+
+        if (!email) {
+            return res.status(400).json({
+                error: "请提供 email"
+            });
+        }
+
         const result = await pool.query(
-            "SELECT NOW()"
+            `
+            SELECT
+                email,
+                name,
+                phone,
+                vip_unlimited,
+                special_member,
+                special_credits
+            FROM customers
+            WHERE email = $1
+            `,
+            [email]
         );
 
+        if (result.rows.length === 0) {
+
+            return res.json({
+                found: false
+            });
+
+        }
+
         res.json({
-            success: true,
-            databaseTime: result.rows[0].now
+            found: true,
+            customer: result.rows[0]
         });
 
     } catch (error) {
 
-        console.error("Database error:", error);
+        console.error(
+            "Check customer error:",
+            error
+        );
 
         res.status(500).json({
-            success: false,
             error: error.message
         });
 
     }
 
+  });
 });
 // ==========================================
 // CREATE STRIPE CHECKOUT SESSION
