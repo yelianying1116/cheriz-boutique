@@ -87,35 +87,31 @@ if (
     try {
 
         await pool.query(
-            `
-            INSERT INTO customers
-            (
-                email,
-                name,
-                phone,
-                vip_unlimited,
-                special_member,
-                special_credits
-            )
-            VALUES ($1, $2, $3, TRUE, FALSE, 0)
+    `
+    INSERT INTO customers
+    (
+        email,
+        name,
+        phone,
+        vip_credits
+    )
+    VALUES ($1, $2, $3, -1)
 
-            ON CONFLICT (email)
+    ON CONFLICT (email)
 
-            DO UPDATE SET
+    DO UPDATE SET
 
-                name = EXCLUDED.name,
-                phone = EXCLUDED.phone,
-                vip_unlimited = TRUE,
-                special_member = FALSE,
-                special_credits = 0,
-                updated_at = CURRENT_TIMESTAMP
-            `,
-            [
-                customerEmail,
-                customerName,
-                customerPhone
-            ]
-        );
+        name = EXCLUDED.name,
+        phone = EXCLUDED.phone,
+        vip_credits = -1,
+        updated_at = CURRENT_TIMESTAMP
+    `,
+    [
+        customerEmail,
+        customerName,
+        customerPhone
+    ]
+);
 
         console.log(
             "VIP MEMBERSHIP ACTIVATED:",
