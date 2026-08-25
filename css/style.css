@@ -560,10 +560,13 @@ LAST WEEK MENU
 
 @media(max-width:768px){
 
-    .last-week-grid .menu-card{
+    .last-week-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px 12px;
+    }
 
-        width:100%;
-
+    .last-week-grid .menu-card {
+        width: 100%;
     }
 
 }
