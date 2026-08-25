@@ -187,9 +187,9 @@ if (event.type === "checkout.session.completed") {
                 from:
                     "Cheriz <onboarding@resend.dev>",
 
-                to: [
-                    "david139.doublet@gmail.com"
-                ],
+               to: [
+    "yelianying1116@gmail.com"
+],
 
                 subject:
                     `Nouvelle commande payée - ${totalAmount} €`,
