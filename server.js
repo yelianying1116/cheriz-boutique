@@ -49,48 +49,34 @@ if (event.type === "checkout.session.completed") {
 
     const session = event.data.object;
 
-    console.log("=================================");
-    console.log("PAIEMENT STRIPE RÉUSSI");
 
-    console.log(
-        "Session ID :",
-        session.id
-    );
+    // ==========================================
+    // CLIENT
+    // ==========================================
 
-    console.log(
-        "Nom :",
-        session.metadata?.customer_name
-    );
+    const customerName =
+        session.metadata?.customer_name || "";
 
-    console.log(
-        "Téléphone :",
-        session.metadata?.customer_phone
-    );
+    const customerPhone =
+        session.metadata?.customer_phone || "";
 
-    console.log(
-        "Email :",
-        session.customer_email
-    );
+    const customerEmail =
+        session.customer_email || "";
 
-    console.log(
-        "Adresse de livraison :",
-        session.metadata?.delivery_address
-    );
-
-    console.log(
-        "Montant :",
-        session.amount_total / 100,
-        "€"
-    );
-
-    console.log(
-        "Statut :",
-        session.payment_status
-    );
+    const deliveryAddress =
+        session.metadata?.delivery_address || "";
 
 
     // ==========================================
-    // RÉCUPÉRER LES PRODUITS DE LA COMMANDE
+    // MONTANT
+    // ==========================================
+
+    const totalAmount =
+        (session.amount_total / 100).toFixed(2);
+
+
+    // ==========================================
+    // PRODUITS
     // ==========================================
 
     const lineItems =
@@ -99,7 +85,80 @@ if (event.type === "checkout.session.completed") {
         );
 
 
-    console.log("Produits commandés :");
+    let productsHtml = "";
+
+
+    lineItems.data.forEach(item => {
+
+        const itemTotal =
+            (item.amount_total / 100).toFixed(2);
+
+
+        productsHtml += `
+
+            <tr>
+
+                <td style="padding:8px;">
+                    ${item.description}
+                </td>
+
+                <td style="padding:8px;">
+                    ${item.quantity}
+                </td>
+
+                <td style="padding:8px;">
+                    ${itemTotal} €
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    // ==========================================
+    // LOG
+    // ==========================================
+
+    console.log("=================================");
+    console.log("PAIEMENT STRIPE RÉUSSI");
+
+    console.log(
+        "Nom :",
+        customerName
+    );
+
+    console.log(
+        "Téléphone :",
+        customerPhone
+    );
+
+    console.log(
+        "Email :",
+        customerEmail
+    );
+
+    console.log(
+        "Adresse de livraison :",
+        deliveryAddress
+    );
+
+    console.log(
+        "Montant :",
+        totalAmount,
+        "€"
+    );
+
+    console.log(
+        "Statut :",
+        session.payment_status
+    );
+
+    console.log(
+        "Produits commandés :"
+    );
+
 
     lineItems.data.forEach(item => {
 
@@ -116,10 +175,147 @@ if (event.type === "checkout.session.completed") {
     });
 
 
+    // ==========================================
+    // ENVOYER L'EMAIL
+    // ==========================================
+
+    try {
+
+        const { data, error } =
+            await resend.emails.send({
+
+                from:
+                    "Cheriz <onboarding@resend.dev>",
+
+                to: [
+                    "david139.doublet@gmail.com"
+                ],
+
+                subject:
+                    `Nouvelle commande payée - ${totalAmount} €`,
+
+                html: `
+
+                    <h2>
+                        Nouvelle commande payée
+                    </h2>
+
+                    <h3>
+                        Client
+                    </h3>
+
+                    <p>
+                        <strong>Nom :</strong>
+                        ${customerName}
+                    </p>
+
+                    <p>
+                        <strong>Téléphone :</strong>
+                        ${customerPhone}
+                    </p>
+
+                    <p>
+                        <strong>Email :</strong>
+                        ${customerEmail}
+                    </p>
+
+                    <h3>
+                        Livraison
+                    </h3>
+
+                    <p>
+                        <strong>Adresse :</strong>
+                        ${deliveryAddress}
+                    </p>
+
+                    <h3>
+                        Commande
+                    </h3>
+
+                    <table
+                        border="1"
+                        cellpadding="0"
+                        cellspacing="0"
+                        style="border-collapse:collapse;"
+                    >
+
+                        <thead>
+
+                            <tr>
+
+                                <th style="padding:8px;">
+                                    Produit
+                                </th>
+
+                                <th style="padding:8px;">
+                                    Quantité
+                                </th>
+
+                                <th style="padding:8px;">
+                                    Total
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            ${productsHtml}
+
+                        </tbody>
+
+                    </table>
+
+                    <h3>
+                        Total :
+                        ${totalAmount} €
+                    </h3>
+
+                    <p>
+                        <strong>
+                            Paiement : PAID
+                        </strong>
+                    </p>
+
+                `
+
+            });
+
+
+        if (error) {
+
+            console.error(
+                "Erreur Resend :",
+                error
+            );
+
+        } else {
+
+            console.log(
+                "EMAIL ENVOYÉ AVEC SUCCÈS"
+            );
+
+            console.log(
+                "Email ID :",
+                data?.id
+            );
+
+        }
+
+    } catch (emailError) {
+
+        console.error(
+            "Erreur envoi email :",
+            emailError
+        );
+
+    }
+
+
     console.log("=================================");
 
 }
-
 
         res.json({
             received: true
@@ -133,7 +329,9 @@ const PORT = process.env.PORT || 3000;
 
 // Stripe Secret Key
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
-
+const resend = new Resend(
+    process.env.RESEND_API_KEY
+);
 
 // ==========================================
 // TEST ROUTE
