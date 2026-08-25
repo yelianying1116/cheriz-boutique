@@ -33,7 +33,7 @@ app.post("/create-checkout-session", async (req, res) => {
 
     try {
 
-        const { cart } = req.body;
+const { cart, customer } = req.body;
 
         if (!cart || !Array.isArray(cart) || cart.length === 0) {
 
@@ -43,7 +43,11 @@ app.post("/create-checkout-session", async (req, res) => {
 
         }
 
-
+console.log("=================================");
+console.log("NOUVELLE COMMANDE");
+console.log("Client :", customer);
+console.log("Panier :", cart);
+console.log("=================================");
         const lineItems = cart.map(item => ({
 
             price_data: {
