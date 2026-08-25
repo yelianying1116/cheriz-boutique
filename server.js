@@ -1038,7 +1038,45 @@ console.log("=================================");
     }
 
 });
+// ==========================================
+// TEMP - CHECK CUSTOMERS TABLE STRUCTURE
+// ==========================================
 
+app.get("/check-table", async (req, res) => {
+
+    try {
+
+        const result = await pool.query(`
+            SELECT
+                column_name,
+                data_type,
+                column_default,
+                is_nullable
+            FROM information_schema.columns
+            WHERE table_name = 'customers'
+            ORDER BY ordinal_position
+        `);
+
+        res.json({
+            success: true,
+            columns: result.rows
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Check table error:",
+            error
+        );
+
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+
+    }
+
+});
 
 // ==========================================
 // START SERVER
