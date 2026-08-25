@@ -352,9 +352,8 @@ from:
         const customerEmailResult =
             await resend.emails.send({
 
-                from:
-                    "Cheriz <onboarding@resend.dev>",
-
+from:
+    "Cheriz <commande@bienmangercommunity.com>",
                 to: [
                     customerEmail
                 ],
