@@ -916,55 +916,12 @@ app.post("/create-checkout-session", async (req, res) => {
 
     try {
 
-const { cart, customer } = req.body;
-
- // ==========================================
-// CHECK CUSTOMER / VIP CREDITS
-// ==========================================
-
-if (customer && customer.email) {
-
-    const customerResult = await pool.query(
-
-        `
-        SELECT
-            special_member,
-            vip_credits
-        FROM customers
-        WHERE email = $1
-        `,
-
-        [customer.email.trim().toLowerCase()]
-
-    );
-
-
-    if (customerResult.rows.length > 0) {
-
-        const customerData =
-            customerResult.rows[0];
-
+        const { cart, customer } = req.body;
 
         // ==========================================
-        // SPECIAL MEMBER
+        // CHECK CART
         // ==========================================
 
-        if (
-            customerData.special_member === true
-        ) {
-
-            return res.status(403).json({
-
-                error:
-                    "Ce tarif n'est pas disponible pour votre compte membre spécial."
-
-            });
-
-        }
-
-    }
-
-}
         if (!cart || !Array.isArray(cart) || cart.length === 0) {
 
             return res.status(400).json({
@@ -973,63 +930,140 @@ if (customer && customer.email) {
 
         }
 
-console.log("=================================");
-console.log("NOUVELLE COMMANDE");
-console.log("Client :", customer);
-console.log("Panier :", cart);
-console.log("=================================");
+        if (!customer || !customer.email) {
+
+            return res.status(400).json({
+                error: "Email client manquant."
+            });
+
+        }
+
+        const customerEmail =
+            customer.email.trim().toLowerCase();
+
+        console.log("=================================");
+        console.log("NOUVELLE COMMANDE");
+        console.log("Client :", customer);
+        console.log("Panier :", cart);
+        console.log("=================================");
 
         // ==========================================
-// CHECK VIP CREDIT FOR 9.90 €
-// ==========================================
+        // CHECK CUSTOMER
+        // ==========================================
 
-const orderPrice =
-    Number(cart[0].price);
+        const customerResult = await pool.query(
+            `
+            SELECT
+                special_member,
+                vip_credits,
+                vip_unlimited
+            FROM customers
+            WHERE email = $1
+            `,
+            [customerEmail]
+        );
 
-if (orderPrice === 9.90) {
+        const customerData =
+            customerResult.rows.length > 0
+                ? customerResult.rows[0]
+                : null;
 
-    const customerResult = await pool.query(
+        // ==========================================
+        // ORDER PRICE
+        // ==========================================
 
-        `
-        SELECT
-            vip_credits,
-            vip_unlimited
-        FROM customers
-        WHERE email = $1
-        `,
+        const orderPrice =
+            Number(cart[0].price);
 
-        [customer.email.trim().toLowerCase()]
+        // ==========================================
+        // SPECIAL MEMBER
+        // ==========================================
 
-    );
+        if (
+            customerData &&
+            customerData.special_member === true
+        ) {
 
-    if (customerResult.rows.length === 0) {
+            if (orderPrice !== 9.90) {
 
-        return res.status(403).json({
+                return res.status(403).json({
+                    error:
+                        "Votre compte membre spécial ne peut pas utiliser le tarif normal de 15,50 €."
+                });
 
-            error:
-                "Vous devez être membre VIP pour bénéficier du tarif de 9,90 €."
+            }
 
-        });
+            if (
+                Number(customerData.vip_credits) <= 0
+            ) {
 
-    }
+                return res.status(403).json({
+                    error:
+                        "Votre crédit VIP est épuisé."
+                });
 
-    const customerData =
-        customerResult.rows[0];
+            }
 
-if (
-    customerData.vip_unlimited !== true &&
-    customerData.vip_credits <= 0
-) {
+        }
 
-    return res.status(403).json({
+        // ==========================================
+        // VIP 9.90 €
+        // ==========================================
 
-        error:
-            "Votre crédit VIP est épuisé."
+        if (orderPrice === 9.90) {
 
-    });
+            if (!customerData) {
 
-}
-        
+                return res.status(403).json({
+                    error:
+                        "Vous devez être membre VIP pour bénéficier du tarif de 9,90 €."
+                });
+
+            }
+
+            // VIP unlimited
+            if (
+                customerData.vip_unlimited === true
+            ) {
+
+                console.log(
+                    "VIP UNLIMITED ORDER:",
+                    customerEmail
+                );
+
+            }
+
+            // Special member with credits
+            else if (
+                customerData.special_member === true &&
+                Number(customerData.vip_credits) > 0
+            ) {
+
+                console.log(
+                    "SPECIAL MEMBER CREDIT ORDER:",
+                    customerEmail,
+                    "credits:",
+                    customerData.vip_credits
+                );
+
+            }
+
+            // No VIP right
+            else {
+
+                return res.status(403).json({
+                    error:
+                        "Votre crédit VIP est épuisé."
+                });
+
+            }
+
+        }
+
+        // ==========================================
+        // CREATE STRIPE LINE ITEMS
+        // ==========================================
+
         const lineItems = cart.map(item => ({
 
             price_data: {
@@ -1052,33 +1086,44 @@ if (
 
         }));
 
+        // ==========================================
+        // CREATE STRIPE CHECKOUT SESSION
+        // ==========================================
 
-     const session = await stripe.checkout.sessions.create({
+        const session =
+            await stripe.checkout.sessions.create({
 
-    mode: "payment",
+                mode: "payment",
 
-    line_items: lineItems,
+                line_items: lineItems,
 
-    customer_email: customer.email,
+                customer_email:
+                    customerEmail,
 
-    metadata: {
+                metadata: {
 
-        customer_name: customer.name,
+                    customer_name:
+                        customer.name || "",
 
-        customer_phone: customer.phone,
+                    customer_phone:
+                        customer.phone || "",
 
-        delivery_address: customer.address
+                    delivery_address:
+                        customer.address || ""
 
-    },
+                },
 
-    success_url:
-        "https://cheriz.boutique.bienmangercommunity.com/success.html",
+                success_url:
+                    "https://cheriz.boutique.bienmangercommunity.com/success.html",
 
-    cancel_url:
-        "https://cheriz.boutique.bienmangercommunity.com/checkout.html"
+                cancel_url:
+                    "https://cheriz.boutique.bienmangercommunity.com/checkout.html"
 
-});
+            });
 
+        // ==========================================
+        // RETURN STRIPE URL
+        // ==========================================
 
         res.json({
 
@@ -1086,14 +1131,17 @@ if (
 
         });
 
-
     } catch (error) {
 
-        console.error("Stripe error:", error);
+        console.error(
+            "Stripe error:",
+            error
+        );
 
         res.status(500).json({
 
-            error: "Impossible de créer le paiement."
+            error:
+                "Impossible de créer le paiement."
 
         });
 
