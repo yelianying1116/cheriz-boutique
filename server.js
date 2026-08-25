@@ -1169,6 +1169,54 @@ app.get("/list-customers", async (req, res) => {
 
 });
 // ==========================================
+// TEMP - MIGRATE VIP CREDITS
+// ==========================================
+
+app.get("/migrate-vip-credits", async (req, res) => {
+
+    try {
+
+        const key = req.query.key;
+
+        if (key !== process.env.ADMIN_SECRET) {
+
+            return res.status(403).json({
+                success: false,
+                error: "Accès refusé."
+            });
+
+        }
+
+        const result = await pool.query(`
+            UPDATE customers
+            SET
+                vip_credits = -1,
+                updated_at = CURRENT_TIMESTAMP
+            WHERE vip_unlimited = TRUE
+        `);
+
+        res.json({
+            success: true,
+            updated: result.rowCount,
+            message: "VIP credits migrated successfully."
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Migrate VIP credits error:",
+            error
+        );
+
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+
+    }
+
+});
+// ==========================================
 // START SERVER
 // ==========================================
 
