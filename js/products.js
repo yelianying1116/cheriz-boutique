@@ -138,9 +138,9 @@ const products = [
     },
 {
         id: 4,
-        name: "VVegan ",
+        name: "Bœuf sauté aux oignons et au poivre noir, riz blanc",
         price:"",
-        image: "images/shake.jpg",
+        image: "images/nos plats Bœuf sauté aux oignons et au poivre noir,  riz blanc.jpg",
         available: true,
         category: "Main",
         shortDescription:
@@ -175,9 +175,9 @@ const products = [
     },
     {
         id: 5,
-        name: "OVegan ",
+        name: "Bœuf sauté aux oignons, œuf mariné, riz blanc",
         price:"",
-        image: "images/wings.jpg",
+        image: "images/nos plats Bœuf sauté aux oignons, œuf mariné,  riz blanc.jpg",
         available: true,
         category: "Main",
         shortDescription:
