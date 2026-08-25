@@ -835,6 +835,83 @@ app.get("/create-test-special-member", async (req, res) => {
 
 });
 // ==========================================
+// ADD SPECIAL MEMBER
+// ==========================================
+
+app.get("/add-special-member", async (req, res) => {
+
+    try {
+
+        const email = req.query.email;
+        const key = req.query.key;
+
+        // 管理员密码检查
+        if (key !== process.env.ADMIN_SECRET) {
+
+            return res.status(403).json({
+                success: false,
+                error: "Accès refusé."
+            });
+
+        }
+
+        if (!email) {
+
+            return res.status(400).json({
+                success: false,
+                error: "Email manquant."
+            });
+
+        }
+
+        await pool.query(
+            `
+            INSERT INTO customers
+            (
+                email,
+                special_member,
+                vip_unlimited,
+                special_credits
+            )
+            VALUES ($1, TRUE, FALSE, 0)
+
+            ON CONFLICT (email)
+
+            DO UPDATE SET
+                special_member = TRUE,
+                vip_unlimited = FALSE,
+                updated_at = CURRENT_TIMESTAMP
+            `,
+            [email.trim().toLowerCase()]
+        );
+
+        console.log(
+            "SPECIAL MEMBER ADDED:",
+            email
+        );
+
+        res.json({
+            success: true,
+            message: "Membre spécial ajouté avec succès.",
+            email: email.trim().toLowerCase()
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Add special member error:",
+            error
+        );
+
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+
+    }
+
+});
+// ==========================================
 // CREATE STRIPE CHECKOUT SESSION
 // ==========================================
 
