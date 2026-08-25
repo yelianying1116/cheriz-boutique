@@ -284,7 +284,191 @@ const products = [
             Our chef recommends adding fresh herbs before serving.
         `
     },
-    
+        {
+        id: 8,
+        name: "Curry de pois chiches et chou-fleur, riz parfumé",
+        price:"",
+        image: "images/nos plats Curry de pois chiches et chou-fleur, riz parfumé.jpg",
+        available: true,
+        category: "Main",
+        shortDescription:
+            "Creamy vegan pasta with cashew cheese sauce.",
+        description: `
+            Our Vegan Mac 'N' Cheese is a delicious plant-based
+            dish prepared with homemade cashew sauce,
+            fresh herbs and crispy breadcrumbs.
+        `,
+        ingredients: [
+            "Pasta",
+            "Cashew",
+            "Oat Milk",
+            "Garlic",
+            "Onion",
+            "Mustard"
+        ],
+        allergens: [
+            "Gluten",
+            "Nuts"
+        ],
+        nutrition: {
+            calories: "540 kcal",
+            protein: "18g",
+            fat: "21g",
+            carbs: "64g"
+        },
+        chefNote: `
+            Best enjoyed hot.
+            Our chef recommends adding fresh herbs before serving.
+        `
+    },
+        {
+        id: 9,
+        name: "Nouilles sautées au brocoli et aux piments",
+        price:"",
+        image: "images/nos plats Nouilles sautées au brocoli et aux piments.jpg",
+        available: true,
+        category: "Main",
+        shortDescription:
+            "Creamy vegan pasta with cashew cheese sauce.",
+        description: `
+            Our Vegan Mac 'N' Cheese is a delicious plant-based
+            dish prepared with homemade cashew sauce,
+            fresh herbs and crispy breadcrumbs.
+        `,
+        ingredients: [
+            "Pasta",
+            "Cashew",
+            "Oat Milk",
+            "Garlic",
+            "Onion",
+            "Mustard"
+        ],
+        allergens: [
+            "Gluten",
+            "Nuts"
+        ],
+        nutrition: {
+            calories: "540 kcal",
+            protein: "18g",
+            fat: "21g",
+            carbs: "64g"
+        },
+        chefNote: `
+            Best enjoyed hot.
+            Our chef recommends adding fresh herbs before serving.
+        `
+    },
+        {
+        id: 10,
+        name: "Nouilles sautées aux oignons et aux carottes",
+        price:"",
+        image: "images/nos plats Nouilles sautées aux oignons et aux carottes.jpg",
+        available: true,
+        category: "Main",
+        shortDescription:
+            "Creamy vegan pasta with cashew cheese sauce.",
+        description: `
+            Our Vegan Mac 'N' Cheese is a delicious plant-based
+            dish prepared with homemade cashew sauce,
+            fresh herbs and crispy breadcrumbs.
+        `,
+        ingredients: [
+            "Pasta",
+            "Cashew",
+            "Oat Milk",
+            "Garlic",
+            "Onion",
+            "Mustard"
+        ],
+        allergens: [
+            "Gluten",
+            "Nuts"
+        ],
+        nutrition: {
+            calories: "540 kcal",
+            protein: "18g",
+            fat: "21g",
+            carbs: "64g"
+        },
+        chefNote: `
+            Best enjoyed hot.
+            Our chef recommends adding fresh herbs before serving.
+        `
+    },  
+    {
+        id: 11,
+        name: "Pommes de terre au bacon et aux œufs riz blanc",
+        price:"",
+        image: "images/nos plats Pommes de terre au bacon et aux œufs riz blanc.jpg",
+        available: true,
+        category: "Main",
+        shortDescription:
+            "Creamy vegan pasta with cashew cheese sauce.",
+        description: `
+            Our Vegan Mac 'N' Cheese is a delicious plant-based
+            dish prepared with homemade cashew sauce,
+            fresh herbs and crispy breadcrumbs.
+        `,
+        ingredients: [
+            "Pasta",
+            "Cashew",
+            "Oat Milk",
+            "Garlic",
+            "Onion",
+            "Mustard"
+        ],
+        allergens: [
+            "Gluten",
+            "Nuts"
+        ],
+        nutrition: {
+            calories: "540 kcal",
+            protein: "18g",
+            fat: "21g",
+            carbs: "64g"
+        },
+        chefNote: `
+            Best enjoyed hot.
+            Our chef recommends adding fresh herbs before serving.
+        `
+    },   
+    {
+        id: 12,
+        name: "Pommes de terre, maïs et brocoli aux légumes, servis avec du riz blanc",
+        price:"",
+        image: "images/nos plats Pommes de terre, maïs et brocoli aux légumes, servis avec du riz blanc.jpg",
+        available: true,
+        category: "Main",
+        shortDescription:
+            "Creamy vegan pasta with cashew cheese sauce.",
+        description: `
+            Our Vegan Mac 'N' Cheese is a delicious plant-based
+            dish prepared with homemade cashew sauce,
+            fresh herbs and crispy breadcrumbs.
+        `,
+        ingredients: [
+            "Pasta",
+            "Cashew",
+            "Oat Milk",
+            "Garlic",
+            "Onion",
+            "Mustard"
+        ],
+        allergens: [
+            "Gluten",
+            "Nuts"
+        ],
+        nutrition: {
+            calories: "540 kcal",
+            protein: "18g",
+            fat: "21g",
+            carbs: "64g"
+        },
+        chefNote: `
+            Best enjoyed hot.
+            Our chef recommends adding fresh herbs before serving.
+        `
+    },
     // 在这里继续添加其他产品......
 
 ];
