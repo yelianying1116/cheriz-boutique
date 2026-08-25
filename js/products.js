@@ -27,9 +27,9 @@ const products = [
 
     {
         id: 1,
-        name: "Vegan Mac 'N' Cheese",
+        name: "Brocoli sauté aux légumes de saison, riz blanc",
         price:"",
-        image: "images/mac.jpg",
+        image: "images/nos plats Brocoli sauté aux légumes de saison,  riz blanc.jpg",
         available: true,
         category: "Main",
         shortDescription:
