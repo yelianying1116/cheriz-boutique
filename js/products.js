@@ -66,7 +66,7 @@ const products = [
         id: 2,
         name: "Bœuf braisé aux pommes de terre, sauce soja, riz blanc",
         price:"",
-        image: "images/nos plats Bœuf braisé aux pommes de terre, sauce soja, , riz blanc.jpg",
+        image: "images/nos plats Bœuf braisé aux pommes de terre, sauce soja, ,  riz blanc.jpg",
         available: true,
         category: "Main",
         shortDescription:
