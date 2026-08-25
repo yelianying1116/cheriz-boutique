@@ -351,7 +351,56 @@ app.get("/", (req, res) => {
 });
 
 app.get("/test-database", async (req, res) => {
+app.get("/create-customers-table", async (req, res) => {
 
+    try {
+
+        await pool.query(`
+
+            CREATE TABLE IF NOT EXISTS customers (
+
+                id SERIAL PRIMARY KEY,
+
+                email TEXT UNIQUE NOT NULL,
+
+                name TEXT,
+
+                phone TEXT,
+
+                vip_unlimited BOOLEAN DEFAULT FALSE,
+
+                special_member BOOLEAN DEFAULT FALSE,
+
+                special_credits INTEGER DEFAULT 0,
+
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
+            );
+
+        `);
+
+        res.json({
+            success: true,
+            message: "Customers table created."
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Create customers table error:",
+            error
+        );
+
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+
+    }
+
+});
     try {
 
         const result = await pool.query(
