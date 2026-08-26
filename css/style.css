@@ -141,11 +141,21 @@ PLAT DU JOUR
 }
 
 .hero-subtitle {
+.hero-subtitle {
 
     font-family: 'Angkor', serif;
     font-size: 30px;
     color: #A44740;
     margin-bottom: 50px;
+    margin-bottom: 50px;
+
+}
+
+/* Poppins supports French accented characters consistently. */
+.history-subtitle {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+}
 
 }
 
