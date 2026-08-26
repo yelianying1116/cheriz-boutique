@@ -1101,3 +1101,24 @@ MOBILE
     color: #FF0000 !important;
     font-weight: 700;
 }
+/* ==========================================
+   NOS ÉVÉNEMENTS - ACCENT FONT
+   ========================================== */
+
+.hero-title .accent-e {
+    font-family: 'Angkor', serif;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+    text-shadow: inherit;
+}
+
+
+/* ==========================================
+   NOS ÉVÉNEMENTS - SUBTITLE
+   与 Menus spéciaux 保持相同字体大小
+   ========================================== */
+
+.hero-subtitle {
+    font-size: 32px;
+}
