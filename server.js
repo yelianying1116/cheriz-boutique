@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const Stripe = require("stripe");
 const { Resend } = require("resend");
+const { randomUUID } = require("crypto");
 const app = express();
 const { Pool } = require("pg");
 
@@ -41,6 +42,23 @@ app.post(
 
         }
 
+
+        // ==========================================
+        // RELEASE AN UNUSED RESERVED CREDIT
+        // ==========================================
+
+        if (event.type === "checkout.session.expired") {
+
+            const expiredSession = event.data.object;
+            const reservationId =
+                expiredSession.metadata?.vip_credit_reservation_id;
+
+            if (reservationId) {
+                await releaseVipCreditReservation(reservationId);
+            }
+
+            return res.json({ received: true });
+        }
 
         // ==========================================
         // PAYMENT SUCCESS
@@ -134,71 +152,18 @@ if (
 
 }
 
-    // A special-member 9.90 EUR order is free, but consumes one credit only
-    // after Stripe confirms that the checkout session completed.
+    // A reserved credit is consumed only after Stripe confirms completion.
     if (
         customerEmail &&
         vipCreditUsed &&
+        session.metadata?.vip_credit_reservation_id &&
         ["paid", "no_payment_required"].includes(session.payment_status)
     ) {
 
-        const vipCreditClient = await pool.connect();
-
-        try {
-
-            await vipCreditClient.query("BEGIN");
-
-            await vipCreditClient.query(`
-                CREATE TABLE IF NOT EXISTS vip_credit_redemptions (
-                    stripe_session_id TEXT PRIMARY KEY,
-                    customer_email TEXT NOT NULL,
-                    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
-                )
-            `);
-
-            const redemption = await vipCreditClient.query(
-                `
-                INSERT INTO vip_credit_redemptions
-                    (stripe_session_id, customer_email)
-                VALUES ($1, $2)
-                ON CONFLICT (stripe_session_id) DO NOTHING
-                RETURNING stripe_session_id
-                `,
-                [session.id, customerEmail]
-            );
-
-            if (redemption.rowCount === 1) {
-
-                const creditUpdate = await vipCreditClient.query(
-                    `
-                    UPDATE customers
-                    SET vip_credits = vip_credits - 1,
-                        updated_at = CURRENT_TIMESTAMP
-                    WHERE email = $1
-                      AND special_member = TRUE
-                      AND vip_credits > 0
-                    RETURNING vip_credits
-                    `,
-                    [customerEmail]
-                );
-
-                if (creditUpdate.rowCount !== 1) {
-                    throw new Error("Special-member VIP credit is no longer available.");
-                }
-            }
-
-            await vipCreditClient.query("COMMIT");
-
-        } catch (vipCreditError) {
-
-            await vipCreditClient.query("ROLLBACK");
-            console.error("VIP credit deduction error:", vipCreditError);
-
-        } finally {
-
-            vipCreditClient.release();
-
-        }
+        await consumeVipCreditReservation(
+            session.metadata.vip_credit_reservation_id,
+            customerEmail
+        );
     }
     // ==========================================
     // PRODUITS
@@ -642,6 +607,204 @@ const resend = new Resend(
     process.env.RESEND_API_KEY
 );
 
+const VIP_PRICE = 9.90;
+const NORMAL_PRICE = 15.50;
+const VIP_MEMBERSHIP_PRICE = 39.60;
+const VIP_CREDIT_RESERVATION_MS = 30 * 60 * 1000;
+
+async function ensureVipCreditReservationTable(client) {
+
+    await client.query(`
+        CREATE TABLE IF NOT EXISTS vip_credit_reservations (
+            reservation_id TEXT PRIMARY KEY,
+            customer_email TEXT NOT NULL,
+            stripe_session_id TEXT UNIQUE,
+            status TEXT NOT NULL CHECK (status IN ('reserved', 'consumed', 'released')),
+            expires_at TIMESTAMPTZ NOT NULL,
+            created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            consumed_at TIMESTAMPTZ,
+            released_at TIMESTAMPTZ
+        )
+    `);
+}
+
+async function releaseExpiredVipCreditReservations(client) {
+
+    await client.query(`
+        WITH expired AS (
+            UPDATE vip_credit_reservations
+            SET status = 'released', released_at = CURRENT_TIMESTAMP
+            WHERE status = 'reserved'
+              AND expires_at <= CURRENT_TIMESTAMP
+            RETURNING customer_email
+        ), released AS (
+            SELECT customer_email, COUNT(*)::INTEGER AS credit_count
+            FROM expired
+            GROUP BY customer_email
+        )
+        UPDATE customers AS customer
+        SET vip_credits = customer.vip_credits + released.credit_count,
+            updated_at = CURRENT_TIMESTAMP
+        FROM released
+        WHERE customer.email = released.customer_email
+    `);
+}
+
+async function reserveVipCredit(customerEmail) {
+
+    const client = await pool.connect();
+
+    try {
+
+        await client.query("BEGIN");
+        await ensureVipCreditReservationTable(client);
+        await releaseExpiredVipCreditReservations(client);
+
+        const credit = await client.query(
+            `
+            UPDATE customers
+            SET vip_credits = vip_credits - 1,
+                updated_at = CURRENT_TIMESTAMP
+            WHERE email = $1
+              AND special_member = TRUE
+              AND vip_credits > 0
+            RETURNING vip_credits
+            `,
+            [customerEmail]
+        );
+
+        if (credit.rowCount !== 1) {
+            await client.query("ROLLBACK");
+            return null;
+        }
+
+        const reservationId = randomUUID();
+        const expiresAt = new Date(
+            Date.now() + VIP_CREDIT_RESERVATION_MS
+        );
+
+        await client.query(
+            `
+            INSERT INTO vip_credit_reservations
+                (reservation_id, customer_email, status, expires_at)
+            VALUES ($1, $2, 'reserved', $3)
+            `,
+            [reservationId, customerEmail, expiresAt]
+        );
+
+        await client.query("COMMIT");
+
+        return { reservationId, expiresAt };
+
+    } catch (error) {
+
+        await client.query("ROLLBACK");
+        throw error;
+
+    } finally {
+
+        client.release();
+
+    }
+}
+
+async function linkVipCreditReservation(reservationId, stripeSessionId) {
+
+    await pool.query(
+        `
+        UPDATE vip_credit_reservations
+        SET stripe_session_id = $2
+        WHERE reservation_id = $1
+          AND status = 'reserved'
+        `,
+        [reservationId, stripeSessionId]
+    );
+}
+
+async function consumeVipCreditReservation(reservationId, customerEmail) {
+
+    const client = await pool.connect();
+
+    try {
+
+        await client.query("BEGIN");
+
+        const consumed = await client.query(
+            `
+            UPDATE vip_credit_reservations
+            SET status = 'consumed', consumed_at = CURRENT_TIMESTAMP
+            WHERE reservation_id = $1
+              AND customer_email = $2
+              AND status = 'reserved'
+              AND expires_at > CURRENT_TIMESTAMP
+            RETURNING reservation_id
+            `,
+            [reservationId, customerEmail]
+        );
+
+        await client.query("COMMIT");
+
+        if (consumed.rowCount === 1) {
+            console.log("VIP CREDIT CONSUMED:", customerEmail);
+        }
+
+    } catch (error) {
+
+        await client.query("ROLLBACK");
+        throw error;
+
+    } finally {
+
+        client.release();
+
+    }
+}
+
+async function releaseVipCreditReservation(reservationId) {
+
+    const client = await pool.connect();
+
+    try {
+
+        await client.query("BEGIN");
+
+        const released = await client.query(
+            `
+            UPDATE vip_credit_reservations
+            SET status = 'released', released_at = CURRENT_TIMESTAMP
+            WHERE reservation_id = $1
+              AND status = 'reserved'
+            RETURNING customer_email
+            `,
+            [reservationId]
+        );
+
+        if (released.rowCount === 1) {
+            await client.query(
+                `
+                UPDATE customers
+                SET vip_credits = vip_credits + 1,
+                    updated_at = CURRENT_TIMESTAMP
+                WHERE email = $1
+                `,
+                [released.rows[0].customer_email]
+            );
+        }
+
+        await client.query("COMMIT");
+
+    } catch (error) {
+
+        await client.query("ROLLBACK");
+        throw error;
+
+    } finally {
+
+        client.release();
+
+    }
+}
+
 // ==========================================
 // TEST ROUTE
 // ==========================================
@@ -986,6 +1149,8 @@ await pool.query(
 
 app.post("/create-checkout-session", async (req, res) => {
 
+    let vipCreditReservation = null;
+
     try {
 
         const { cart, customer } = req.body;
@@ -998,6 +1163,38 @@ app.post("/create-checkout-session", async (req, res) => {
 
             return res.status(400).json({
                 error: "Votre panier est vide."
+            });
+
+        }
+
+        const orderPrice = Number(cart[0].price);
+        const allowedPrices = [
+            NORMAL_PRICE,
+            VIP_PRICE,
+            VIP_MEMBERSHIP_PRICE
+        ];
+
+        const validCart = cart.every(item =>
+            Number(item.price) === orderPrice &&
+            Number.isInteger(Number(item.quantity)) &&
+            Number(item.quantity) > 0
+        );
+
+        if (!allowedPrices.includes(orderPrice) || !validCart) {
+
+            return res.status(400).json({
+                error: "Panier ou tarif non valide."
+            });
+
+        }
+
+        if (
+            orderPrice === VIP_MEMBERSHIP_PRICE &&
+            (cart.length !== 1 || Number(cart[0].quantity) !== 1)
+        ) {
+
+            return res.status(400).json({
+                error: "L'adhésion VIP ne peut être commandée qu'une fois."
             });
 
         }
@@ -1044,9 +1241,6 @@ app.post("/create-checkout-session", async (req, res) => {
         // ORDER PRICE
         // ==========================================
 
-        const orderPrice =
-            Number(cart[0].price);
-
         // ==========================================
         // SPECIAL MEMBER
         // ==========================================
@@ -1081,7 +1275,7 @@ app.post("/create-checkout-session", async (req, res) => {
 
         let useVipCredit = false;
 
-        if (orderPrice === 9.90) {
+        if (orderPrice === VIP_PRICE) {
 
             if (!customerData) {
 
@@ -1142,16 +1336,48 @@ app.post("/create-checkout-session", async (req, res) => {
 
         }
 
+        // Reserve one special-member credit before creating a free checkout.
+        // This prevents concurrent sessions from using the same remaining credit.
+        if (useVipCredit) {
+
+            if (
+                cart.length !== 1 ||
+                Number(cart[0].quantity) !== 1
+            ) {
+
+                return res.status(400).json({
+                    error:
+                        "Un crédit VIP spécial couvre un seul plat du jour."
+                });
+
+            }
+
+            vipCreditReservation =
+                await reserveVipCredit(customerEmail);
+
+            if (!vipCreditReservation) {
+
+                return res.status(403).json({
+                    error: "Votre crédit VIP est épuisé."
+                });
+
+            }
+
+        }
+
         // ==========================================
         // CREATE STRIPE LINE ITEMS
         // ==========================================
 
+        const productName =
+            orderPrice === VIP_MEMBERSHIP_PRICE
+                ? "Adhésion VIP + Plat du jour"
+                : "Plat du jour";
+
         const lineItems = cart.map(item => {
 
             let unitAmount =
-                Math.round(
-                    Number(item.price) * 100
-                );
+                Math.round(orderPrice * 100);
 
             // ==========================================
             // SPECIAL MEMBER CREDIT
@@ -1160,7 +1386,7 @@ app.post("/create-checkout-session", async (req, res) => {
 
             if (
                 useVipCredit &&
-                Number(item.price) === 9.90
+                orderPrice === VIP_PRICE
             ) {
 
                 unitAmount = 0;
@@ -1175,7 +1401,7 @@ app.post("/create-checkout-session", async (req, res) => {
 
                     product_data: {
 
-                        name: item.name
+                        name: productName
 
                     },
 
@@ -1201,6 +1427,12 @@ app.post("/create-checkout-session", async (req, res) => {
 
                 line_items: lineItems,
 
+                expires_at: vipCreditReservation
+                    ? Math.floor(
+                        vipCreditReservation.expiresAt.getTime() / 1000
+                    )
+                    : undefined,
+
                 customer_email:
                     customerEmail,
 
@@ -1218,8 +1450,10 @@ app.post("/create-checkout-session", async (req, res) => {
                     vip_credit_used:
                         useVipCredit ? "true" : "false",
 
-                    vip_credit_customer_email:
-                        useVipCredit ? customerEmail : ""
+                    vip_credit_reservation_id:
+                        vipCreditReservation
+                            ? vipCreditReservation.reservationId
+                            : ""
 
                 },
 
@@ -1230,6 +1464,13 @@ app.post("/create-checkout-session", async (req, res) => {
                     "https://cheriz.boutique.bienmangercommunity.com/checkout.html"
 
             });
+
+        if (vipCreditReservation) {
+            await linkVipCreditReservation(
+                vipCreditReservation.reservationId,
+                session.id
+            );
+        }
 
         // ==========================================
         // RETURN STRIPE URL
@@ -1242,6 +1483,19 @@ app.post("/create-checkout-session", async (req, res) => {
         });
 
     } catch (error) {
+
+        if (vipCreditReservation) {
+            try {
+                await releaseVipCreditReservation(
+                    vipCreditReservation.reservationId
+                );
+            } catch (releaseError) {
+                console.error(
+                    "VIP credit release error:",
+                    releaseError
+                );
+            }
+        }
 
         console.error(
             "Stripe error:",
