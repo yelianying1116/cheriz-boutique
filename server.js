@@ -1279,10 +1279,10 @@ app.post("/create-checkout-session", async (req, res) => {
 
             if (!customerData) {
 
-                return res.status(403).json({
-                    error:
-                        "Vous devez être membre VIP pour bénéficier du tarif de 9,90 €."
-                });
+        return res.status(403).json({
+           error:
+             "Offre réservée aux membres VIP. Accessible après 39,60 € de paiements cumulés."
+              });
 
             }
 
