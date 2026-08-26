@@ -850,6 +850,41 @@ MOBILE
     }
 
 }
+
+/* ==========================================
+   PLAT DU JOUR - INFORMATION TICKER
+========================================== */
+
+.daily-notice-ticker {
+    width: 100%;
+    overflow: hidden;
+    color: #C46E5D;
+    white-space: nowrap;
+}
+
+.daily-notice-track {
+    display: flex;
+    width: max-content;
+    animation: ticker-scroll 30s linear infinite;
+    will-change: transform;
+}
+
+.daily-notice-group {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    padding-right: 70px;
+}
+
+.daily-notice-group span {
+    display: inline-block;
+    flex-shrink: 0;
+    padding: 8px 0;
+    margin-right: 60px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
 /* ==========================================
    HOMEPAGE HERO
 ========================================== */
