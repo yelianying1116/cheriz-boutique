@@ -167,21 +167,20 @@ async function submitOrder() {
         window.location.href = data.url;
 
 
-    } catch (error) {
+} catch (error) {
 
-        console.error(error);
+    console.error(error);
 
-        alert(
-            "Impossible de préparer le paiement. Veuillez réessayer."
-        );
+    alert(
+        error.message ||
+        "Impossible de préparer le paiement. Veuillez réessayer."
+    );
 
+    payButton.disabled = false;
 
-        payButton.disabled = false;
-
-        payButton.textContent =
-            "Payer maintenant";
-
-    }
+    payButton.textContent =
+        "Payer maintenant";
+}
 
 }
 
