@@ -75,6 +75,9 @@ if (event.type === "checkout.session.completed") {
     const totalAmount =
         (session.amount_total / 100).toFixed(2);
 
+    const vipCreditUsed =
+        session.metadata?.vip_credit_used === "true";
+
 // ==========================================
 // VIP MEMBERSHIP
 // ==========================================
@@ -93,9 +96,10 @@ if (
         email,
         name,
         phone,
+        vip_unlimited,
         vip_credits
     )
-    VALUES ($1, $2, $3, -1)
+    VALUES ($1, $2, $3, TRUE, -1)
 
     ON CONFLICT (email)
 
@@ -103,6 +107,7 @@ if (
 
         name = EXCLUDED.name,
         phone = EXCLUDED.phone,
+        vip_unlimited = TRUE,
         vip_credits = -1,
         updated_at = CURRENT_TIMESTAMP
     `,
@@ -128,6 +133,73 @@ if (
     }
 
 }
+
+    // A special-member 9.90 EUR order is free, but consumes one credit only
+    // after Stripe confirms that the checkout session completed.
+    if (
+        customerEmail &&
+        vipCreditUsed &&
+        ["paid", "no_payment_required"].includes(session.payment_status)
+    ) {
+
+        const vipCreditClient = await pool.connect();
+
+        try {
+
+            await vipCreditClient.query("BEGIN");
+
+            await vipCreditClient.query(`
+                CREATE TABLE IF NOT EXISTS vip_credit_redemptions (
+                    stripe_session_id TEXT PRIMARY KEY,
+                    customer_email TEXT NOT NULL,
+                    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+                )
+            `);
+
+            const redemption = await vipCreditClient.query(
+                `
+                INSERT INTO vip_credit_redemptions
+                    (stripe_session_id, customer_email)
+                VALUES ($1, $2)
+                ON CONFLICT (stripe_session_id) DO NOTHING
+                RETURNING stripe_session_id
+                `,
+                [session.id, customerEmail]
+            );
+
+            if (redemption.rowCount === 1) {
+
+                const creditUpdate = await vipCreditClient.query(
+                    `
+                    UPDATE customers
+                    SET vip_credits = vip_credits - 1,
+                        updated_at = CURRENT_TIMESTAMP
+                    WHERE email = $1
+                      AND special_member = TRUE
+                      AND vip_credits > 0
+                    RETURNING vip_credits
+                    `,
+                    [customerEmail]
+                );
+
+                if (creditUpdate.rowCount !== 1) {
+                    throw new Error("Special-member VIP credit is no longer available.");
+                }
+            }
+
+            await vipCreditClient.query("COMMIT");
+
+        } catch (vipCreditError) {
+
+            await vipCreditClient.query("ROLLBACK");
+            console.error("VIP credit deduction error:", vipCreditError);
+
+        } finally {
+
+            vipCreditClient.release();
+
+        }
+    }
     // ==========================================
     // PRODUITS
     // ==========================================
@@ -979,12 +1051,9 @@ app.post("/create-checkout-session", async (req, res) => {
         // SPECIAL MEMBER
         // ==========================================
 
-        if (
-            customerData &&
-            customerData.special_member === true
-        ) {
+        if (customerData?.special_member === true) {
 
-            // Special member can ONLY use 9.90 € VIP benefit
+            // Special members may only order through their remaining 9.90 EUR credits.
             if (orderPrice !== 9.90) {
 
                 return res.status(403).json({
@@ -995,9 +1064,7 @@ app.post("/create-checkout-session", async (req, res) => {
             }
 
             // No credits left
-            if (
-                Number(customerData.vip_credits) <= 0
-            ) {
+            if (Number(customerData.vip_credits) <= 0) {
 
                 return res.status(403).json({
                     error:
@@ -1029,25 +1096,15 @@ app.post("/create-checkout-session", async (req, res) => {
             // VIP UNLIMITED
             // ==========================================
 
-            if (
-                customerData.vip_unlimited === true
-            ) {
+            if (customerData.special_member === true) {
 
-                console.log(
-                    "VIP UNLIMITED ORDER:",
-                    customerEmail
-                );
+                if (Number(customerData.vip_credits) <= 0) {
 
-            }
+                    return res.status(403).json({
+                        error: "Votre crédit VIP est épuisé."
+                    });
 
-            // ==========================================
-            // SPECIAL MEMBER CREDIT
-            // ==========================================
-
-            else if (
-                customerData.special_member === true &&
-                Number(customerData.vip_credits) > 0
-            ) {
+                }
 
                 useVipCredit = true;
 
@@ -1060,8 +1117,18 @@ app.post("/create-checkout-session", async (req, res) => {
 
             }
 
+            // Customers who paid 39.60 EUR are VIP and may pay 9.90 EUR.
+            else if (customerData.vip_unlimited === true) {
+
+                console.log(
+                    "VIP UNLIMITED ORDER:",
+                    customerEmail
+                );
+
+            }
+
             // ==========================================
-            // NO VIP RIGHT
+            // SPECIAL MEMBER CREDIT
             // ==========================================
 
             else {
@@ -1149,7 +1216,10 @@ app.post("/create-checkout-session", async (req, res) => {
                         customer.address || "",
 
                     vip_credit_used:
-                        useVipCredit ? "true" : "false"
+                        useVipCredit ? "true" : "false",
+
+                    vip_credit_customer_email:
+                        useVipCredit ? customerEmail : ""
 
                 },
 
