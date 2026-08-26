@@ -724,6 +724,11 @@ FOOTER
 
 }
 
+/* Keep the footer links readable when they appear on one line. */
+.footer-group a:not(:last-child) {
+    margin-right: 3ch;
+}
+
 
 /* ==========================================
 TABLET
