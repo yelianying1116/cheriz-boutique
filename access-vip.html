@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Accès VIP | Cheriz</title>
+  <style>
+    :root { color: #6e4a44; background: #e8c8c1; font-family: Poppins, Arial, sans-serif; }
+    body { min-height: 100vh; margin: 0; display: grid; place-items: center; padding: 24px; }
+    main { width: min(100%, 460px); box-sizing: border-box; background: #fffaf8; border-radius: 18px; padding: 36px; box-shadow: 0 16px 45px #6e4a4433; }
+    h1 { margin: 0 0 8px; font-size: 2rem; } p { line-height: 1.6; } label { display:block; margin-top: 20px; font-weight: 600; }
+    input { width: 100%; box-sizing: border-box; margin-top: 7px; border: 1px solid #c59a90; border-radius: 8px; padding: 12px; font: inherit; }
+    button { width: 100%; margin-top: 20px; border: 0; border-radius: 8px; padding: 13px; background: #6e4a44; color: white; font: inherit; font-weight: 700; cursor: pointer; }
+    button:disabled { opacity: .6; cursor: wait; } #code-step { display: none; } #message { min-height: 24px; margin-top: 16px; font-weight: 600; } .error { color: #a12c2c; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Accès VIP</h1>
+    <p>Entrez l'adresse e-mail associée à votre accès VIP pour recevoir un code de vérification.</p>
+    <form id="email-step">
+      <label for="email">Adresse e-mail</label>
+      <input id="email" type="email" autocomplete="email" required>
+      <button>Recevoir mon code</button>
+    </form>
+    <form id="code-step">
+      <label for="code">Code de vérification</label>
+      <input id="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required>
+      <button>Accéder à l'espace VIP</button>
+    </form>
+    <p id="message" role="alert" aria-live="polite"></p>
+  </main>
+  <script>
+    (() => {
+      const emailForm = document.querySelector('#email-step');
+      const codeForm = document.querySelector('#code-step');
+      const email = document.querySelector('#email');
+      const code = document.querySelector('#code');
+      const message = document.querySelector('#message');
+      const setMessage = (text, error = false) => { message.textContent = text; message.className = error ? 'error' : ''; };
+      const request = async (url, body) => {
+        const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin', body: JSON.stringify(body) });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(data.error || "Une erreur est survenue.");
+        return data;
+      };
+      emailForm.addEventListener('submit', async event => {
+        event.preventDefault(); setMessage(''); const button = emailForm.querySelector('button'); button.disabled = true;
+        try { await request('/api/vip-access/request-code', { email: email.value }); codeForm.style.display = 'block'; emailForm.style.display = 'none'; code.focus(); setMessage('Un code à six chiffres vient de vous être envoyé.'); }
+        catch (error) { setMessage(error.message, true); } finally { button.disabled = false; }
+      });
+      codeForm.addEventListener('submit', async event => {
+        event.preventDefault(); setMessage(''); const button = codeForm.querySelector('button'); button.disabled = true;
+        try { await request('/api/vip-access/verify-code', { email: email.value, code: code.value }); window.location.assign(location.pathname === '/access-vip.html' ? '/' : location.pathname); }
+        catch (error) { setMessage(error.message, true); } finally { button.disabled = false; }
+      });
+    })();
+  </script>
+</body>
+</html>
