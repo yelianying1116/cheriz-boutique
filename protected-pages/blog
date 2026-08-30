@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>Blog | Cheriz Cuisine maison à Lyon</title>
+
+
+<meta
+name="description"
+content="Découvrez le blog de Cheriz : cuisine maison, inspirations asiatiques, françaises et italiennes, conseils culinaires et actualités à Lyon.">
+
+
+<link
+rel="stylesheet"
+href="css/style.css">
+
+
+<link
+href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+
+<link
+href="https://fonts.googleapis.com/css2?family=Angkor&display=swap"
+rel="stylesheet">
+
+
+</head>
+
+
+<body>
+
+
+
+<!-- HEADER -->
+
+<header class="header">
+
+<div class="container">
+
+
+<a href="index.html" class="logo">
+
+Cheriz
+
+</a>
+
+
+
+<nav class="navigation">
+
+
+<a href="index.html">
+
+Accueil
+
+</a>
+
+
+<a href="index.html#today">
+
+Plat du jour
+
+</a>
+
+
+<a href="index.html#plats">
+
+Nos plats
+
+</a>
+
+
+<a href="cart.html">
+
+Panier
+
+</a>
+
+
+</nav>
+
+
+</div>
+
+</header>
+
+
+
+
+
+
+
+
+<!-- BLOG CONTENT -->
+
+
+<section class="hero-section">
+
+
+<div class="container hero-container">
+
+
+
+<h1 class="hero-title">
+
+Blog
+
+</h1>
+
+
+
+<p class="hero-subtitle">
+
+Découvrez l'univers de Cheriz
+
+</p>
+
+
+
+
+
+
+<div
+style="
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:35px;
+">
+
+
+
+
+
+<!-- ARTICLE 1 -->
+
+<article
+style="
+background:#FFF9F5;
+border-radius:30px;
+padding:35px;
+box-shadow:0 15px 35px rgba(0,0,0,0.08);
+text-align:left;
+">
+
+
+<h2
+style="
+color:#B85F4D;
+font-size:30px;
+margin-bottom:15px;
+">
+
+La cuisine maison à Lyon
+
+</h2>
+
+
+<p>
+
+Pourquoi choisir des plats faits maison ?
+Chez Cheriz, chaque recette est préparée
+avec attention et des ingrédients sélectionnés.
+
+</p>
+
+
+</article>
+
+
+
+
+
+
+
+
+<!-- ARTICLE 2 -->
+
+<article
+style="
+background:#FFF9F5;
+border-radius:30px;
+padding:35px;
+box-shadow:0 15px 35px rgba(0,0,0,0.08);
+text-align:left;
+">
+
+
+<h2
+style="
+color:#B85F4D;
+font-size:30px;
+margin-bottom:15px;
+">
+
+Les inspirations culinaires de Cheriz
+
+</h2>
+
+
+<p>
+
+Découvrez comment les cuisines asiatiques,
+françaises et italiennes inspirent nos plats
+faits maison.
+
+</p>
+
+
+</article>
+
+
+
+
+
+
+
+
+
+<!-- ARTICLE 3 -->
+
+<article
+style="
+background:#FFF9F5;
+border-radius:30px;
+padding:35px;
+box-shadow:0 15px 35px rgba(0,0,0,0.08);
+text-align:left;
+">
+
+
+<h2
+style="
+color:#B85F4D;
+font-size:30px;
+margin-bottom:15px;
+">
+
+Des ingrédients frais chaque jour
+
+</h2>
+
+
+<p>
+
+La qualité commence par le choix des ingrédients.
+Nous préparons nos plats quotidiennement.
+
+</p>
+
+
+</article>
+
+
+
+
+
+
+
+
+<!-- ARTICLE 4 -->
+
+<article
+style="
+background:#FFF9F5;
+border-radius:30px;
+padding:35px;
+box-shadow:0 15px 35px rgba(0,0,0,0.08);
+text-align:left;
+">
+
+
+<h2
+style="
+color:#B85F4D;
+font-size:30px;
+margin-bottom:15px;
+">
+
+Actualités Cheriz
+
+</h2>
+
+
+<p>
+
+Retrouvez nos nouveautés,
+nos événements et les nouveaux plats proposés.
+
+</p>
+
+
+</article>
+
+
+
+</div>
+
+
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- FOOTER -->
+
+
+<footer class="footer">
+
+
+<div class="container">
+
+
+<div class="footer-links">
+
+
+<div class="footer-group">
+
+
+<h3>
+
+Cheriz
+
+</h3>
+
+
+<a href="notre-histoire.html">
+
+Notre histoire
+
+</a>
+
+
+<a href="nos-evenements.html">
+
+Nos événements
+
+</a>
+
+
+<a href="blog.html">
+
+Blog
+
+</a>
+
+
+</div>
+
+
+
+
+
+<div class="footer-group">
+
+
+<h3>
+
+Livraison
+
+</h3>
+
+
+<a href="horaires-de-livraison.html">
+
+Horaires de livraison
+
+</a>
+
+
+<a href="zone-de-livraison.html">
+
+Zone de livraison
+
+</a>
+
+
+</div>
+
+
+
+
+
+<div class="footer-group">
+
+
+<h3>
+
+Contact
+
+</h3>
+
+
+<a href="contact.html">
+
+Contact
+
+</a>
+
+
+<a href="mentions-legales.html">
+
+Mentions légales
+
+</a>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<p class="footer-bottom">
+
+© 2025 Cheriz Boutique · Tous droits réservés.
+
+</p>
+
+
+
+</div>
+
+
+</footer>
+
+
+
+</body>
+
+
+</html>
