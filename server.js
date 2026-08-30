@@ -3,11 +3,29 @@ const express = require("express");
 const cors = require("cors");
 const Stripe = require("stripe");
 const { Resend } = require("resend");
-const { randomUUID } = require("crypto");
+const {
+    createHmac,
+    createHash,
+    randomInt,
+    randomUUID,
+    timingSafeEqual
+} = require("crypto");
+const path = require("path");
 const app = express();
 const { Pool } = require("pg");
 
-app.use(cors());
+const allowedOrigins = (process.env.VIP_ALLOWED_ORIGINS ||
+    "https://cheriz.boutique.bienmangercommunity.com,https://bienmangercommunity.com")
+    .split(",")
+    .map(origin => origin.trim())
+    .filter(Boolean);
+app.use(cors({
+    origin(origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
+        return callback(new Error("Origin not allowed"));
+    },
+    credentials: true
+}));
 // ==========================================
 // STRIPE WEBHOOK
 // ==========================================
@@ -611,6 +629,113 @@ const VIP_PRICE = 9.90;
 const NORMAL_PRICE = 15.50;
 const VIP_MEMBERSHIP_PRICE = 39.60;
 const VIP_CREDIT_RESERVATION_MS = 30 * 60 * 1000;
+const VIP_SESSION_TTL_MS = 8 * 60 * 60 * 1000;
+const VIP_ACCESS_COOKIE = "cheriz_vip";
+const SITE_ROOT = __dirname;
+const PRIVATE_PAGES_ROOT = path.join(SITE_ROOT, "protected-pages");
+const PUBLIC_LOGIN_PAGE = path.join(SITE_ROOT, "access-vip.html");
+const vipAccessRateLimits = new Map();
+
+function normaliseEmail(value) {
+    return String(value || "").trim().toLowerCase();
+}
+
+function isEmail(value) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+function rateLimit(key, limit, windowMs) {
+    const now = Date.now();
+    const previous = vipAccessRateLimits.get(key) || [];
+    const entries = previous.filter(timestamp => timestamp > now - windowMs);
+    if (entries.length >= limit) return false;
+    entries.push(now);
+    vipAccessRateLimits.set(key, entries);
+    return true;
+}
+
+function codeHash(email, code) {
+    return createHash("sha256")
+        .update(`${email}:${code}:${process.env.VIP_ACCESS_SECRET || ""}`)
+        .digest("hex");
+}
+
+function base64url(value) {
+    return Buffer.from(value).toString("base64url");
+}
+
+function signVipToken(payload) {
+    const encoded = base64url(JSON.stringify(payload));
+    const signature = createHmac(
+        "sha256",
+        process.env.VIP_ACCESS_SECRET || ""
+    ).update(encoded).digest("base64url");
+    return `${encoded}.${signature}`;
+}
+
+function readVipToken(req) {
+    const cookies = Object.fromEntries(
+        String(req.headers.cookie || "").split(";").map(part => {
+            const index = part.indexOf("=");
+            return index === -1
+                ? [part.trim(), ""]
+                : [part.slice(0, index).trim(), decodeURIComponent(part.slice(index + 1))];
+        })
+    );
+    const token = cookies[VIP_ACCESS_COOKIE];
+    if (!token || !process.env.VIP_ACCESS_SECRET) return null;
+    const [encoded, signature] = token.split(".");
+    if (!encoded || !signature) return null;
+    const expected = createHmac("sha256", process.env.VIP_ACCESS_SECRET)
+        .update(encoded).digest("base64url");
+    if (signature.length !== expected.length || !timingSafeEqual(
+        Buffer.from(signature), Buffer.from(expected)
+    )) return null;
+    try {
+        const payload = JSON.parse(Buffer.from(encoded, "base64url").toString("utf8"));
+        return payload.exp > Math.floor(Date.now() / 1000) ? payload : null;
+    } catch (_) {
+        return null;
+    }
+}
+
+async function ensureVipAccessTable() {
+    await pool.query(`
+        CREATE TABLE IF NOT EXISTS vip_access_codes (
+            email TEXT PRIMARY KEY,
+            code_hash TEXT NOT NULL,
+            expires_at TIMESTAMPTZ NOT NULL,
+            attempts INTEGER NOT NULL DEFAULT 0,
+            created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+        )
+    `);
+}
+
+async function hasVipPageAccess(email) {
+    const result = await pool.query(
+        `SELECT vip_unlimited, vip_credits
+         FROM customers
+         WHERE email = $1`,
+        [email]
+    );
+    if (result.rowCount !== 1) return false;
+    const customer = result.rows[0];
+    return customer.vip_unlimited === true || Number(customer.vip_credits) > 0;
+}
+
+function sendVipLoginPage(req, res) {
+    res.set("Cache-Control", "no-store");
+    res.sendFile(PUBLIC_LOGIN_PAGE);
+}
+
+function requireVipPage(page) {
+    return (req, res) => {
+        const session = readVipToken(req);
+        if (!session) return sendVipLoginPage(req, res);
+        res.set("Cache-Control", "private, no-store");
+        res.sendFile(path.join(PRIVATE_PAGES_ROOT, page));
+    };
+}
 
 async function ensureVipCreditReservationTable(client) {
 
@@ -809,11 +934,139 @@ async function releaseVipCreditReservation(reservationId) {
 // TEST ROUTE
 // ==========================================
 
-app.get("/", (req, res) => {
+// VIP pages are served only by this Render application. Do not expose the
+// contents of protected-pages through a static host or a public repository.
+app.post("/api/vip-access/request-code", async (req, res) => {
+    const email = normaliseEmail(req.body?.email);
+    const ip = req.ip || "unknown";
 
-    res.send("Cheriz payment server is running.");
+    if (!isEmail(email)) {
+        return res.status(400).json({ error: "Veuillez saisir une adresse e-mail valide." });
+    }
+    if (!process.env.VIP_ACCESS_SECRET) {
+        console.error("VIP_ACCESS_SECRET is not configured.");
+        return res.status(503).json({ error: "Le service d'accès est temporairement indisponible." });
+    }
+    if (!rateLimit(`vip-code:${email}`, 5, 15 * 60 * 1000) ||
+        !rateLimit(`vip-code-ip:${ip}`, 20, 15 * 60 * 1000)) {
+        return res.status(429).json({ error: "Trop de demandes. Veuillez réessayer dans quelques minutes." });
+    }
 
+    try {
+        if (!await hasVipPageAccess(email)) {
+            return res.status(403).json({
+                error: "Accès réservé aux clients VIP Cette page est exclusivement réservée à nos clients VIP. Veuillez demander ou acheter votre accès VIP pour continuer."
+            });
+        }
+
+        await ensureVipAccessTable();
+        const code = String(randomInt(0, 1000000)).padStart(6, "0");
+        await pool.query(
+            `INSERT INTO vip_access_codes (email, code_hash, expires_at, attempts)
+             VALUES ($1, $2, CURRENT_TIMESTAMP + INTERVAL '10 minutes', 0)
+             ON CONFLICT (email) DO UPDATE SET
+                code_hash = EXCLUDED.code_hash,
+                expires_at = EXCLUDED.expires_at,
+                attempts = 0,
+                created_at = CURRENT_TIMESTAMP`,
+            [email, codeHash(email, code)]
+        );
+
+        const emailResult = await resend.emails.send({
+            from: process.env.VIP_ACCESS_EMAIL_FROM || "Cheriz <onboarding@resend.dev>",
+            to: email,
+            subject: "Votre code d'accès VIP Cheriz",
+            html: `<p>Voici votre code d'accès VIP :</p><p style="font-size:28px;font-weight:700;letter-spacing:4px">${code}</p><p>Il expire dans 10 minutes. Ne le communiquez à personne.</p>`
+        });
+        if (emailResult.error) throw new Error(emailResult.error.message);
+        return res.json({ success: true });
+    } catch (error) {
+        console.error("VIP access code error:", error);
+        return res.status(500).json({ error: "Impossible d'envoyer le code pour le moment." });
+    }
 });
+
+app.post("/api/vip-access/verify-code", async (req, res) => {
+    const email = normaliseEmail(req.body?.email);
+    const code = String(req.body?.code || "").trim();
+    const ip = req.ip || "unknown";
+    if (!isEmail(email) || !/^\d{6}$/.test(code)) {
+        return res.status(400).json({ error: "Veuillez saisir l'e-mail et le code à six chiffres." });
+    }
+    if (!rateLimit(`vip-verify:${email}`, 8, 15 * 60 * 1000) ||
+        !rateLimit(`vip-verify-ip:${ip}`, 30, 15 * 60 * 1000)) {
+        return res.status(429).json({ error: "Trop de tentatives. Veuillez demander un nouveau code plus tard." });
+    }
+
+    try {
+        await ensureVipAccessTable();
+        const result = await pool.query(
+            `UPDATE vip_access_codes
+             SET attempts = attempts + 1
+             WHERE email = $1
+               AND expires_at > CURRENT_TIMESTAMP
+               AND attempts < 5
+             RETURNING code_hash`,
+            [email]
+        );
+        const storedHash = result.rows[0]?.code_hash;
+        const submittedHash = codeHash(email, code);
+        const validCode = storedHash && timingSafeEqual(
+            Buffer.from(storedHash), Buffer.from(submittedHash)
+        );
+        if (!validCode || !await hasVipPageAccess(email)) {
+            return res.status(403).json({ error: "Code invalide ou expiré." });
+        }
+
+        await pool.query("DELETE FROM vip_access_codes WHERE email = $1", [email]);
+        const expiresAt = Math.floor((Date.now() + VIP_SESSION_TTL_MS) / 1000);
+        const token = signVipToken({ email, exp: expiresAt });
+        res.cookie(VIP_ACCESS_COOKIE, token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+            maxAge: VIP_SESSION_TTL_MS,
+            path: "/"
+        });
+        return res.json({ success: true });
+    } catch (error) {
+        console.error("VIP code verification error:", error);
+        return res.status(500).json({ error: "Impossible de vérifier le code pour le moment." });
+    }
+});
+
+app.post("/api/vip-access/logout", (req, res) => {
+    res.clearCookie(VIP_ACCESS_COOKIE, { httpOnly: true, sameSite: "lax", path: "/" });
+    res.status(204).end();
+});
+
+app.get("/", requireVipPage("index.html"));
+app.get("/index.html", requireVipPage("index.html"));
+app.get("/blog.html", requireVipPage("blog.html"));
+app.get("/nos-evenements.html", requireVipPage("nos-evenements.html"));
+app.get("/nos-solutions-entreprise.html", requireVipPage("nos-solutions-entreprise.html"));
+app.get("/access-vip.html", sendVipLoginPage);
+
+// Serve only assets that the protected pages need. Never mount SITE_ROOT with
+// express.static: that would expose server.js, private pages, and any other
+// file in the deployment directory.
+app.get("/css/style.css", (req, res) => {
+    res.sendFile(path.join(SITE_ROOT, "style.css"));
+});
+app.get("/js/products.js", (req, res) => {
+    res.sendFile(path.join(SITE_ROOT, "products.js"));
+});
+app.get("/js/checkout.js", (req, res) => {
+    res.sendFile(path.join(SITE_ROOT, "checkout.js"));
+});
+app.use("/images", express.static(path.join(SITE_ROOT, "images"), {
+    index: false,
+    fallthrough: true
+}));
+app.use("/assets", express.static(path.join(SITE_ROOT, "assets"), {
+    index: false,
+    fallthrough: true
+}));
 
 app.get("/test-database", async (req, res) => {
 
