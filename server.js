@@ -1040,8 +1040,13 @@ app.post("/api/vip-access/logout", (req, res) => {
     res.status(204).end();
 });
 
-app.get("/", requireVipPage("index.html"));
-app.get("/index.html", requireVipPage("index.html"));
+app.get("/", (req, res) => {
+    res.sendFile(path.join(SITE_ROOT, "index.html"));
+});
+
+app.get("/index.html", (req, res) => {
+    res.sendFile(path.join(SITE_ROOT, "index.html"));
+});
 app.get("/blog.html", requireVipPage("blog.html"));
 app.get("/nos-evenements.html", requireVipPage("nos-evenements.html"));
 app.get("/nos-solutions-entreprise.html", requireVipPage("nos-solutions-entreprise.html"));
