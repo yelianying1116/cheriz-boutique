@@ -13,6 +13,56 @@ const {
 const path = require("path");
 const app = express();
 const { Pool } = require("pg");
+const FEUILLEDOR_PRODUCTS = require("./feuilledor-products.json");
+
+function escapeEmailHtml(value) {
+    return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+}
+
+async function sendFeuilledorOrderEmails(session) {
+    const customerEmail = String(session.customer_details?.email || session.customer_email || "").trim();
+    const customerName = String(session.customer_details?.name || "").trim();
+    const totalAmount = ((session.amount_total || 0) / 100).toFixed(2);
+    const lineItems = await feuilledorStripe.checkout.sessions.listLineItems(session.id);
+    const productsHtml = lineItems.data.map(item => `
+        <tr>
+            <td style="padding:8px">${escapeEmailHtml(item.description)}</td>
+            <td style="padding:8px;text-align:center">${item.quantity}</td>
+            <td style="padding:8px;text-align:right">${((item.amount_total || 0) / 100).toFixed(2)} €</td>
+        </tr>`).join("");
+    const orderHtml = `
+        <h2>Nouvelle commande Feuille d'Or</h2>
+        <p><strong>Client :</strong> ${escapeEmailHtml(customerName || "Non renseigné")}</p>
+        <p><strong>Email :</strong> ${escapeEmailHtml(customerEmail || "Non renseigné")}</p>
+        <table border="1" cellpadding="0" cellspacing="0" style="border-collapse:collapse">
+            <thead><tr><th>Produit</th><th>Quantité</th><th>Total</th></tr></thead>
+            <tbody>${productsHtml}</tbody>
+        </table>
+        <h3>Total payé : ${totalAmount} €</h3>`;
+
+    const adminResult = await resend.emails.send({
+        from: "Feuille d'Or <commande@bienmangercommunity.com>",
+        to: ["yelianying1116@gmail.com"],
+        subject: `Nouvelle commande Feuille d'Or - ${totalAmount} €`,
+        html: orderHtml
+    });
+    if (adminResult.error) console.error("Feuille d'Or admin email error:", adminResult.error);
+
+    if (customerEmail) {
+        const customerResult = await resend.emails.send({
+            from: "Feuille d'Or <commande@bienmangercommunity.com>",
+            to: [customerEmail],
+            subject: "Votre commande Feuille d'Or est confirmée",
+            html: `<h2>Merci pour votre commande${customerName ? `, ${escapeEmailHtml(customerName)}` : ""}.</h2><p>Votre paiement a bien été reçu.</p>${orderHtml}`
+        });
+        if (customerResult.error) console.error("Feuille d'Or customer email error:", customerResult.error);
+    }
+}
 
 const allowedOrigins = (process.env.VIP_ALLOWED_ORIGINS ||
     "https://cheriz.boutique.bienmangercommunity.com,https://bienmangercommunity.com")
@@ -47,16 +97,24 @@ app.post(
                 process.env.STRIPE_WEBHOOK_SECRET
             );
 
-        } catch (err) {
+        } catch (primaryWebhookError) {
+            try {
+                event = stripe.webhooks.constructEvent(
+                    req.body,
+                    sig,
+                    process.env.FEUILLEDOR_STRIPE_WEBHOOK_SECRET
+                );
+            } catch (err) {
 
             console.error(
                 "Webhook signature verification failed:",
                 err.message
             );
 
-            return res.status(400).send(
-                `Webhook Error: ${err.message}`
-            );
+                return res.status(400).send(
+                    `Webhook Error: ${err.message}`
+                );
+            }
 
         }
 
@@ -85,6 +143,15 @@ app.post(
 if (event.type === "checkout.session.completed") {
 
     const session = event.data.object;
+
+    if (session.metadata?.order_type === "feuilledor") {
+        try {
+            await sendFeuilledorOrderEmails(session);
+        } catch (emailError) {
+            console.error("Feuille d'Or order email error:", emailError);
+        }
+        return res.json({ received: true });
+    }
 
 
     // ==========================================
@@ -615,6 +682,9 @@ const PORT = process.env.PORT || 3000;
 
 // Stripe Secret Key
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+const feuilledorStripe = process.env.FEUILLEDOR_STRIPE_SECRET_KEY
+    ? Stripe(process.env.FEUILLEDOR_STRIPE_SECRET_KEY)
+    : null;
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: {
@@ -1395,6 +1465,79 @@ await pool.query(
     }
 
 });
+// ==========================================
+// FEUILLE D'OR TEST CHECKOUT
+// ==========================================
+
+app.post("/api/feuilledor/create-checkout-session", async (req, res) => {
+    try {
+        if (!process.env.FEUILLEDOR_STRIPE_SECRET_KEY?.startsWith("sk_test_") || !feuilledorStripe) {
+            return res.status(503).json({ error: "Le paiement test Feuille d'Or n'est pas configuré." });
+        }
+        const items = req.body?.items;
+        if (!Array.isArray(items) || items.length === 0 || items.length > 20) {
+            return res.status(400).json({ error: "Panier Feuille d'Or invalide." });
+        }
+
+        const lineItems = items.map(item => {
+            const product = FEUILLEDOR_PRODUCTS.find(candidate => candidate.id === String(item.productId || ""));
+            if (!product) throw new Error("Produit Feuille d'Or introuvable.");
+
+            const variant = (product.variants || []).find(candidate =>
+                candidate.color === String(item.color || "") &&
+                candidate.shape === String(item.shape || "") &&
+                candidate.length === String(item.length || "") &&
+                candidate.personalisation === String(item.personalisation || "")
+            );
+            if (!variant) throw new Error(`Option invalide pour ${product.name}.`);
+
+            const priceText = String(variant.price || "").replace(",", ".");
+            const price = Number(priceText.replace(/[^0-9.]/g, ""));
+            if (!Number.isFinite(price) || price <= 0) throw new Error(`Prix invalide pour ${product.name}.`);
+
+            const quantity = Number(item.quantity);
+            if (!Number.isInteger(quantity) || quantity < 1 || quantity > 10) {
+                throw new Error("Quantité invalide.");
+            }
+
+            const options = [
+                `Couleur : ${variant.color}`,
+                `Forme : ${variant.shape}`,
+                `Longueur : ${variant.length}`,
+                `Personnalisation : ${variant.personalisation}`
+            ].join(" · ");
+
+            return {
+                quantity,
+                price_data: {
+                    currency: "eur",
+                    unit_amount: Math.round(price * 100),
+                    product_data: { name: product.name, description: options }
+                }
+            };
+        });
+
+        const siteUrl = "https://bienmangercommunity.com/partenaire/feuilledor";
+        const session = await feuilledorStripe.checkout.sessions.create({
+            mode: "payment",
+            line_items: lineItems,
+            billing_address_collection: "auto",
+            phone_number_collection: { enabled: true },
+            shipping_address_collection: {
+                allowed_countries: ["FR", "BE", "DE", "LU", "NL", "ES", "IT", "PT", "AT", "IE"]
+            },
+            allow_promotion_codes: true,
+            success_url: `${siteUrl}/?payment=success`,
+            cancel_url: `${siteUrl}/?payment=cancel`,
+            metadata: { order_type: "feuilledor" }
+        });
+        return res.json({ url: session.url });
+    } catch (error) {
+        console.error("Feuille d'Or Stripe error:", error);
+        return res.status(400).json({ error: error.message || "Impossible de créer le paiement." });
+    }
+});
+
 // ==========================================
 // CREATE STRIPE CHECKOUT SESSION
 // ==========================================
