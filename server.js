@@ -2093,10 +2093,8 @@ app.get("/migrate-vip-credits", async (req, res) => {
 // START SERVER
 // ==========================================
 
-app.listen(PORT, () => {
-
+app.listen(PORT, "0.0.0.0", () => {
     console.log(
         `Cheriz payment server running on port ${PORT}`
     );
-
 });
