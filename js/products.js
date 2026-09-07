@@ -572,7 +572,13 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector(".daily-normal");
 
     const vipButton =
-        document.querySelector(".daily-vip");
+        document.querySelector(".daily-vip:not(.daily-addon)");
+
+    const beerButton =
+        document.querySelector(".daily-beer");
+
+    const softButton =
+        document.querySelector(".daily-soft");
 
     const membershipButton =
         document.querySelector(".daily-membership");
@@ -602,6 +608,36 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
+    // VIP客户 + 啤酒
+    if (beerButton) {
+
+        beerButton.addEventListener("click", () => {
+
+            addDailyDishToCart(
+                13.90,
+                "Plat du jour + bière (Asahi/Kirin)"
+            );
+
+        });
+
+    }
+
+
+    // VIP客户 + Coca Zero / Orangina
+    if (softButton) {
+
+        softButton.addEventListener("click", () => {
+
+            addDailyDishToCart(
+                12.90,
+                "Plat du jour + Coca Zero / Orangina"
+            );
+
+        });
+
+    }
+
+
     // 新VIP会员
     if (membershipButton) {
 
@@ -620,7 +656,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // ADD DAILY DISH TO CART
 // ====================================
 
-function addDailyDishToCart(price) {
+function addDailyDishToCart(price, customName = null) {
 
     let cart =
         JSON.parse(
@@ -630,7 +666,8 @@ function addDailyDishToCart(price) {
 
     cart.push({
 
-        name: DAILY_DISH.name,
+        name:
+            customName || DAILY_DISH.name,
 
         price: price,
 
@@ -645,6 +682,49 @@ function addDailyDishToCart(price) {
         "cart",
         JSON.stringify(cart)
     );
+
+
+    window.location.href = "cart.html";
+
+}
+
+
+// ====================================
+// ADD VIP MEMBERSHIP TO CART
+// ====================================
+
+function addMembershipToCart() {
+
+    let cart =
+        JSON.parse(
+            localStorage.getItem("cart")
+        ) || [];
+
+
+    cart.push({
+
+        name:
+            "Adhésion VIP + 1er repas",
+
+        price: 39.60,
+
+        quantity: 1,
+
+        image: DAILY_DISH.image,
+
+        type: "vip-membership"
+
+    });
+
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+    window.location.href = "cart.html";
+
+}
 
 
     window.location.href = "cart.html";
