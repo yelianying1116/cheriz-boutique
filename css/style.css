@@ -1122,3 +1122,8 @@ MOBILE
 .hero-subtitle {
     font-size: 32px;
 }
+@media (max-width: 768px) {
+    .steps-section .section-title {
+        font-size: 50px;
+    }
+}
