@@ -697,6 +697,8 @@ const resend = new Resend(
 
 const VIP_PRICE = 9.90;
 const NORMAL_PRICE = 15.50;
+const VIP_BEER_PRICE = 13.90;
+const VIP_SOFT_PRICE = 12.90;
 const VIP_MEMBERSHIP_PRICE = 39.60;
 const VIP_CREDIT_RESERVATION_MS = 30 * 60 * 1000;
 const VIP_SESSION_TTL_MS = 8 * 60 * 60 * 1000;
@@ -1563,14 +1565,13 @@ app.post("/create-checkout-session", async (req, res) => {
         }
 
         const orderPrice = Number(cart[0].price);
-
         const allowedPrices = [
-            NORMAL_PRICE,
-            VIP_PRICE,
-            VIP_BEER_PRICE,
-            VIP_SOFT_PRICE,
-            VIP_MEMBERSHIP_PRICE
-        ];
+          NORMAL_PRICE,
+          VIP_PRICE,
+          VIP_BEER_PRICE,
+          VIP_SOFT_PRICE,
+          VIP_MEMBERSHIP_PRICE
+      ];
 
         const validCart = cart.every(item =>
             Number(item.price) === orderPrice &&
@@ -1636,22 +1637,26 @@ app.post("/create-checkout-session", async (req, res) => {
                 : null;
 
         // ==========================================
+        // ORDER PRICE
+        // ==========================================
+
+        // ==========================================
         // SPECIAL MEMBER
         // ==========================================
 
         if (customerData?.special_member === true) {
 
-            // Special members use their VIP credits
-            // only for the standard 9.90 EUR meal.
-            if (orderPrice !== VIP_PRICE) {
+            // Special members may only order through their remaining 9.90 EUR credits.
+            if (orderPrice !== 9.90) {
 
                 return res.status(403).json({
                     error:
-                        "Votre compte membre spécial ne peut utiliser le crédit VIP que pour le plat du jour à 9,90 €."
+                        "Votre compte membre spécial ne peut pas utiliser le tarif normal de 15,50 €."
                 });
 
             }
 
+            // No credits left
             if (Number(customerData.vip_credits) <= 0) {
 
                 return res.status(403).json({
@@ -1664,290 +1669,16 @@ app.post("/create-checkout-session", async (req, res) => {
         }
 
         // ==========================================
-        // VIP OFFERS
-        // ==========================================
-
-        let useVipCredit = false;
-                // ==========================================
-        // VIP 9.90 / 13.90 / 12.90
-        // ==========================================
-
-        if (
-            orderPrice === VIP_PRICE ||
-            orderPrice === VIP_BEER_PRICE ||
-            orderPrice === VIP_SOFT_PRICE
-        ) {
-
-            if (!customerData) {
-
-                return res.status(403).json({
-                    error:
-                        "Offre réservée aux membres VIP. Accessible après 39,60 € de paiements cumulés."
-                });
-
-            }
-
-            // ==========================================
-            // SPECIAL MEMBER CREDIT
-            // ==========================================
-
-            if (customerData.special_member === true) {
-
-                // A special-member credit can only pay
-                // for the standard 9.90 EUR meal.
-                if (orderPrice !== VIP_PRICE) {
-
-                    return res.status(403).json({
-                        error:
-                            "Votre crédit VIP spécial ne peut être utilisé que pour le plat du jour à 9,90 €."
-                    });
-
-                }
-
-                if (Number(customerData.vip_credits) <= 0) {
-
-                    return res.status(403).json({
-                        error:
-                            "Votre crédit VIP est épuisé."
-                    });
-
-                }
-
-                useVipCredit = true;
-
-                console.log(
-                    "SPECIAL MEMBER CREDIT ORDER:",
-                    customerEmail,
-                    "credits:",
-                    customerData.vip_credits
-                );
-
-            }
-
-            // ==========================================
-            // VIP UNLIMITED
-            // ==========================================
-
-            else if (customerData.vip_unlimited === true) {
-
-                console.log(
-                    "VIP ORDER:",
-                    customerEmail,
-                    "price:",
-                    orderPrice
-                );
-
-            }
-
-            // ==========================================
-            // NOT VIP
-            // ==========================================
-
-            else {
-
-                return res.status(403).json({
-                    error:
-                        "Votre compte n'est pas encore membre VIP."
-                });
-
-            }
-
-        }
-
-        // ==========================================
-        // RESERVE VIP CREDIT
-        // ==========================================
-
-        if (useVipCredit) {
-
-            if (
-                cart.length !== 1 ||
-                Number(cart[0].quantity) !== 1
-            ) {
-
-                return res.status(400).json({
-                    error:
-                        "Un crédit VIP spécial couvre un seul plat du jour."
-                });
-
-            }
-
-            vipCreditReservation =
-                await reserveVipCredit(customerEmail);
-
-            if (!vipCreditReservation) {
-
-                return res.status(403).json({
-                    error:
-                        "Votre crédit VIP est épuisé."
-                });
-
-            }
-
-        }
-
-        // ==========================================
-        // CREATE STRIPE LINE ITEMS
-        // ==========================================
-
-        const productName =
-            orderPrice === VIP_MEMBERSHIP_PRICE
-                ? "Adhésion VIP + Plat du jour"
-                : orderPrice === VIP_BEER_PRICE
-                    ? "Plat du jour + bière (Asahi/Kirin)"
-                    : orderPrice === VIP_SOFT_PRICE
-                        ? "Plat du jour + Coca Zero / Orangina"
-                        : "Plat du jour";
-
-        const lineItems = cart.map(item => {
-
-            let unitAmount =
-                Math.round(orderPrice * 100);
-
-            // Special member 9.90 EUR credit
-            // means 0 EUR actually charged by Stripe.
-            if (
-                useVipCredit &&
-                orderPrice === VIP_PRICE
-            ) {
-
-                unitAmount = 0;
-
-            }
-
-            return {
-
-                price_data: {
-
-                    currency: "eur",
-
-                    product_data: {
-
-                        name: productName
-
-                    },
-
-                    unit_amount: unitAmount
-
-                },
-
-                quantity:
-                    Number(item.quantity)
-
-            };
-
-        });
-                // ==========================================
-        // CREATE STRIPE CHECKOUT SESSION
-        // ==========================================
-
-        const session =
-            await stripe.checkout.sessions.create({
-
-                mode: "payment",
-
-                line_items: lineItems,
-
-                expires_at: vipCreditReservation
-                    ? Math.floor(
-                        vipCreditReservation.expiresAt.getTime() / 1000
-                    )
-                    : undefined,
-
-                customer_email:
-                    customerEmail,
-
-                metadata: {
-
-                    customer_name:
-                        customer.name || "",
-
-                    customer_phone:
-                        customer.phone || "",
-
-                    delivery_address:
-                        customer.address || "",
-
-                    vip_credit_used:
-                        useVipCredit ? "true" : "false",
-
-                    vip_credit_reservation_id:
-                        vipCreditReservation
-                            ? vipCreditReservation.reservationId
-                            : ""
-
-                },
-
-                success_url:
-                    "https://cheriz.boutique.bienmangercommunity.com/success.html",
-
-                cancel_url:
-                    "https://cheriz.boutique.bienmangercommunity.com/checkout.html"
-
-            });
-
-        if (vipCreditReservation) {
-
-            await linkVipCreditReservation(
-                vipCreditReservation.reservationId,
-                session.id
-            );
-
-        }
-
-        // ==========================================
-        // RETURN STRIPE URL
-        // ==========================================
-
-        res.json({
-
-            url: session.url
-
-        });
-
-    } catch (error) {
-
-        if (vipCreditReservation) {
-
-            try {
-
-                await releaseVipCreditReservation(
-                    vipCreditReservation.reservationId
-                );
-
-            } catch (releaseError) {
-
-                console.error(
-                    "VIP credit release error:",
-                    releaseError
-                );
-
-            }
-
-        }
-
-        console.error(
-            "Stripe error:",
-            error
-        );
-
-        res.status(500).json({
-
-            error:
-                "Impossible de créer le paiement."
-
-        });
-
-    }
-
-});
-        // ==========================================
         // VIP 9.90 €
         // ==========================================
 
         let useVipCredit = false;
 
-        if (orderPrice === VIP_PRICE) {
+        if (
+    orderPrice === VIP_PRICE ||
+    orderPrice === VIP_BEER_PRICE ||
+    orderPrice === VIP_SOFT_PRICE
+) {
 
             if (!customerData) {
 
@@ -2042,8 +1773,12 @@ app.post("/create-checkout-session", async (req, res) => {
         // ==========================================
 
         const productName =
-            orderPrice === VIP_MEMBERSHIP_PRICE
-                ? "Adhésion VIP + Plat du jour"
+    orderPrice === VIP_MEMBERSHIP_PRICE
+        ? "Adhésion VIP + Plat du jour"
+        : orderPrice === VIP_BEER_PRICE
+            ? "Plat du jour + bière (Asahi/Kirin)"
+            : orderPrice === VIP_SOFT_PRICE
+                ? "Plat du jour + Coca Zero / Orangina"
                 : "Plat du jour";
 
         const lineItems = cart.map(item => {
