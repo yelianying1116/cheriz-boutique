@@ -724,7 +724,19 @@ const PRODUCT_PRICES = {
     11: 0,
     12: 0
 
+
+// ==========================================
+// AUTRES PRODUITS - PRIX STRIPE
+// ==========================================
+
+const OTHER_PRODUCT_PRICES = {
+
+    101: 5.00,
+    102: 8.50
+
 };
+
+
 const VIP_CREDIT_RESERVATION_MS = 30 * 60 * 1000;
 const VIP_SESSION_TTL_MS = 8 * 60 * 60 * 1000;
 const VIP_ACCESS_COOKIE = "cheriz_vip";
@@ -1614,155 +1626,204 @@ app.post("/create-checkout-session", async (req, res) => {
         // Le serveur détermine le prix réel.
         // ==========================================
 
-        const validatedCart = [];
+     const validatedCart = [];
 
-        for (const item of cart) {
+for (const item of cart) {
 
-            const quantity = Number(item.quantity);
+    const quantity = Number(item.quantity);
 
-            if (
-                !Number.isInteger(quantity) ||
-                quantity < 1 ||
-                quantity > 20
-            ) {
+    if (
+        !Number.isInteger(quantity) ||
+        quantity < 1 ||
+        quantity > 20
+    ) {
 
-                return res.status(400).json({
-                    error: "Quantité invalide."
-                });
+        return res.status(400).json({
+            error: "Quantité invalide."
+        });
 
-            }
-
-
-            // ======================================
-            // VIP MEMBERSHIP
-            // ======================================
-
-            if (item.type === "vip-membership") {
-
-                if (quantity !== 1) {
-
-                    return res.status(400).json({
-                        error:
-                            "L'adhésion VIP ne peut être commandée qu'une fois."
-                    });
-
-                }
-
-                validatedCart.push({
-
-                    type: "vip-membership",
-
-                    name:
-                        "Adhésion VIP + 1er repas",
-
-                    price:
-                        VIP_MEMBERSHIP_PRICE,
-
-                    quantity: 1
-
-                });
-
-                continue;
-
-            }
+    }
 
 
-            // ======================================
-            // DAILY DISH
-            // ======================================
+    // ======================================
+    // VIP MEMBERSHIP
+    // ======================================
 
-            if (item.type === "daily-dish") {
+    if (item.type === "vip-membership") {
 
-                const clientPrice =
-                    Number(item.price);
-
-                if (
-                    clientPrice !== NORMAL_PRICE &&
-                    clientPrice !== VIP_PRICE
-                ) {
-
-                    return res.status(400).json({
-                        error:
-                            "Tarif du plat du jour invalide."
-                    });
-
-                }
-
-                validatedCart.push({
-
-                    type: "daily-dish",
-
-                    name:
-                        "Plat du jour",
-
-                    price:
-                        clientPrice,
-
-                    quantity
-
-                });
-
-                continue;
-
-            }
-
-
-            // ======================================
-            // OTHER PRODUCT
-            // ======================================
-
-            if (item.type === "product") {
-
-                const productId =
-                    Number(item.productId);
-
-                const serverPrice =
-                    PRODUCT_PRICES[productId];
-
-                if (
-                    !Number.isFinite(serverPrice) ||
-                    serverPrice <= 0
-                ) {
-
-                    return res.status(400).json({
-                        error:
-                            "Prix du produit non configuré."
-                    });
-
-                }
-
-                validatedCart.push({
-
-                    type: "product",
-
-                    productId,
-
-                    name:
-                        String(
-                            item.name ||
-                            "Produit"
-                        ),
-
-                    price:
-                        serverPrice,
-
-                    quantity
-
-                });
-
-                continue;
-
-            }
-
-
-            // ======================================
-            // UNKNOWN PRODUCT
-            // ======================================
+        if (quantity !== 1) {
 
             return res.status(400).json({
-                error: "Produit non reconnu."
+                error:
+                    "L'adhésion VIP ne peut être commandée qu'une fois."
             });
 
+        }
+
+        validatedCart.push({
+
+            type: "vip-membership",
+
+            name:
+                "Adhésion VIP + 1er repas",
+
+            price:
+                VIP_MEMBERSHIP_PRICE,
+
+            quantity: 1
+
+        });
+
+        continue;
+
+    }
+
+
+    // ======================================
+    // DAILY DISH
+    // ======================================
+
+    if (item.type === "daily-dish") {
+
+        const clientPrice =
+            Number(item.price);
+
+        if (
+            clientPrice !== NORMAL_PRICE &&
+            clientPrice !== VIP_PRICE
+        ) {
+
+            return res.status(400).json({
+                error:
+                    "Tarif du plat du jour invalide."
+            });
+
+        }
+
+        validatedCart.push({
+
+            type: "daily-dish",
+
+            name:
+                "Plat du jour",
+
+            price:
+                clientPrice,
+
+            quantity
+
+        });
+
+        continue;
+
+    }
+
+
+    // ======================================
+    // NOS PLATS
+    // ======================================
+
+    if (item.type === "product") {
+
+        const productId =
+            Number(item.productId);
+
+        const serverPrice =
+            PRODUCT_PRICES[productId];
+
+        if (
+            !Number.isFinite(serverPrice) ||
+            serverPrice <= 0
+        ) {
+
+            return res.status(400).json({
+                error:
+                    "Prix du produit non configuré."
+            });
+
+        }
+
+        validatedCart.push({
+
+            type: "product",
+
+            productId,
+
+            name:
+                String(
+                    item.name ||
+                    "Produit"
+                ),
+
+            price:
+                serverPrice,
+
+            quantity
+
+        });
+
+        continue;
+
+    }
+
+
+    // ======================================
+    // AUTRES PRODUITS
+    // ======================================
+
+    if (item.type === "other-product") {
+
+        const productId =
+            Number(item.productId);
+
+        const serverPrice =
+            OTHER_PRODUCT_PRICES[productId];
+
+        if (
+            !Number.isFinite(serverPrice) ||
+            serverPrice <= 0
+        ) {
+
+            return res.status(400).json({
+                error:
+                    "Prix de l'autre produit non configuré."
+            });
+
+        }
+
+        validatedCart.push({
+
+            type: "other-product",
+
+            productId,
+
+            name:
+                String(
+                    item.name ||
+                    "Produit"
+                ),
+
+            price:
+                serverPrice,
+
+            quantity
+
+        });
+
+        continue;
+
+    }
+
+
+    // ======================================
+    // UNKNOWN PRODUCT
+    // ======================================
+
+    return res.status(400).json({
+        error: "Produit non reconnu."
+    });
+
+}
         }
         console.log("=================================");
         console.log("NOUVELLE COMMANDE");
