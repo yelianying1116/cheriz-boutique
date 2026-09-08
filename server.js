@@ -1837,7 +1837,7 @@ for (const item of cart) {
     });
 
 }
-        }
+        
         console.log("=================================");
         console.log("NOUVELLE COMMANDE");
         console.log("Client :", customer);
