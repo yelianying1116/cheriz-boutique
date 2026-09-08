@@ -29,6 +29,7 @@ const products = [
         id: 1,
         name: "Brocoli sauté aux légumes de saison, riz blanc",
         price:"",
+        purchaseable: true,
         image: "images/nos plats Brocoli sauté aux légumes de saison,  riz blanc.jpg",
         available: true,
         category: "Main",
@@ -66,6 +67,7 @@ const products = [
         id: 2,
         name: "Bœuf braisé aux pommes de terre, sauce soja, riz blanc",
         price:"",
+    purchaseable: true,
         image: "images/nos plats Bœuf braisé aux pommes de terre, sauce soja, ,  riz blanc.jpg",
         available: true,
         category: "Main",
@@ -103,6 +105,7 @@ const products = [
         id: 3,
         name: "Bœuf mijoté aux pommes de terre, riz blanc",
         price:"",
+        purchaseable: true,
         image: "images/nos plats Bœuf mijoté aux pommes de terre,  riz blanc.jpg",
         available: true,
         category: "Main",
@@ -140,6 +143,7 @@ const products = [
         id: 4,
         name: "Bœuf sauté aux oignons et au poivre noir, riz blanc",
         price:"",
+    purchaseable: true,
         image: "images/nos plats Bœuf sauté aux oignons et au poivre noir,  riz blanc.jpg",
         available: true,
         category: "Main",
@@ -177,6 +181,7 @@ const products = [
         id: 5,
         name: "Bœuf sauté aux oignons, œuf mariné, riz blanc",
         price:"",
+        purchaseable: true,
         image: "images/nos plats Bœuf sauté aux oignons, œuf mariné,  riz blanc.jpg",
         available: true,
         category: "Main",
@@ -214,6 +219,7 @@ const products = [
         id: 6,
         name: "Champignons de Paris sautés au porc, riz blanc",
         price:"",
+            purchaseable: true,
         image: "images/nos plats Champignons de Paris sautés au porc,  riz blanc.jpg",
         available: true,
         category: "Main",
@@ -251,6 +257,7 @@ const products = [
         id: 7,
         name: "Curry de lentilles et pommes de terre, servi avec du riz blanc",
         price:"",
+            purchaseable: true,
         image: "images/nos plats Curry de lentilles et pommes de terre, servi avec du riz blanc.jpg",
         available: true,
         category: "Main",
@@ -288,6 +295,7 @@ const products = [
         id: 8,
         name: "Curry de pois chiches et chou-fleur, riz parfumé",
         price:"",
+            purchaseable: true,
         image: "images/nos plats Curry de pois chiches et chou-fleur, riz parfumé.jpg",
         available: true,
         category: "Main",
@@ -325,6 +333,7 @@ const products = [
         id: 9,
         name: "Nouilles sautées au brocoli et aux piments",
         price:"",
+            purchaseable: true,
         image: "images/nos plats Nouilles sautées au brocoli et aux piments.jpg",
         available: true,
         category: "Main",
@@ -362,6 +371,7 @@ const products = [
         id: 10,
         name: "Nouilles sautées aux oignons et aux carottes",
         price:"",
+            purchaseable: true,
         image: "images/nos plats Nouilles sautées aux oignons et aux carottes.jpg",
         available: true,
         category: "Main",
@@ -399,6 +409,7 @@ const products = [
         id: 11,
         name: "Pommes de terre au bacon et aux œufs riz blanc",
         price:"",
+        purchaseable: true,
         image: "images/nos plats Pommes de terre au bacon et aux œufs riz blanc.jpg",
         available: true,
         category: "Main",
@@ -436,6 +447,7 @@ const products = [
         id: 12,
         name: "Pommes de terre, maïs et brocoli aux légumes, servis avec du riz blanc",
         price:"",
+        purchaseable: true,
         image: "images/nos plats Pommes de terre, maïs et brocoli aux légumes, servis avec du riz blanc.jpg",
         available: true,
         category: "Main",
@@ -520,16 +532,18 @@ function displayDailyDish() {
 // ====================================
 // NOS PLATS DISPLAY
 // ====================================
-
 function displayProducts() {
 
-    const menuContainer = document.getElementById("menu-list-2");
+    const menuContainer =
+        document.getElementById("menu-list-2");
 
     if (!menuContainer) return;
 
     menuContainer.innerHTML = "";
 
     products.forEach(product => {
+
+        if (!product.available) return;
 
         menuContainer.innerHTML += `
 
@@ -543,7 +557,14 @@ function displayProducts() {
 
                 <div class="menu-content">
 
-                     <h3>${product.name}</h3>
+                    <h3>${product.name}</h3>
+
+                    <button
+                        type="button"
+                        class="product-order-button"
+                        data-product-id="${product.id}">
+                        Ajouter au panier
+                    </button>
 
                 </div>
 
@@ -553,8 +574,22 @@ function displayProducts() {
 
     });
 
-}
+    document
+        .querySelectorAll(".product-order-button")
+        .forEach(button => {
 
+            button.addEventListener("click", () => {
+
+                const productId =
+                    Number(button.dataset.productId);
+
+                addProductToCart(productId);
+
+            });
+
+        });
+
+}
 
 // ====================================
 // INITIALIZATION
@@ -619,7 +654,70 @@ document.addEventListener("DOMContentLoaded", () => {
 // ====================================
 // ADD DAILY DISH TO CART
 // ====================================
+// ====================================
+// ADD OTHER PRODUCT TO CART
+// ====================================
 
+function addProductToCart(productId) {
+
+    const product = getProduct(productId);
+
+    if (!product) {
+
+        alert("Produit introuvable.");
+
+        return;
+    }
+
+    if (!product.available) {
+
+        alert("Ce produit n'est pas disponible.");
+
+        return;
+    }
+
+    let cart =
+        JSON.parse(
+            localStorage.getItem("cart")
+        ) || [];
+
+    const existingItem =
+        cart.find(item =>
+            item.type === "product" &&
+            Number(item.productId) === Number(productId)
+        );
+
+    if (existingItem) {
+
+        existingItem.quantity += 1;
+
+    } else {
+
+        cart.push({
+
+            type: "product",
+
+            productId: product.id,
+
+            name: product.name,
+
+            price: Number(product.price) || 0,
+
+            quantity: 1,
+
+            image: product.image
+
+        });
+
+    }
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+    window.location.href = "cart.html";
+}
 function addDailyDishToCart(price) {
 
     let cart =
