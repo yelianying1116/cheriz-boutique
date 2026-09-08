@@ -697,8 +697,6 @@ const resend = new Resend(
 
 const VIP_PRICE = 9.90;
 const NORMAL_PRICE = 15.50;
-const VIP_BEER_PRICE = 13.90;
-const VIP_SOFT_PRICE = 12.90;
 const VIP_MEMBERSHIP_PRICE = 39.60;
 const VIP_CREDIT_RESERVATION_MS = 30 * 60 * 1000;
 const VIP_SESSION_TTL_MS = 8 * 60 * 60 * 1000;
@@ -1566,12 +1564,10 @@ app.post("/create-checkout-session", async (req, res) => {
 
         const orderPrice = Number(cart[0].price);
         const allowedPrices = [
-          NORMAL_PRICE,
-          VIP_PRICE,
-          VIP_BEER_PRICE,
-          VIP_SOFT_PRICE,
-          VIP_MEMBERSHIP_PRICE
-      ];
+            NORMAL_PRICE,
+            VIP_PRICE,
+            VIP_MEMBERSHIP_PRICE
+        ];
 
         const validCart = cart.every(item =>
             Number(item.price) === orderPrice &&
@@ -1674,11 +1670,7 @@ app.post("/create-checkout-session", async (req, res) => {
 
         let useVipCredit = false;
 
-        if (
-    orderPrice === VIP_PRICE ||
-    orderPrice === VIP_BEER_PRICE ||
-    orderPrice === VIP_SOFT_PRICE
-) {
+        if (orderPrice === VIP_PRICE) {
 
             if (!customerData) {
 
@@ -1773,12 +1765,8 @@ app.post("/create-checkout-session", async (req, res) => {
         // ==========================================
 
         const productName =
-    orderPrice === VIP_MEMBERSHIP_PRICE
-        ? "Adhésion VIP + Plat du jour"
-        : orderPrice === VIP_BEER_PRICE
-            ? "Plat du jour + bière (Asahi/Kirin)"
-            : orderPrice === VIP_SOFT_PRICE
-                ? "Plat du jour + Coca Zero / Orangina"
+            orderPrice === VIP_MEMBERSHIP_PRICE
+                ? "Adhésion VIP + Plat du jour"
                 : "Plat du jour";
 
         const lineItems = cart.map(item => {
