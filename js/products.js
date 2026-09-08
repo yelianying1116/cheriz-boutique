@@ -680,21 +680,16 @@ function displayProducts() {
             <article class="menu-card">
 
                 <div class="menu-photo">
+
                     <img
                         src="${product.image}"
                         alt="${product.name}">
+
                 </div>
 
                 <div class="menu-content">
 
                     <h3>${product.name}</h3>
-
-                    <button
-                        type="button"
-                        class="product-order-button"
-                        data-product-id="${product.id}">
-                        Ajouter au panier
-                    </button>
 
                 </div>
 
@@ -703,21 +698,6 @@ function displayProducts() {
         `;
 
     });
-
-    document
-        .querySelectorAll(".product-order-button")
-        .forEach(button => {
-
-            button.addEventListener("click", () => {
-
-                const productId =
-                    Number(button.dataset.productId);
-
-                addProductToCart(productId);
-
-            });
-
-        });
 
 }
 
