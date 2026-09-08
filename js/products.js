@@ -718,14 +718,14 @@ function addProductToCart(productId) {
 
     window.location.href = "cart.html";
 }
-```js
+}
+
 function addDailyDishToCart(price) {
 
     let cart =
         JSON.parse(
             localStorage.getItem("cart")
         ) || [];
-
 
     cart.push({
 
@@ -741,17 +741,50 @@ function addDailyDishToCart(price) {
 
     });
 
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+    window.location.href = "cart.html";
+
+}
+
+
+// ====================================
+// ADD VIP MEMBERSHIP TO CART
+// ====================================
+
+function addMembershipToCart() {
+
+    let cart =
+        JSON.parse(
+            localStorage.getItem("cart")
+        ) || [];
+
+    cart.push({
+
+        name:
+            "Adhésion VIP + 1er repas",
+
+        price: 39.60,
+
+        quantity: 1,
+
+        image: DAILY_DISH.image,
+
+        type: "vip-membership"
+
+    });
 
     localStorage.setItem(
         "cart",
         JSON.stringify(cart)
     );
 
-
     window.location.href = "cart.html";
 
 }
-```
 
 // ====================================
 // ADD VIP MEMBERSHIP TO CART
