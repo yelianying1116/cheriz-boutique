@@ -180,6 +180,8 @@ if (event.type === "checkout.session.completed") {
 
     const vipCreditUsed =
         session.metadata?.vip_credit_used === "true";
+    const vipMembership =
+    session.metadata?.vip_membership === "true";
 
 // ==========================================
 // VIP MEMBERSHIP
@@ -187,7 +189,7 @@ if (event.type === "checkout.session.completed") {
 
 if (
     customerEmail &&
-    Number(totalAmount) === 39.60
+    vipMembership
 ) {
 
     try {
@@ -1575,11 +1577,11 @@ app.post("/create-checkout-session", async (req, res) => {
 
         const { cart, customer } = req.body;
 
-        // ==========================================
+         // ==========================================
         // CHECK CART
         // ==========================================
 
-        if (!cart || !Array.isArray(cart) || cart.length === 0) {
+        if (!Array.isArray(cart) || cart.length === 0) {
 
             return res.status(400).json({
                 error: "Votre panier est vide."
@@ -1587,34 +1589,10 @@ app.post("/create-checkout-session", async (req, res) => {
 
         }
 
-        const orderPrice = Number(cart[0].price);
-        const allowedPrices = [
-            NORMAL_PRICE,
-            VIP_PRICE,
-            VIP_MEMBERSHIP_PRICE
-        ];
-
-        const validCart = cart.every(item =>
-            Number(item.price) === orderPrice &&
-            Number.isInteger(Number(item.quantity)) &&
-            Number(item.quantity) > 0
-        );
-
-        if (!allowedPrices.includes(orderPrice) || !validCart) {
+        if (cart.length > 20) {
 
             return res.status(400).json({
-                error: "Panier ou tarif non valide."
-            });
-
-        }
-
-        if (
-            orderPrice === VIP_MEMBERSHIP_PRICE &&
-            (cart.length !== 1 || Number(cart[0].quantity) !== 1)
-        ) {
-
-            return res.status(400).json({
-                error: "L'adhésion VIP ne peut être commandée qu'une fois."
+                error: "Votre panier contient trop de produits."
             });
 
         }
@@ -1630,6 +1608,162 @@ app.post("/create-checkout-session", async (req, res) => {
         const customerEmail =
             customer.email.trim().toLowerCase();
 
+
+        // ==========================================
+        // VALIDATION DU PANIER
+        // Le serveur détermine le prix réel.
+        // ==========================================
+
+        const validatedCart = [];
+
+        for (const item of cart) {
+
+            const quantity = Number(item.quantity);
+
+            if (
+                !Number.isInteger(quantity) ||
+                quantity < 1 ||
+                quantity > 20
+            ) {
+
+                return res.status(400).json({
+                    error: "Quantité invalide."
+                });
+
+            }
+
+
+            // ======================================
+            // VIP MEMBERSHIP
+            // ======================================
+
+            if (item.type === "vip-membership") {
+
+                if (quantity !== 1) {
+
+                    return res.status(400).json({
+                        error:
+                            "L'adhésion VIP ne peut être commandée qu'une fois."
+                    });
+
+                }
+
+                validatedCart.push({
+
+                    type: "vip-membership",
+
+                    name:
+                        "Adhésion VIP + 1er repas",
+
+                    price:
+                        VIP_MEMBERSHIP_PRICE,
+
+                    quantity: 1
+
+                });
+
+                continue;
+
+            }
+
+
+            // ======================================
+            // DAILY DISH
+            // ======================================
+
+            if (item.type === "daily-dish") {
+
+                const clientPrice =
+                    Number(item.price);
+
+                if (
+                    clientPrice !== NORMAL_PRICE &&
+                    clientPrice !== VIP_PRICE
+                ) {
+
+                    return res.status(400).json({
+                        error:
+                            "Tarif du plat du jour invalide."
+                    });
+
+                }
+
+                validatedCart.push({
+
+                    type: "daily-dish",
+
+                    name:
+                        "Plat du jour",
+
+                    price:
+                        clientPrice,
+
+                    quantity
+
+                });
+
+                continue;
+
+            }
+
+
+            // ======================================
+            // OTHER PRODUCT
+            // ======================================
+
+            if (item.type === "product") {
+
+                const productId =
+                    Number(item.productId);
+
+                const serverPrice =
+                    PRODUCT_PRICES[productId];
+
+                if (
+                    !Number.isFinite(serverPrice) ||
+                    serverPrice <= 0
+                ) {
+
+                    return res.status(400).json({
+                        error:
+                            "Prix du produit non configuré."
+                    });
+
+                }
+
+                validatedCart.push({
+
+                    type: "product",
+
+                    productId,
+
+                    name:
+                        String(
+                            item.name ||
+                            "Produit"
+                        ),
+
+                    price:
+                        serverPrice,
+
+                    quantity
+
+                });
+
+                continue;
+
+            }
+
+
+            // ======================================
+            // UNKNOWN PRODUCT
+            // ======================================
+
+            return res.status(400).json({
+                error: "Produit non reconnu."
+            });
+
+        }
         console.log("=================================");
         console.log("NOUVELLE COMMANDE");
         console.log("Client :", customer);
@@ -1657,37 +1791,89 @@ app.post("/create-checkout-session", async (req, res) => {
                 ? customerResult.rows[0]
                 : null;
 
-        // ==========================================
-        // ORDER PRICE
-        // ==========================================
+// ====================================
+// CALCULATE ORDER
+// ====================================
 
-        // ==========================================
-        // SPECIAL MEMBER
-        // ==========================================
+let useVipCredit = false;
+let hasVipMembership = false;
+let hasDailyDish = false;
 
-        if (customerData?.special_member === true) {
+// ------------------------------------
+// VIP MEMBERSHIP
+// ------------------------------------
 
-            // Special members may only order through their remaining 9.90 EUR credits.
-            if (orderPrice !== 9.90) {
+const membershipItems = validatedCart.filter(
+    item => item.type === "vip-membership"
+);
 
-                return res.status(403).json({
-                    error:
-                        "Votre compte membre spécial ne peut pas utiliser le tarif normal de 15,50 €."
-                });
+if (membershipItems.length > 0) {
 
-            }
+    hasVipMembership = true;
 
-            // No credits left
-            if (Number(customerData.vip_credits) <= 0) {
+    if (
+        membershipItems.length !== 1 ||
+        membershipItems[0].quantity !== 1 ||
+        validatedCart.length !== 1
+    ) {
+        return res.status(400).json({
+            error:
+                "L'adhésion VIP doit être commandée seule."
+        });
+    }
+}
 
-                return res.status(403).json({
-                    error:
-                        "Votre crédit VIP est épuisé."
-                });
 
-            }
+// ------------------------------------
+// DAILY DISH
+// ------------------------------------
 
+const dailyDishItems = validatedCart.filter(
+    item => item.type === "daily-dish"
+);
+
+if (dailyDishItems.length > 0) {
+
+    hasDailyDish = true;
+
+    if (dailyDishItems.length > 1) {
+        return res.status(400).json({
+            error:
+                "Un seul plat du jour peut être commandé par commande."
+        });
+    }
+
+    const dailyDish = dailyDishItems[0];
+
+    // SPECIAL MEMBER
+    if (customerData?.special_member === true) {
+
+        if (Number(customerData.vip_credits) <= 0) {
+            return res.status(403).json({
+                error:
+                    "Votre crédit VIP est épuisé."
+            });
         }
+
+        dailyDish.price = VIP_PRICE;
+        useVipCredit = true;
+
+    }
+
+    // VIP UNLIMITED
+    else if (customerData?.vip_unlimited === true) {
+
+        dailyDish.price = VIP_PRICE;
+
+    }
+
+    // NORMAL CUSTOMER
+    else {
+
+        dailyDish.price = NORMAL_PRICE;
+
+    }
+}
 
         // ==========================================
         // VIP 9.90 €
@@ -1757,44 +1943,74 @@ app.post("/create-checkout-session", async (req, res) => {
         }
 
         // Reserve one special-member credit before creating a free checkout.
-        // This prevents concurrent sessions from using the same remaining credit.
-        if (useVipCredit) {
+// ====================================
+// RESERVE VIP CREDIT
+// ====================================
 
-            if (
-                cart.length !== 1 ||
-                Number(cart[0].quantity) !== 1
-            ) {
+if (useVipCredit) {
 
-                return res.status(400).json({
-                    error:
-                        "Un crédit VIP spécial couvre un seul plat du jour."
-                });
+    vipCreditReservation =
+        await reserveVipCredit(customerEmail);
 
-            }
+    if (!vipCreditReservation) {
 
-            vipCreditReservation =
-                await reserveVipCredit(customerEmail);
+        return res.status(403).json({
+            error:
+                "Votre crédit VIP est épuisé."
+        });
+    }
 
-            if (!vipCreditReservation) {
+}
 
-                return res.status(403).json({
-                    error: "Votre crédit VIP est épuisé."
-                });
+// ====================================
+// CREATE STRIPE LINE ITEMS
+// ====================================
 
-            }
+const lineItems = validatedCart.map(item => {
 
-        }
+    let unitAmount =
+        Math.round(Number(item.price) * 100);
 
-        // ==========================================
-        // CREATE STRIPE LINE ITEMS
-        // ==========================================
+    // Special member VIP credit
+    // The daily dish becomes free.
+    if (
+        useVipCredit &&
+        item.type === "daily-dish"
+    ) {
+        unitAmount = 0;
+    }
 
-        const productName =
-            orderPrice === VIP_MEMBERSHIP_PRICE
-                ? "Adhésion VIP + Plat du jour"
-                : "Plat du jour";
+    let productName = item.name;
 
-        const lineItems = cart.map(item => {
+    if (item.type === "vip-membership") {
+
+        productName =
+            "Adhésion VIP + 1er repas";
+
+    }
+
+    return {
+
+        price_data: {
+
+            currency: "eur",
+
+            product_data: {
+
+                name: productName
+
+            },
+
+            unit_amount: unitAmount
+
+        },
+
+        quantity:
+            Number(item.quantity)
+
+    };
+
+});
 
             let unitAmount =
                 Math.round(orderPrice * 100);
@@ -1856,26 +2072,29 @@ app.post("/create-checkout-session", async (req, res) => {
                 customer_email:
                     customerEmail,
 
-                metadata: {
+metadata: {
 
-                    customer_name:
-                        customer.name || "",
+    customer_name:
+        customer.name || "",
 
-                    customer_phone:
-                        customer.phone || "",
+    customer_phone:
+        customer.phone || "",
 
-                    delivery_address:
-                        customer.address || "",
+    delivery_address:
+        customer.address || "",
 
-                    vip_credit_used:
-                        useVipCredit ? "true" : "false",
+    vip_credit_used:
+        useVipCredit ? "true" : "false",
 
-                    vip_credit_reservation_id:
-                        vipCreditReservation
-                            ? vipCreditReservation.reservationId
-                            : ""
+    vip_credit_reservation_id:
+        vipCreditReservation
+            ? vipCreditReservation.reservationId
+            : "",
 
-                },
+    vip_membership:
+        hasVipMembership ? "true" : "false"
+
+},
 
                 success_url:
                     "https://cheriz.boutique.bienmangercommunity.com/success.html",
