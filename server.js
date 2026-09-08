@@ -698,6 +698,31 @@ const resend = new Resend(
 const VIP_PRICE = 9.90;
 const NORMAL_PRICE = 15.50;
 const VIP_MEMBERSHIP_PRICE = 39.60;
+// ==========================================
+// AUTRES PRODUITS - PRIX SERVEUR
+// ==========================================
+//
+// IMPORTANT :
+// Les prix utilisés pour Stripe sont définis
+// ici et non dans le navigateur.
+//
+
+const PRODUCT_PRICES = {
+
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0,
+    6: 0,
+    7: 0,
+    8: 0,
+    9: 0,
+    10: 0,
+    11: 0,
+    12: 0
+
+};
 const VIP_CREDIT_RESERVATION_MS = 30 * 60 * 1000;
 const VIP_SESSION_TTL_MS = 8 * 60 * 60 * 1000;
 const VIP_ACCESS_COOKIE = "cheriz_vip";
