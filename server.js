@@ -1813,17 +1813,14 @@ if (membershipItems.length > 0) {
 
     if (
         membershipItems.length !== 1 ||
-        membershipItems[0].quantity !== 1 ||
-        validatedCart.length !== 1
+        membershipItems[0].quantity !== 1
     ) {
         return res.status(400).json({
             error:
-                "L'adhésion VIP doit être commandée seule."
+                "L'adhésion VIP ne peut être commandée qu'une seule fois."
         });
     }
 }
-
-
 // ------------------------------------
 // DAILY DISH
 // ------------------------------------
