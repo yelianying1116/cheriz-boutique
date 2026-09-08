@@ -160,6 +160,7 @@ PLAT DU JOUR
 }
 
 
+
 /* ==========================================
 DAILY CARD
 ========================================== */
@@ -178,7 +179,8 @@ DAILY CARD
 
     transition: .3s;
 
-    align-items: center;
+    /* 图片和内容从卡片顶部开始对齐 */
+    align-items: flex-start;
 
 }
 
