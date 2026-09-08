@@ -718,6 +718,7 @@ function addProductToCart(productId) {
 
     window.location.href = "cart.html";
 }
+```js
 function addDailyDishToCart(price) {
 
     let cart =
@@ -734,7 +735,9 @@ function addDailyDishToCart(price) {
 
         quantity: 1,
 
-        image: DAILY_DISH.image
+        image: DAILY_DISH.image,
+
+        type: "daily-dish"
 
     });
 
@@ -748,7 +751,7 @@ function addDailyDishToCart(price) {
     window.location.href = "cart.html";
 
 }
-
+```
 
 // ====================================
 // ADD VIP MEMBERSHIP TO CART
