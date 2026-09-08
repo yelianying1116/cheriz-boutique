@@ -731,12 +731,25 @@ const PRODUCT_PRICES = {
 
 const OTHER_PRODUCT_PRICES = {
 
-    101: 5.00,
-    102: 8.50
+    101: 3.00,
+    102: 3.50,
+    103: 3.00,
+    104: 3.80,
+    105: 3.00,
+    106: 7.00,
+    107: 7.50,
+    108: 3.00,
+    109: 3.20,
+    110: 4.50,
+    111: 5.00,
+
+    // BOISSONS
+    112: 2.80,
+    113: 2.80,
+    114: 2.80,
+    115: 4.50
 
 };
-
-
 const VIP_CREDIT_RESERVATION_MS = 30 * 60 * 1000;
 const VIP_SESSION_TTL_MS = 8 * 60 * 60 * 1000;
 const VIP_ACCESS_COOKIE = "cheriz_vip";
