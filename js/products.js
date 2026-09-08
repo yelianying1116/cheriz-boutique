@@ -504,24 +504,131 @@ function getMenuProducts() {
 
 // ====================================
 // AUTRES PRODUITS
-// 这里填写不属于 Nos plats 的商品
 // ====================================
 
 const OTHER_PRODUCTS = [
 
     {
         id: 101,
-        name: "Nom du produit",
-        description: "Description du produit.",
-        price: 5.00,
+        name: "Nems aux légumes",
+        description: "2 pièces, rouleaux croustillants aux légumes.",
+        price: 3.00,
         available: true
     },
 
     {
         id: 102,
-        name: "Deuxième produit",
-        description: "Description du deuxième produit.",
-        price: 8.50,
+        name: "Nems au bœuf",
+        description: "2 pièces.",
+        price: 3.50,
+        available: true
+    },
+
+    {
+        id: 103,
+        name: "Nems au poulet",
+        description: "2 pièces, rouleaux croustillants au poulet.",
+        price: 3.00,
+        available: true
+    },
+
+    {
+        id: 104,
+        name: "Nems aux crevettes",
+        description: "2 pièces, rouleaux croustillants aux crevettes.",
+        price: 3.80,
+        available: true
+    },
+
+    {
+        id: 105,
+        name: "Nems au porc",
+        description: "2 pièces, rouleaux croustillants au porc.",
+        price: 3.00,
+        available: true
+    },
+
+    {
+        id: 106,
+        name: "Raviolis vapeur au poulet & légumes épicé",
+        description: "5 pièces, poulet, chou chinois.",
+        price: 7.00,
+        available: true
+    },
+
+    {
+        id: 107,
+        name: "Raviolis vapeur aux légumes",
+        description: "5 pièces, bouchées vapeur végétariennes.",
+        price: 7.50,
+        available: true
+    },
+
+    {
+        id: 108,
+        name: "Raviolis vapeur au porc",
+        description: "2 pièces, porc.",
+        price: 3.00,
+        available: true
+    },
+
+    {
+        id: 109,
+        name: "Xiao Long Bao",
+        description: "2 pièces, petites brioches vapeur au porc.",
+        price: 3.20,
+        available: true
+    },
+
+    {
+        id: 110,
+        name: "Perles de Coco",
+        description: "2 pièces, délicates bouchées de riz gluant à la noix de coco et œuf.",
+        price: 4.50,
+        available: true
+    },
+
+    {
+        id: 111,
+        name: "Perles de Coco vert",
+        description: "2 pièces, perles de coco à la pâte de haricot mungo.",
+        price: 5.00,
+        available: true
+    },
+
+    // ====================================
+    // BOISSONS
+    // ====================================
+
+    {
+        id: 112,
+        name: "Coca-Cola",
+        description: "Original 33cl.",
+        price: 2.80,
+        available: true
+    },
+
+    {
+        id: 113,
+        name: "Coca-Cola",
+        description: "Sans Sucres 33cl.",
+        price: 2.80,
+        available: true
+    },
+
+    {
+        id: 114,
+        name: "Eau gazeuse",
+        description: "Perrier 33cl.",
+        price: 2.80,
+        available: true
+    },
+
+    {
+        id: 115,
+        name: "Bière Tsingtao",
+        description: "33cl.",
+        price: 4.50,
         available: true
     }
 
