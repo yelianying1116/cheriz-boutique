@@ -723,7 +723,7 @@ const PRODUCT_PRICES = {
     10: 0,
     11: 0,
     12: 0
-
+};
 
 // ==========================================
 // AUTRES PRODUITS - PRIX STRIPE
