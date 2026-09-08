@@ -1873,55 +1873,6 @@ if (dailyDishItems.length > 0) {
 }
 
 
-            // ==========================================
-            // VIP UNLIMITED
-            // ==========================================
-
-            if (customerData.special_member === true) {
-
-                if (Number(customerData.vip_credits) <= 0) {
-
-                    return res.status(403).json({
-                        error: "Votre crédit VIP est épuisé."
-                    });
-
-                }
-
-                useVipCredit = true;
-
-                console.log(
-                    "SPECIAL MEMBER CREDIT ORDER:",
-                    customerEmail,
-                    "credits:",
-                    customerData.vip_credits
-                );
-
-            }
-
-            // Customers who paid 39.60 EUR are VIP and may pay 9.90 EUR.
-            else if (customerData.vip_unlimited === true) {
-
-                console.log(
-                    "VIP UNLIMITED ORDER:",
-                    customerEmail
-                );
-
-            }
-
-            // ==========================================
-            // SPECIAL MEMBER CREDIT
-            // ==========================================
-
-            else {
-
-                return res.status(403).json({
-                    error:
-                        "Votre crédit VIP est épuisé."
-                });
-
-            }
-
-        }
 
         // Reserve one special-member credit before creating a free checkout.
 // ====================================
@@ -1993,45 +1944,6 @@ const lineItems = validatedCart.map(item => {
 
 });
 
-            let unitAmount =
-                Math.round(orderPrice * 100);
-
-            // ==========================================
-            // SPECIAL MEMBER CREDIT
-            // 9.90 € benefit = 0 € actually paid
-            // ==========================================
-
-            if (
-                useVipCredit &&
-                orderPrice === VIP_PRICE
-            ) {
-
-                unitAmount = 0;
-
-            }
-
-            return {
-
-                price_data: {
-
-                    currency: "eur",
-
-                    product_data: {
-
-                        name: productName
-
-                    },
-
-                    unit_amount: unitAmount
-
-                },
-
-                quantity:
-                    Number(item.quantity)
-
-            };
-
-        });
 
         // ==========================================
         // CREATE STRIPE CHECKOUT SESSION
