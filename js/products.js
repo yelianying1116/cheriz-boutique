@@ -502,7 +502,30 @@ function getMenuProducts() {
 
 }
 
+// ====================================
+// AUTRES PRODUITS
+// 这里填写不属于 Nos plats 的商品
+// ====================================
 
+const OTHER_PRODUCTS = [
+
+    {
+        id: 101,
+        name: "Nom du produit",
+        description: "Description du produit.",
+        price: 5.00,
+        available: true
+    },
+
+    {
+        id: 102,
+        name: "Deuxième produit",
+        description: "Description du deuxième produit.",
+        price: 8.50,
+        available: true
+    }
+
+];
 // ====================================
 // PLAT DU JOUR DISPLAY
 // ====================================
@@ -528,14 +551,14 @@ function displayDailyDish() {
 
 }
 
-
 // ====================================
 // NOS PLATS DISPLAY
 // ====================================
+
 function displayProducts() {
 
     const menuContainer =
-        document.getElementById("menu-list-2");
+        document.getElementById("nos-plats-list");
 
     if (!menuContainer) return;
 
@@ -548,12 +571,6 @@ function displayProducts() {
         menuContainer.innerHTML += `
 
             <article class="menu-card">
-
-                <div class="menu-photo">
-                    <img
-                        src="${product.image}"
-                        alt="${product.name}">
-                </div>
 
                 <div class="menu-content">
 
@@ -591,12 +608,78 @@ function displayProducts() {
 
 }
 
+
+// ====================================
+// AUTRES PRODUITS DISPLAY
+// ====================================
+
+function displayOtherProducts() {
+
+    const container =
+        document.getElementById("menu-list-2");
+
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    OTHER_PRODUCTS.forEach(product => {
+
+        if (!product.available) return;
+
+        container.innerHTML += `
+
+            <article class="menu-card">
+
+                <div class="menu-content">
+
+                    <h3>${product.name}</h3>
+
+                    <p>
+                        ${product.description}
+                    </p>
+
+                    <p class="product-price">
+                        ${Number(product.price).toFixed(2).replace(".", ",")} €
+                    </p>
+
+                    <button
+                        type="button"
+                        class="other-product-order-button"
+                        data-other-product-id="${product.id}">
+                        Ajouter au panier
+                    </button>
+
+                </div>
+
+            </article>
+
+        `;
+
+    });
+
+    document
+        .querySelectorAll(".other-product-order-button")
+        .forEach(button => {
+
+            button.addEventListener("click", () => {
+
+                const productId =
+                    Number(button.dataset.otherProductId);
+
+                addOtherProductToCart(productId);
+
+            });
+
+        });
+
+}
 // ====================================
 // INITIALIZATION
 // ====================================
 
 displayDailyDish();
 displayProducts();
+displayOtherProducts();
 // ====================================
 // DAILY DISH BUTTONS
 // ====================================
