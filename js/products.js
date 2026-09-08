@@ -572,6 +572,12 @@ function displayProducts() {
 
             <article class="menu-card">
 
+                <div class="menu-photo">
+                    <img
+                        src="${product.image}"
+                        alt="${product.name}">
+                </div>
+
                 <div class="menu-content">
 
                     <h3>${product.name}</h3>
@@ -607,7 +613,6 @@ function displayProducts() {
         });
 
 }
-
 
 // ====================================
 // AUTRES PRODUITS DISPLAY
@@ -730,14 +735,113 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
     }
-
 });
 
 // ====================================
 // ADD DAILY DISH TO CART
 // ====================================
+
+function addDailyDishToCart(price) {
+
+    let cart =
+        JSON.parse(
+            localStorage.getItem("cart")
+        ) || [];
+
+    cart.push({
+
+        name: DAILY_DISH.name,
+
+        price: price,
+
+        quantity: 1,
+
+        image: DAILY_DISH.image,
+
+        type: "daily-dish"
+
+    });
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+    window.location.href = "cart.html";
+
+}
+
+
 // ====================================
 // ADD OTHER PRODUCT TO CART
+// ====================================
+
+function addOtherProductToCart(productId) {
+
+    const product =
+        OTHER_PRODUCTS.find(
+            item => item.id === productId
+        );
+
+    if (!product) {
+
+        alert("Produit introuvable.");
+
+        return;
+    }
+
+    if (!product.available) {
+
+        alert("Ce produit n'est pas disponible.");
+
+        return;
+    }
+
+    let cart =
+        JSON.parse(
+            localStorage.getItem("cart")
+        ) || [];
+
+    const existingItem =
+        cart.find(item =>
+            item.type === "other-product" &&
+            Number(item.productId) === Number(productId)
+        );
+
+    if (existingItem) {
+
+        existingItem.quantity += 1;
+
+    } else {
+
+        cart.push({
+
+            type: "other-product",
+
+            productId: product.id,
+
+            name: product.name,
+
+            price: Number(product.price),
+
+            quantity: 1
+
+        });
+
+    }
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+    window.location.href = "cart.html";
+
+}
+
+
+// ====================================
+// ADD NOS PLATS PRODUCT TO CART
 // ====================================
 
 function addProductToCart(productId) {
@@ -792,36 +896,6 @@ function addProductToCart(productId) {
         });
 
     }
-
-    localStorage.setItem(
-        "cart",
-        JSON.stringify(cart)
-    );
-
-    window.location.href = "cart.html";
-}
-
-
-function addDailyDishToCart(price) {
-
-    let cart =
-        JSON.parse(
-            localStorage.getItem("cart")
-        ) || [];
-
-    cart.push({
-
-        name: DAILY_DISH.name,
-
-        price: price,
-
-        quantity: 1,
-
-        image: DAILY_DISH.image,
-
-        type: "daily-dish"
-
-    });
 
     localStorage.setItem(
         "cart",
