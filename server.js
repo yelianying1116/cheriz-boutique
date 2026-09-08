@@ -1872,22 +1872,6 @@ if (dailyDishItems.length > 0) {
     }
 }
 
-        // ==========================================
-        // VIP 9.90 €
-        // ==========================================
-
-        let useVipCredit = false;
-
-        if (orderPrice === VIP_PRICE) {
-
-            if (!customerData) {
-
-        return res.status(403).json({
-           error:
-             "Offre réservée aux membres VIP. Accessible après 39,60 € de paiements cumulés."
-              });
-
-            }
 
             // ==========================================
             // VIP UNLIMITED
