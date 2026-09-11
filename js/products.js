@@ -648,6 +648,8 @@ const OTHER_PRODUCTS = [
     }
 
 ];
+
+
 // ====================================
 // PLAT DU JOUR DISPLAY
 // ====================================
@@ -670,45 +672,55 @@ function displayDailyDish() {
         document.getElementById("daily-calories");
 
 
+    // Nom du plat
     if (nameElement) {
-        nameElement.textContent = DAILY_DISH.name;
+
+        nameElement.textContent =
+            DAILY_DISH.name;
+
     }
 
 
+    // Description
     if (descriptionElement) {
+
         descriptionElement.textContent =
-            DAILY_DISH.description;
+            DAILY_DISH.description.trim();
+
     }
 
 
+    // Image
     if (imageElement) {
-        imageElement.src = DAILY_DISH.image;
+
+        imageElement.src =
+            DAILY_DISH.image;
+
+        imageElement.alt =
+            DAILY_DISH.name;
+
     }
 
 
+    // Ingrédients
     if (ingredientsElement) {
+
         ingredientsElement.textContent =
             DAILY_DISH.ingredients.join(", ");
+
     }
 
 
+    // Calories
     if (caloriesElement) {
+
         caloriesElement.textContent =
             DAILY_DISH.calories;
+
     }
 
 }
 
-    if (descriptionElement) {
-        descriptionElement.textContent = DAILY_DISH.description.trim();
-    }
-
-    if (imageElement) {
-        imageElement.src = DAILY_DISH.image;
-        imageElement.alt = DAILY_DISH.name;
-    }
-
-}
 
 // ====================================
 // NOS PLATS DISPLAY
