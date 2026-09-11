@@ -12,15 +12,14 @@ const DAILY_DISH = {
         accompagné d'une sauce légèrement relevée qui apporte une touche
         gourmande et chaleureuse.
     `,
-    Ingrédients:Riz blanc,Poulet mariné,Ail,Paprika,Cumin,Poivre noir,Sel,Huile d’olive,Jus de citron,Persil frais,Sauce légèrement relevée à base de tomate, ail et épices
-Calories≈ 650 kcal / portion
 
     image: "images/plat-du-jour.jpg"
 
 };
 
 
-// ====================================// PRODUCTS DATABASE
+// ====================================
+// PRODUCTS DATABASE
 // 菜单、甜品、饮品等长期商品
 // ====================================
 
