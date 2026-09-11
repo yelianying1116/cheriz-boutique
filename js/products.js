@@ -654,13 +654,50 @@ const OTHER_PRODUCTS = [
 
 function displayDailyDish() {
 
-    const nameElement = document.getElementById("daily-name");
-    const descriptionElement = document.getElementById("daily-description");
-    const imageElement = document.getElementById("daily-image");
+    const nameElement =
+        document.getElementById("daily-name");
+
+    const descriptionElement =
+        document.getElementById("daily-description");
+
+    const imageElement =
+        document.getElementById("daily-image");
+
+    const ingredientsElement =
+        document.getElementById("daily-ingredients");
+
+    const caloriesElement =
+        document.getElementById("daily-calories");
+
 
     if (nameElement) {
         nameElement.textContent = DAILY_DISH.name;
     }
+
+
+    if (descriptionElement) {
+        descriptionElement.textContent =
+            DAILY_DISH.description;
+    }
+
+
+    if (imageElement) {
+        imageElement.src = DAILY_DISH.image;
+    }
+
+
+    if (ingredientsElement) {
+        ingredientsElement.textContent =
+            DAILY_DISH.ingredients.join(", ");
+    }
+
+
+    if (caloriesElement) {
+        caloriesElement.textContent =
+            DAILY_DISH.calories;
+    }
+
+}
 
     if (descriptionElement) {
         descriptionElement.textContent = DAILY_DISH.description.trim();
