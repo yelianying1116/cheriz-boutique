@@ -1189,6 +1189,7 @@ MOBILE
         font-size: 50px;
     }
 }
+
 /* ==========================================
    AUTRES PRODUITS
 ========================================== */
@@ -1213,7 +1214,10 @@ MOBILE
 
 .other-products-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+
+    /* 电脑版：一行 4 个 */
+    grid-template-columns: repeat(4, 1fr);
+
     gap: 25px;
     margin-top: 30px;
 }
@@ -1223,22 +1227,30 @@ MOBILE
     border-radius: 25px;
     padding: 20px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+
     display: flex;
     flex-direction: column;
+
     height: 100%;
+    box-sizing: border-box;
 }
 
 .other-products-grid .menu-photo img {
     width: 100%;
     height: 220px;
+
     object-fit: cover;
     border-radius: 20px;
+
+    display: block;
 }
 
 .other-products-grid .menu-content {
     padding-top: 15px;
+
     display: flex;
     flex-direction: column;
+
     flex: 1;
 }
 
@@ -1246,19 +1258,24 @@ MOBILE
     color: #8B4E44;
     font-size: 20px;
     line-height: 1.4;
+
     margin-bottom: 18px;
 }
 
 .product-order-button {
     margin-top: auto;
+
     border: none;
     padding: 13px 22px;
     border-radius: 40px;
+
     background: #C46E5D;
     color: white;
+
     cursor: pointer;
     font-size: 15px;
     font-weight: 600;
+
     transition: .3s;
 }
 
@@ -1267,22 +1284,72 @@ MOBILE
     transform: translateY(-2px);
 }
 
-@media (max-width: 900px) {
+
+/* ==========================================
+   TABLET / PETIT ÉCRAN
+========================================== */
+
+@media (max-width: 1100px) {
 
     .other-products-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
     }
 
 }
 
+
+/* ==========================================
+   MOBILE
+========================================== */
+
 @media (max-width: 600px) {
 
+    .other-products-section {
+        margin-top: 50px;
+    }
+
+    .other-products-title {
+        font-size: 30px;
+    }
+
+    .other-products-subtitle {
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+
     .other-products-grid {
-        grid-template-columns: 1fr;
+
+        /* 手机版：一行 2 个 */
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+        gap: 12px;
+        margin-top: 20px;
+    }
+
+    .other-products-grid .menu-card {
+        border-radius: 18px;
+        padding: 10px;
     }
 
     .other-products-grid .menu-photo img {
-        height: 240px;
+        height: 150px;
+        border-radius: 14px;
+    }
+
+    .other-products-grid .menu-content {
+        padding-top: 10px;
+    }
+
+    .other-products-grid .menu-content h3 {
+        font-size: 15px;
+        line-height: 1.3;
+        margin-bottom: 12px;
+    }
+
+    .product-order-button {
+        padding: 10px 12px;
+        font-size: 13px;
     }
 
 }
