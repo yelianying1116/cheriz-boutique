@@ -1518,13 +1518,13 @@ await pool.query(
 
 });
 // ==========================================
-// FEUILLE D'OR TEST CHECKOUT
+// FEUILLE D'OR CHECKOUT
 // ==========================================
 
 app.post("/api/feuilledor/create-checkout-session", async (req, res) => {
     try {
-        if (!process.env.FEUILLEDOR_STRIPE_SECRET_KEY?.startsWith("sk_test_") || !feuilledorStripe) {
-            return res.status(503).json({ error: "Le paiement test Feuille d'Or n'est pas configuré." });
+        if (!feuilledorStripe) {
+            return res.status(503).json({ error: "Le paiement Feuille d'Or n'est pas configuré." });
         }
         const items = req.body?.items;
         if (!Array.isArray(items) || items.length === 0 || items.length > 20) {
