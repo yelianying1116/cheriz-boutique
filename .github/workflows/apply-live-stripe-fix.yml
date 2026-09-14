@@ -1,0 +1,42 @@
+name: Apply live Stripe fix
+
+on:
+  push:
+    branches:
+      - live-stripe-fix
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Patch Feuille d'Or checkout guard
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path("server.js")
+          text = path.read_text(encoding="utf-8")
+          old = 'if (!process.env.FEUILLEDOR_STRIPE_SECRET_KEY?.startsWith("sk_test_") || !feuilledorStripe) {'
+          new = 'if (!feuilledorStripe) {'
+          if text.count(old) != 1:
+              raise SystemExit(f"Expected exactly one test-only guard, found {text.count(old)}")
+          text = text.replace(old, new)
+          text = text.replace('// FEUILLE D\'OR TEST CHECKOUT', '// FEUILLE D\'OR CHECKOUT', 1)
+          text = text.replace('Le paiement test Feuille d\'Or n\'est pas configuré.', 'Le paiement Feuille d\'Or n\'est pas configuré.', 1)
+          path.write_text(text, encoding="utf-8")
+          PY
+
+      - name: Commit patch and remove temporary workflow
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git diff --check
+          git add server.js
+          git rm .github/workflows/apply-live-stripe-fix.yml
+          git commit -m "Allow Feuille d'Or live Stripe checkout"
+          git push
