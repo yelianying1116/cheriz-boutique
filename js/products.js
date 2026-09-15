@@ -28,9 +28,9 @@ const DAILY_DISH = {
         "Sel",
     ],
 
-    calories: "≈ 650 kcal / portion",
+    calories: "≈ 450 kcal / portion",
 
-    image: "images/plat-du-jour.jpg"
+    image: "images/8 pièces de wontons,salade chinoise aux pousses de soja, poivrons et wakamé.jpg"
 
 };
 
