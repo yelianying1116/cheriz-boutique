@@ -5,26 +5,27 @@
 
 const DAILY_DISH = {
 
-    name: "Poulet mariné grillé, riz",
+    name: "8 pièces de wontons, salade chinoise aux pousses de soja, poivrons et wakamé",
 
     description: `
-        Poulet mariné aux épices, délicatement grillé et servi avec du riz,
-        accompagné d'une sauce légèrement relevée qui apporte une touche
-        gourmande et chaleureuse.
+        Délicatement préparés et cuits à la perfection, nos wontons sont servis avec une salade 
+        chinoise fraîche et croquante aux pousses de soja, poivrons et wakamé. Un plat savoureux et équilibré, 
+        accompagné de légumes frais qui apportent une touche de fraîcheur et de gourmandise.
     `,
 
     ingredients: [
-        "Riz blanc",
-        "Poulet mariné",
+        "Wontons",
+        "Pousses de soja",
+        "Poivrons",
+        "Wakamé",
+        "Pâte à wontons",
+        "Porc haché",
         "Ail",
-        "Paprika",
-        "Cumin",
+        "Gingembre",
+        "Sauce soja",
+        "Huile de sésame",
         "Poivre noir",
         "Sel",
-        "Huile d’olive",
-        "Jus de citron",
-        "Persil frais",
-        "Sauce légèrement relevée à base de tomate, ail et épices"
     ],
 
     calories: "≈ 650 kcal / portion",
