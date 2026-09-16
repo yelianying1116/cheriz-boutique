@@ -2300,7 +2300,7 @@ app.get("/migrate-vip-credits", async (req, res) => {
     }
 
 });
-```js
+
 // ==========================================
 // CONTACT EVENEMENT
 // ==========================================
@@ -2436,7 +2436,6 @@ app.post("/send-event-request", async (req, res) => {
         });
     }
 });
-```
 
 // ==========================================
 // START SERVER
