@@ -1,427 +1,221 @@
-```javascript
+```js
 document.addEventListener("DOMContentLoaded", function () {
+    const steps = document.querySelectorAll(".event-step");
 
-    const form =
-        document.getElementById("event-form");
+    const needSelect = document.getElementById("need");
+    const companySizeSelect = document.getElementById("companySize");
+    const projectDescription = document.getElementById("projectDescription");
 
-    const steps =
-        document.querySelectorAll(".event-step");
+    const nameInput = document.getElementById("name");
+    const phoneInput = document.getElementById("phone");
+    const emailInput = document.getElementById("email");
 
-    const successMessage =
-        document.getElementById("success-message");
+    const continueStep1 = document.getElementById("continue-step-1");
+    const continueStep2 = document.getElementById("continue-step-2");
+    const backStep2 = document.getElementById("back-step-2");
+    const backStep3 = document.getElementById("back-step-3");
 
+    const eventForm = document.getElementById("event-form");
+    const successMessage = document.getElementById("success-message");
 
-    /* =====================================================
-       ELEMENTS
-    ===================================================== */
-
-    const need =
-        document.getElementById("need");
-
-    const companySize =
-        document.getElementById("company-size");
-
-    const projectDescription =
-        document.getElementById("project-description");
-
-    const name =
-        document.getElementById("name");
-
-    const phone =
-        document.getElementById("phone");
-
-    const email =
-        document.getElementById("email");
-
-
-    const step1Continue =
-        document.getElementById("step1-continue");
-
-    const step2Continue =
-        document.getElementById("step2-continue");
-
-    const step2Back =
-        document.getElementById("step2-back");
-
-    const step3Back =
-        document.getElementById("step3-back");
-
-    const submitButton =
-        document.getElementById("submit-button");
-
-
-    const needError =
-        document.getElementById("need-error");
-
-    const companySizeError =
-        document.getElementById("company-size-error");
-
-    const nameError =
-        document.getElementById("name-error");
-
-    const phoneError =
-        document.getElementById("phone-error");
-
-    const emailError =
-        document.getElementById("email-error");
-
-    const submitError =
-        document.getElementById("submit-error");
-
-
-    /* =====================================================
-       CHANGE STEP
-    ===================================================== */
+    let currentStep = 1;
 
     function showStep(stepNumber) {
-
         steps.forEach(function (step) {
-
             step.classList.remove("active");
-
         });
 
-
-        const targetStep =
-            document.querySelector(
-                '.event-step[data-step="' +
-                stepNumber +
-                '"]'
-            );
-
+        const targetStep = document.getElementById(
+            "event-step-" + stepNumber
+        );
 
         if (targetStep) {
-
             targetStep.classList.add("active");
-
         }
 
+        currentStep = stepNumber;
 
         window.scrollTo({
             top: 0,
             behavior: "smooth"
         });
-
     }
 
-
-    /* =====================================================
-       CLEAR ERRORS
-    ===================================================== */
-
-    function clearError(element) {
-
-        if (element) {
-
-            element.classList.remove("show");
-
-        }
-
-    }
-
-
-    function showError(element) {
-
-        if (element) {
-
-            element.classList.add("show");
-
-        }
-
-    }
-
-
-    /* =====================================================
-       STEP 1
-    ===================================================== */
-
-    step1Continue.addEventListener("click", function () {
-
-        clearError(needError);
-
-
-        if (!need.value) {
-
-            showError(needError);
-
-            need.focus();
-
-            return;
-
-        }
-
-
-        showStep(2);
-
-    });
-
-
-    /* =====================================================
-       STEP 2
-    ===================================================== */
-
-    step2Continue.addEventListener("click", function () {
-
-        clearError(companySizeError);
-
-
-        if (!companySize.value) {
-
-            showError(companySizeError);
-
-            companySize.focus();
-
-            return;
-
-        }
-
-
-        showStep(3);
-
-    });
-
-
-    /* =====================================================
-       BACK BUTTON
-    ===================================================== */
-
-    step2Back.addEventListener("click", function () {
-
-        showStep(1);
-
-    });
-
-
-    step3Back.addEventListener("click", function () {
-
-        showStep(2);
-
-    });
-
-
-    /* =====================================================
-       EMAIL VALIDATION
-    ===================================================== */
-
-    function isValidEmail(value) {
-
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
-            value
-        );
-
-    }
-
-
-    /* =====================================================
-       PHONE VALIDATION
-    ===================================================== */
-
-    function isValidPhone(value) {
-
-        const digits =
-            value.replace(/\D/g, "");
-
-        return digits.length >= 8;
-
-    }
-
-
-    /* =====================================================
-       SUBMIT
-    ===================================================== */
-
-    form.addEventListener("submit", async function (event) {
-
-        event.preventDefault();
-
-
-        clearError(nameError);
-        clearError(phoneError);
-        clearError(emailError);
-
-        submitError.textContent = "";
-        clearError(submitError);
-
-
-        let valid = true;
-
-
-        /* =========================
-           NAME
-        ========================== */
-
-        if (!name.value.trim()) {
-
-            showError(nameError);
-
-            valid = false;
-
-        }
-
-
-        /* =========================
-           PHONE
-        ========================== */
-
-        if (!phone.value.trim()) {
-
-            showError(phoneError);
-
-            valid = false;
-
-        }
-
-        else if (!isValidPhone(phone.value.trim())) {
-
-            phoneError.textContent =
-                "Veuillez renseigner un numéro de téléphone valide.";
-
-            showError(phoneError);
-
-            valid = false;
-
-        }
-
-
-        /* =========================
-           EMAIL
-        ========================== */
-
-        if (!email.value.trim()) {
-
-            showError(emailError);
-
-            valid = false;
-
-        }
-
-        else if (!isValidEmail(email.value.trim())) {
-
-            showError(emailError);
-
-            valid = false;
-
-        }
-
-
-        if (!valid) {
-
-            return;
-
-        }
-
-
-        /* =========================
-           BUTTON LOADING
-        ========================== */
-
-        submitButton.disabled = true;
-
-        submitButton.classList.add("loading");
-
-        submitButton.textContent =
-            "Envoi en cours...";
-
-
-        try {
-
-            const response =
-                await fetch(
-                    "/send-event-request",
-                    {
-                        method: "POST",
-
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
-
-                        body: JSON.stringify({
-
-                            need:
-                                need.value,
-
-                            companySize:
-                                companySize.value,
-
-                            projectDescription:
-                                projectDescription.value.trim(),
-
-                            name:
-                                name.value.trim(),
-
-                            phone:
-                                phone.value.trim(),
-
-                            email:
-                                email.value.trim()
-
-                        })
-
-                    }
-                );
-
-
-            const result =
-                await response.json();
-
-
-            if (!response.ok || !result.success) {
-
-                throw new Error(
-                    result.message ||
-                    "Une erreur est survenue."
-                );
-
+    // ==============================
+    // STEP 1
+    // ==============================
+
+    if (continueStep1) {
+        continueStep1.addEventListener("click", function (event) {
+            event.preventDefault();
+
+            if (!needSelect || !needSelect.value) {
+                alert("Veuillez sélectionner votre besoin.");
+                return;
             }
 
+            showStep(2);
+        });
+    }
 
-            /* =========================
-               SUCCESS
-            ========================== */
+    // ==============================
+    // STEP 2
+    // ==============================
 
-            steps.forEach(function (step) {
+    if (continueStep2) {
+        continueStep2.addEventListener("click", function (event) {
+            event.preventDefault();
 
-                step.classList.remove("active");
+            if (!companySizeSelect || !companySizeSelect.value) {
+                alert("Veuillez sélectionner la taille de votre entreprise.");
+                return;
+            }
 
-            });
+            showStep(3);
+        });
+    }
 
+    // ==============================
+    // RETOUR STEP 2 -> STEP 1
+    // ==============================
 
-            successMessage.classList.add("show");
+    if (backStep2) {
+        backStep2.addEventListener("click", function (event) {
+            event.preventDefault();
+            showStep(1);
+        });
+    }
 
+    // ==============================
+    // RETOUR STEP 3 -> STEP 2
+    // ==============================
 
-            form.reset();
+    if (backStep3) {
+        backStep3.addEventListener("click", function (event) {
+            event.preventDefault();
+            showStep(2);
+        });
+    }
 
+    // ==============================
+    // SUBMIT
+    // ==============================
 
-        }
+    if (eventForm) {
+        eventForm.addEventListener("submit", async function (event) {
+            event.preventDefault();
 
-        catch (error) {
+            const name = nameInput ? nameInput.value.trim() : "";
+            const phone = phoneInput ? phoneInput.value.trim() : "";
+            const email = emailInput ? emailInput.value.trim() : "";
 
-            console.error(
-                "Erreur:",
-                error
+            if (!name) {
+                alert("Veuillez renseigner votre nom.");
+                return;
+            }
+
+            if (!phone) {
+                alert("Veuillez renseigner votre téléphone.");
+                return;
+            }
+
+            const phoneDigits = phone.replace(/\D/g, "");
+
+            if (phoneDigits.length < 8) {
+                alert("Veuillez renseigner un numéro de téléphone valide.");
+                return;
+            }
+
+            if (!email) {
+                alert("Veuillez renseigner votre email.");
+                return;
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailRegex.test(email)) {
+                alert("Veuillez renseigner une adresse email valide.");
+                return;
+            }
+
+            const submitButton = eventForm.querySelector(
+                'button[type="submit"]'
             );
 
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.textContent = "Envoi...";
+            }
 
-            submitError.textContent =
-                "Impossible d'envoyer votre demande. Veuillez réessayer.";
+            try {
+                const response = await fetch("/send-event-request", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        need: needSelect ? needSelect.value : "",
+                        companySize: companySizeSelect
+                            ? companySizeSelect.value
+                            : "",
+                        projectDescription: projectDescription
+                            ? projectDescription.value.trim()
+                            : "",
+                        name: name,
+                        phone: phone,
+                        email: email
+                    })
+                });
 
-            showError(submitError);
+                const result = await response.json();
 
-        }
+                if (!response.ok || !result.success) {
+                    throw new Error(
+                        result.message ||
+                        "Une erreur est survenue lors de l'envoi."
+                    );
+                }
 
-        finally {
+                if (successMessage) {
+                    successMessage.style.display = "block";
+                }
 
-            submitButton.disabled = false;
+                const formSteps = document.querySelectorAll(".event-step");
 
-            submitButton.classList.remove("loading");
+                formSteps.forEach(function (step) {
+                    step.style.display = "none";
+                });
 
-            submitButton.textContent =
-                "Envoyer ma demande";
+                if (successMessage) {
+                    successMessage.scrollIntoView({
+                        behavior: "smooth",
+                        block: "center"
+                    });
+                }
 
-        }
+            } catch (error) {
+                console.error(
+                    "Erreur envoi formulaire événement:",
+                    error
+                );
 
-    });
+                alert(
+                    error.message ||
+                    "Une erreur est survenue lors de l'envoi."
+                );
 
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.textContent = "Envoyer ma demande";
+                }
+            }
+        });
+    }
+
+    // ==============================
+    // INITIALISATION
+    // ==============================
+
+    showStep(currentStep);
 });
 ```
