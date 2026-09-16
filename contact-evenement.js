@@ -1,4 +1,3 @@
-```js
 document.addEventListener("DOMContentLoaded", function () {
     const steps = document.querySelectorAll(".event-step");
 
@@ -218,4 +217,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
     showStep(currentStep);
 });
-```
+
