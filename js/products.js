@@ -8,29 +8,25 @@ const DAILY_DISH = {
     name: "8 pièces de wontons, salade chinoise aux pousses de soja, poivrons et wakamé",
 
     description: `
-        Délicatement préparés et cuits à la perfection, nos wontons sont servis avec une salade 
-        chinoise fraîche et croquante aux pousses de soja, poivrons et wakamé. Un plat savoureux et équilibré, 
-        accompagné de légumes frais qui apportent une touche de fraîcheur et de gourmandise.
+        Brocoli sauté aux légumes de saison, délicatement préparé avec des légumes frais et croquants, 
+        accompagné de riz blanc et relevé d’une touche d’ail et d’huile d’olive pour une assiette savoureuse, 
+        équilibrée et pleine de fraîcheur.
     `,
 
     ingredients: [
-        "Wontons",
-        "Pousses de soja",
-        "Poivrons",
-        "Wakamé",
-        "Pâte à wontons",
-        "Porc haché",
+        "Riz blanc",
+        "Brocoli",
+        "Légumes de saison",
         "Ail",
-        "Gingembre",
-        "Sauce soja",
-        "Huile de sésame",
-        "Poivre noir",
+        "Huile d’olive",
         "Sel",
+        "Poivre noir",
+        "Persil frais",
     ],
 
     calories: "≈ 450 kcal / portion",
 
-    image: "images/8 pièces de wontons,salade chinoise aux pousses de soja, poivrons et wakamé.jpg"
+    image: "Brocoli sauté aux légumes de saison, riz blanc.jpg"
 
 };
 
