@@ -5,7 +5,7 @@
 
 const DAILY_DISH = {
 
-    name: "8 pièces de wontons, salade chinoise aux pousses de soja, poivrons et wakamé",
+    name: "Brocoli sauté aux légumes de saison, riz blanc",
 
     description: `
         Brocoli sauté aux légumes de saison, délicatement préparé avec des légumes frais et croquants, 
