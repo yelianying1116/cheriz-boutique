@@ -1058,1255 +1058,299 @@ async function releaseVipCreditReservation(reservationId) {
 
 // VIP pages are served only by this Render application. Do not expose the
 // contents of protected-pages through a static host or a public repository.
+
 app.post("/api/vip-access/request-code", async (req, res) => {
+
     const email = normaliseEmail(req.body?.email);
     const ip = req.ip || "unknown";
 
     if (!isEmail(email)) {
-        return res.status(400).json({ error: "Veuillez saisir une adresse e-mail valide." });
+
+        return res.status(400).json({
+            error:
+                "Veuillez saisir une adresse e-mail valide."
+        });
+
     }
+
     if (!process.env.VIP_ACCESS_SECRET) {
-        console.error("VIP_ACCESS_SECRET is not configured.");
-        return res.status(503).json({ error: "Le service d'accès est temporairement indisponible." });
+
+        console.error(
+            "VIP_ACCESS_SECRET is not configured."
+        );
+
+        return res.status(503).json({
+            error:
+                "Le service d'accès est temporairement indisponible."
+        });
+
     }
-    if (!rateLimit(`vip-code:${email}`, 5, 15 * 60 * 1000) ||
-        !rateLimit(`vip-code-ip:${ip}`, 20, 15 * 60 * 1000)) {
-        return res.status(429).json({ error: "Trop de demandes. Veuillez réessayer dans quelques minutes." });
+
+    if (
+        !rateLimit(
+            `vip-code:${email}`,
+            5,
+            15 * 60 * 1000
+        ) ||
+        !rateLimit(
+            `vip-code-ip:${ip}`,
+            20,
+            15 * 60 * 1000
+        )
+    ) {
+
+        return res.status(429).json({
+            error:
+                "Trop de demandes. Veuillez réessayer dans quelques minutes."
+        });
+
     }
 
     try {
+
         if (!await hasVipPageAccess(email)) {
+
             return res.status(403).json({
-                error: "Accès réservé aux clients VIP Cette page est exclusivement réservée à nos clients VIP. Veuillez demander ou acheter votre accès VIP pour continuer."
+                error:
+                    "Accès réservé aux clients VIP Cette page est exclusivement réservée à nos clients VIP. Veuillez demander ou acheter votre accès VIP pour continuer."
             });
+
         }
 
         await ensureVipAccessTable();
-        const code = String(randomInt(0, 1000000)).padStart(6, "0");
+
+        const code =
+            String(randomInt(0, 1000000))
+                .padStart(6, "0");
+
         await pool.query(
-            `INSERT INTO vip_access_codes (email, code_hash, expires_at, attempts)
-             VALUES ($1, $2, CURRENT_TIMESTAMP + INTERVAL '10 minutes', 0)
-             ON CONFLICT (email) DO UPDATE SET
+            `INSERT INTO vip_access_codes
+                (email, code_hash, expires_at, attempts)
+             VALUES
+                ($1, $2, CURRENT_TIMESTAMP + INTERVAL '10 minutes', 0)
+             ON CONFLICT (email)
+             DO UPDATE SET
                 code_hash = EXCLUDED.code_hash,
                 expires_at = EXCLUDED.expires_at,
                 attempts = 0,
                 created_at = CURRENT_TIMESTAMP`,
-            [email, codeHash(email, code)]
+            [
+                email,
+                codeHash(email, code)
+            ]
         );
 
-        const emailResult = await resend.emails.send({
-            from: process.env.VIP_ACCESS_EMAIL_FROM || "Cheriz <onboarding@resend.dev>",
-            to: email,
-            subject: "Votre code d'accès VIP Cheriz",
-            html: `<p>Voici votre code d'accès VIP :</p><p style="font-size:28px;font-weight:700;letter-spacing:4px">${code}</p><p>Il expire dans 10 minutes. Ne le communiquez à personne.</p>`
+        const emailResult =
+            await resend.emails.send({
+
+                from:
+                    process.env.VIP_ACCESS_EMAIL_FROM ||
+                    "Cheriz <onboarding@resend.dev>",
+
+                to:
+                    email,
+
+                subject:
+                    "Votre code d'accès VIP Cheriz",
+
+                html:
+                    `<p>Voici votre code d'accès VIP :</p>` +
+                    `<p style="font-size:28px;font-weight:700;letter-spacing:4px">${code}</p>` +
+                    `<p>Il expire dans 10 minutes. Ne le communiquez à personne.</p>`
+
+            });
+
+        if (emailResult.error) {
+            throw new Error(
+                emailResult.error.message
+            );
+        }
+
+        return res.json({
+            success: true
         });
-        if (emailResult.error) throw new Error(emailResult.error.message);
-        return res.json({ success: true });
+
     } catch (error) {
-        console.error("VIP access code error:", error);
-        return res.status(500).json({ error: "Impossible d'envoyer le code pour le moment." });
+
+        console.error(
+            "VIP access code error:",
+            error
+        );
+
+        return res.status(500).json({
+            error:
+                "Impossible d'envoyer le code pour le moment."
+        });
+
     }
+
 });
+
 
 app.post("/api/vip-access/verify-code", async (req, res) => {
-    const email = normaliseEmail(req.body?.email);
-    const code = String(req.body?.code || "").trim();
-    const ip = req.ip || "unknown";
-    if (!isEmail(email) || !/^\d{6}$/.test(code)) {
-        return res.status(400).json({ error: "Veuillez saisir l'e-mail et le code à six chiffres." });
+
+    const email =
+        normaliseEmail(req.body?.email);
+
+    const code =
+        String(req.body?.code || "").trim();
+
+    const ip =
+        req.ip || "unknown";
+
+    if (
+        !isEmail(email) ||
+        !/^\d{6}$/.test(code)
+    ) {
+
+        return res.status(400).json({
+            error:
+                "Veuillez saisir l'e-mail et le code à six chiffres."
+        });
+
     }
-    if (!rateLimit(`vip-verify:${email}`, 8, 15 * 60 * 1000) ||
-        !rateLimit(`vip-verify-ip:${ip}`, 30, 15 * 60 * 1000)) {
-        return res.status(429).json({ error: "Trop de tentatives. Veuillez demander un nouveau code plus tard." });
+
+    if (
+        !rateLimit(
+            `vip-verify:${email}`,
+            8,
+            15 * 60 * 1000
+        ) ||
+        !rateLimit(
+            `vip-verify-ip:${ip}`,
+            30,
+            15 * 60 * 1000
+        )
+    ) {
+
+        return res.status(429).json({
+            error:
+                "Trop de tentatives. Veuillez demander un nouveau code plus tard."
+        });
+
     }
 
     try {
+
         await ensureVipAccessTable();
-        const result = await pool.query(
-            `UPDATE vip_access_codes
-             SET attempts = attempts + 1
-             WHERE email = $1
-               AND expires_at > CURRENT_TIMESTAMP
-               AND attempts < 5
-             RETURNING code_hash`,
-            [email]
-        );
-        const storedHash = result.rows[0]?.code_hash;
-        const submittedHash = codeHash(email, code);
-        const validCode = storedHash && timingSafeEqual(
-            Buffer.from(storedHash), Buffer.from(submittedHash)
-        );
-        if (!validCode || !await hasVipPageAccess(email)) {
-            return res.status(403).json({ error: "Code invalide ou expiré." });
-        }
 
-        await pool.query("DELETE FROM vip_access_codes WHERE email = $1", [email]);
-        const expiresAt = Math.floor((Date.now() + VIP_SESSION_TTL_MS) / 1000);
-        const token = signVipToken({ email, exp: expiresAt });
-        res.cookie(VIP_ACCESS_COOKIE, token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "lax",
-            maxAge: VIP_SESSION_TTL_MS,
-            path: "/"
-        });
-        return res.json({ success: true });
-    } catch (error) {
-        console.error("VIP code verification error:", error);
-        return res.status(500).json({ error: "Impossible de vérifier le code pour le moment." });
-    }
-});
-
-app.post("/api/vip-access/logout", (req, res) => {
-    res.clearCookie(VIP_ACCESS_COOKIE, { httpOnly: true, sameSite: "lax", path: "/" });
-    res.status(204).end();
-});
-app.get("/", requireVipPage("index.html"));
-app.get("/index.html", requireVipPage("index.html"));
-app.get("/blog.html", requireVipPage("blog.html"));
-app.get("/nos-evenements.html", requireVipPage("nos-evenements.html"));
-app.get("/nos-solutions-entreprise.html", requireVipPage("nos-solutions-entreprise.html"));
-app.get("/access-vip.html", sendVipLoginPage);
-
-// Serve only assets that the protected pages need. Never mount SITE_ROOT with
-// express.static: that would expose server.js, private pages, and any other
-// file in the deployment directory.
-app.get("/css/style.css", (req, res) => {
-    res.sendFile(path.join(SITE_ROOT, "style.css"));
-});
-app.get("/js/products.js", (req, res) => {
-    res.sendFile(path.join(SITE_ROOT, "products.js"));
-});
-app.get("/js/checkout.js", (req, res) => {
-    res.sendFile(path.join(SITE_ROOT, "checkout.js"));
-});
-app.use("/images", express.static(path.join(SITE_ROOT, "images"), {
-    index: false,
-    fallthrough: true
-}));
-app.use("/assets", express.static(path.join(SITE_ROOT, "assets"), {
-    index: false,
-    fallthrough: true
-}));
-
-app.get("/test-database", async (req, res) => {
-
-    try {
-
-        const result = await pool.query(
-            "SELECT NOW()"
-        );
-
-        res.json({
-            success: true,
-            databaseTime: result.rows[0].now
-        });
-
-    } catch (error) {
-
-        console.error("Database error:", error);
-
-        res.status(500).json({
-            success: false,
-            error: error.message
-        });
-
-    }
-
-});
-
-
-// ==========================================
-// CREATE CUSTOMERS TABLE
-// ==========================================
-
-app.get("/create-customers-table", async (req, res) => {
-
-    try {
-
-        await pool.query(`
-
-            CREATE TABLE IF NOT EXISTS customers (
-
-                id SERIAL PRIMARY KEY,
-
-                email TEXT UNIQUE NOT NULL,
-
-                name TEXT,
-
-                phone TEXT,
-
-                vip_unlimited BOOLEAN DEFAULT FALSE,
-
-                special_member BOOLEAN DEFAULT FALSE,
-
-                special_credits INTEGER DEFAULT 0,
-
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-
+        const result =
+            await pool.query(
+                `UPDATE vip_access_codes
+                 SET attempts = attempts + 1
+                 WHERE email = $1
+                   AND expires_at > CURRENT_TIMESTAMP
+                   AND attempts < 5
+                 RETURNING code_hash`,
+                [email]
             );
 
-        `);
+        const storedHash =
+            result.rows[0]?.code_hash;
 
-        res.json({
+        const submittedHash =
+            codeHash(email, code);
 
-            success: true,
+        const validCode =
+            storedHash &&
+            timingSafeEqual(
+                Buffer.from(storedHash),
+                Buffer.from(submittedHash)
+            );
 
-            message: "Customers table created."
+        if (
+            !validCode ||
+            !await hasVipPageAccess(email)
+        ) {
 
-        });
-
-    } catch (error) {
-
-        console.error(
-            "Create customers table error:",
-            error
-        );
-
-        res.status(500).json({
-
-            success: false,
-
-            error: error.message
-
-        });
-
-    }
-
-});
-
-
-// ==========================================
-// CHECK CUSTOMER
-// ==========================================
-
-app.get("/check-customer", async (req, res) => {
-
-    try {
-
-        const email = req.query.email;
-
-        if (!email) {
-
-            return res.status(400).json({
-
-                error: "请提供 email"
-
+            return res.status(403).json({
+                error:
+                    "Code invalide ou expiré."
             });
 
         }
-
-        const result = await pool.query(
-
-            `
-
-            SELECT
-
-                email,
-
-                name,
-
-                phone,
-
-                vip_unlimited,
-
-                special_member,
-
-                special_credits
-
-            FROM customers
-
-            WHERE email = $1
-
-            `,
-
-            [email]
-
-        );
-
-        if (result.rows.length === 0) {
-
-            return res.json({
-
-                found: false
-
-            });
-
-        }
-
-        res.json({
-
-            found: true,
-
-            customer: result.rows[0]
-
-        });
-
-    } catch (error) {
-
-        console.error(
-
-            "Check customer error:",
-
-            error
-
-        );
-
-        res.status(500).json({
-
-            error: error.message
-
-        });
-
-    }
-
-});
-// ==========================================
-// TEST SPECIAL MEMBER
-// 临时测试账号
-// ==========================================
-
-app.get("/create-test-special-member", async (req, res) => {
-
-    try {
 
         await pool.query(
-            `
-            INSERT INTO customers
-            (
-                email,
-                name,
-                phone,
-                vip_unlimited,
-                special_member,
-                special_credits
-            )
-            VALUES
-            (
-                'test-special-membre@cheriz.test',
-                'Test Special Membre',
-                '0000000000',
-                FALSE,
-                TRUE,
-                0
-            )
-
-            ON CONFLICT (email)
-
-            DO UPDATE SET
-
-                special_member = TRUE,
-                vip_unlimited = FALSE,
-                updated_at = CURRENT_TIMESTAMP
-            `
+            "DELETE FROM vip_access_codes WHERE email = $1",
+            [email]
         );
 
-        res.json({
-
-            success: true,
-
-            message:
-                "Test special member created.",
-
-            email:
-                "test-special-membre@cheriz.test",
-
-            special_member:
-                true,
-
-            vip_unlimited:
-                false
-
-        });
-
-    } catch (error) {
-
-        console.error(
-            "Create test special member error:",
-            error
-        );
-
-        res.status(500).json({
-
-            success: false,
-
-            error: error.message
-
-        });
-
-    }
-
-});
-// ==========================================
-// ADD SPECIAL MEMBER
-// ==========================================
-
-app.get("/add-special-member", async (req, res) => {
-
-    try {
-
-        const email = req.query.email;
-        const key = req.query.key;
-
-        // 管理员密码检查
-        if (key !== process.env.ADMIN_SECRET) {
-
-            return res.status(403).json({
-                success: false,
-                error: "Accès refusé."
-            });
-
-        }
-
-        if (!email) {
-
-            return res.status(400).json({
-                success: false,
-                error: "Email manquant."
-            });
-
-        }
-
-await pool.query(
-    `
-    INSERT INTO customers
-    (
-        email,
-        special_member,
-        vip_unlimited,
-        vip_credits,
-        special_credits
-    )
-    VALUES ($1, TRUE, FALSE, 3, 0)
-
-    ON CONFLICT (email)
-
-    DO UPDATE SET
-        special_member = TRUE,
-        vip_unlimited = FALSE,
-        vip_credits = 3,
-        updated_at = CURRENT_TIMESTAMP
-    `,
-    [email.trim().toLowerCase()]
-);
-        console.log(
-            "SPECIAL MEMBER ADDED:",
-            email
-        );
-
-        res.json({
-            success: true,
-            message: "Membre spécial ajouté avec succès.",
-            email: email.trim().toLowerCase()
-        });
-
-    } catch (error) {
-
-        console.error(
-            "Add special member error:",
-            error
-        );
-
-        res.status(500).json({
-            success: false,
-            error: error.message
-        });
-
-    }
-
-});
-// ==========================================
-// FEUILLE D'OR CHECKOUT
-// ==========================================
-
-app.post("/api/feuilledor/create-checkout-session", async (req, res) => {
-    try {
-        if (!feuilledorStripe) {
-            return res.status(503).json({ error: "Le paiement Feuille d'Or n'est pas configuré." });
-        }
-        const items = req.body?.items;
-        if (!Array.isArray(items) || items.length === 0 || items.length > 20) {
-            return res.status(400).json({ error: "Panier Feuille d'Or invalide." });
-        }
-
-        const lineItems = items.map(item => {
-            const product = FEUILLEDOR_PRODUCTS.find(candidate => candidate.id === String(item.productId || ""));
-            if (!product) throw new Error("Produit Feuille d'Or introuvable.");
-
-            const variant = (product.variants || []).find(candidate =>
-                candidate.color === String(item.color || "") &&
-                candidate.shape === String(item.shape || "") &&
-                candidate.length === String(item.length || "") &&
-                candidate.personalisation === String(item.personalisation || "")
+        const expiresAt =
+            Math.floor(
+                (
+                    Date.now() +
+                    VIP_SESSION_TTL_MS
+                ) / 1000
             );
-            if (!variant) throw new Error(`Option invalide pour ${product.name}.`);
 
-            const priceText = String(variant.price || "").replace(",", ".");
-            const price = Number(priceText.replace(/[^0-9.]/g, ""));
-            if (!Number.isFinite(price) || price <= 0) throw new Error(`Prix invalide pour ${product.name}.`);
-
-            const quantity = Number(item.quantity);
-            if (!Number.isInteger(quantity) || quantity < 1 || quantity > 10) {
-                throw new Error("Quantité invalide.");
-            }
-
-            const options = [
-                `Couleur : ${variant.color}`,
-                `Forme : ${variant.shape}`,
-                `Longueur : ${variant.length}`,
-                `Personnalisation : ${variant.personalisation}`
-            ].join(" · ");
-
-            return {
-                quantity,
-                price_data: {
-                    currency: "eur",
-                    unit_amount: Math.round(price * 100),
-                    product_data: { name: product.name, description: options }
-                }
-            };
-        });
-
-        const siteUrl = "https://bienmangercommunity.com/partenaire/feuilledor";
-        const session = await feuilledorStripe.checkout.sessions.create({
-            mode: "payment",
-            line_items: lineItems,
-            billing_address_collection: "auto",
-            phone_number_collection: { enabled: true },
-            shipping_address_collection: {
-                allowed_countries: ["FR", "BE", "DE", "LU", "NL", "ES", "IT", "PT", "AT", "IE"]
-            },
-            allow_promotion_codes: true,
-            success_url: `${siteUrl}/?payment=success`,
-            cancel_url: `${siteUrl}/?payment=cancel`,
-            metadata: { order_type: "feuilledor" }
-        });
-        return res.json({ url: session.url });
-    } catch (error) {
-        console.error("Feuille d'Or Stripe error:", error);
-        return res.status(400).json({ error: error.message || "Impossible de créer le paiement." });
-    }
-});
-
-// ==========================================
-// CREATE STRIPE CHECKOUT SESSION
-// ==========================================
-
-app.post("/create-checkout-session", async (req, res) => {
-
-    let vipCreditReservation = null;
-
-    try {
-
-        const { cart, customer } = req.body;
-
-         // ==========================================
-        // CHECK CART
-        // ==========================================
-
-        if (!Array.isArray(cart) || cart.length === 0) {
-
-            return res.status(400).json({
-                error: "Votre panier est vide."
-            });
-
-        }
-
-        if (cart.length > 20) {
-
-            return res.status(400).json({
-                error: "Votre panier contient trop de produits."
-            });
-
-        }
-
-        if (!customer || !customer.email) {
-
-            return res.status(400).json({
-                error: "Email client manquant."
-            });
-
-        }
-
-        const customerEmail =
-            customer.email.trim().toLowerCase();
-
-
-        // ==========================================
-        // VALIDATION DU PANIER
-        // Le serveur détermine le prix réel.
-        // ==========================================
-
-     const validatedCart = [];
-
-for (const item of cart) {
-
-    const quantity = Number(item.quantity);
-
-    if (
-        !Number.isInteger(quantity) ||
-        quantity < 1 ||
-        quantity > 20
-    ) {
-
-        return res.status(400).json({
-            error: "Quantité invalide."
-        });
-
-    }
-
-
-    // ======================================
-    // VIP MEMBERSHIP
-    // ======================================
-
-    if (item.type === "vip-membership") {
-
-        if (quantity !== 1) {
-
-            return res.status(400).json({
-                error:
-                    "L'adhésion VIP ne peut être commandée qu'une fois."
-            });
-
-        }
-
-        validatedCart.push({
-
-            type: "vip-membership",
-
-            name:
-                "Adhésion VIP + 1er repas",
-
-            price:
-                VIP_MEMBERSHIP_PRICE,
-
-            quantity: 1
-
-        });
-
-        continue;
-
-    }
-
-
-    // ======================================
-    // DAILY DISH
-    // ======================================
-
-    if (item.type === "daily-dish") {
-
-        const clientPrice =
-            Number(item.price);
-
-        if (
-            clientPrice !== NORMAL_PRICE &&
-            clientPrice !== VIP_PRICE
-        ) {
-
-            return res.status(400).json({
-                error:
-                    "Tarif du plat du jour invalide."
-            });
-
-        }
-
-        validatedCart.push({
-
-            type: "daily-dish",
-
-            name:
-                "Plat du jour",
-
-            price:
-                clientPrice,
-
-            quantity
-
-        });
-
-        continue;
-
-    }
-
-
-    // ======================================
-    // NOS PLATS
-    // ======================================
-
-    if (item.type === "product") {
-
-        const productId =
-            Number(item.productId);
-
-        const serverPrice =
-            PRODUCT_PRICES[productId];
-
-        if (
-            !Number.isFinite(serverPrice) ||
-            serverPrice <= 0
-        ) {
-
-            return res.status(400).json({
-                error:
-                    "Prix du produit non configuré."
-            });
-
-        }
-
-        validatedCart.push({
-
-            type: "product",
-
-            productId,
-
-            name:
-                String(
-                    item.name ||
-                    "Produit"
-                ),
-
-            price:
-                serverPrice,
-
-            quantity
-
-        });
-
-        continue;
-
-    }
-
-
-    // ======================================
-    // AUTRES PRODUITS
-    // ======================================
-
-    if (item.type === "other-product") {
-
-        const productId =
-            Number(item.productId);
-
-        const serverPrice =
-            OTHER_PRODUCT_PRICES[productId];
-
-        if (
-            !Number.isFinite(serverPrice) ||
-            serverPrice <= 0
-        ) {
-
-            return res.status(400).json({
-                error:
-                    "Prix de l'autre produit non configuré."
-            });
-
-        }
-
-        validatedCart.push({
-
-            type: "other-product",
-
-            productId,
-
-            name:
-                String(
-                    item.name ||
-                    "Produit"
-                ),
-
-            price:
-                serverPrice,
-
-            quantity
-
-        });
-
-        continue;
-
-    }
-
-
-    // ======================================
-    // UNKNOWN PRODUCT
-    // ======================================
-
-    return res.status(400).json({
-        error: "Produit non reconnu."
-    });
-
-}
-        
-        console.log("=================================");
-        console.log("NOUVELLE COMMANDE");
-        console.log("Client :", customer);
-        console.log("Panier :", cart);
-        console.log("=================================");
-
-        // ==========================================
-        // CHECK CUSTOMER
-        // ==========================================
-
-        const customerResult = await pool.query(
-            `
-            SELECT
-                special_member,
-                vip_credits,
-                vip_unlimited
-            FROM customers
-            WHERE email = $1
-            `,
-            [customerEmail]
-        );
-
-        const customerData =
-            customerResult.rows.length > 0
-                ? customerResult.rows[0]
-                : null;
-
-// ====================================
-// CALCULATE ORDER
-// ====================================
-
-let useVipCredit = false;
-let hasVipMembership = false;
-let hasDailyDish = false;
-
-// ------------------------------------
-// VIP MEMBERSHIP
-// ------------------------------------
-
-const membershipItems = validatedCart.filter(
-    item => item.type === "vip-membership"
-);
-
-if (membershipItems.length > 0) {
-
-    hasVipMembership = true;
-
-    if (
-        membershipItems.length !== 1 ||
-        membershipItems[0].quantity !== 1
-    ) {
-        return res.status(400).json({
-            error:
-                "L'adhésion VIP ne peut être commandée qu'une seule fois."
-        });
-    }
-}
-// ------------------------------------
-// DAILY DISH
-// ------------------------------------
-
-const dailyDishItems = validatedCart.filter(
-    item => item.type === "daily-dish"
-);
-
-if (dailyDishItems.length > 0) {
-
-    hasDailyDish = true;
-
-    if (dailyDishItems.length > 1) {
-        return res.status(400).json({
-            error:
-                "Un seul plat du jour peut être commandé par commande."
-        });
-    }
-
-    const dailyDish = dailyDishItems[0];
-
-    // SPECIAL MEMBER
-    if (customerData?.special_member === true) {
-
-        if (Number(customerData.vip_credits) <= 0) {
-            return res.status(403).json({
-                error:
-                    "Votre crédit VIP est épuisé."
-            });
-        }
-
-        dailyDish.price = VIP_PRICE;
-        useVipCredit = true;
-
-    }
-
-    // VIP UNLIMITED
-    else if (customerData?.vip_unlimited === true) {
-
-        dailyDish.price = VIP_PRICE;
-
-    }
-
-    // NORMAL CUSTOMER
-    else {
-
-        dailyDish.price = NORMAL_PRICE;
-
-    }
-}
-
-
-
-        // Reserve one special-member credit before creating a free checkout.
-// ====================================
-// RESERVE VIP CREDIT
-// ====================================
-
-if (useVipCredit) {
-
-    vipCreditReservation =
-        await reserveVipCredit(customerEmail);
-
-    if (!vipCreditReservation) {
-
-        return res.status(403).json({
-            error:
-                "Votre crédit VIP est épuisé."
-        });
-    }
-
-}
-
-// ====================================
-// CREATE STRIPE LINE ITEMS
-// ====================================
-
-const lineItems = validatedCart.map(item => {
-
-    let unitAmount =
-        Math.round(Number(item.price) * 100);
-
-    // Special member VIP credit
-    // The daily dish becomes free.
-    if (
-        useVipCredit &&
-        item.type === "daily-dish"
-    ) {
-        unitAmount = 0;
-    }
-
-    let productName = item.name;
-
-    if (item.type === "vip-membership") {
-
-        productName =
-            "Adhésion VIP + 1er repas";
-
-    }
-
-    return {
-
-        price_data: {
-
-            currency: "eur",
-
-            product_data: {
-
-                name: productName
-
-            },
-
-            unit_amount: unitAmount
-
-        },
-
-        quantity:
-            Number(item.quantity)
-
-    };
-
-});
-
-
-        // ==========================================
-        // CREATE STRIPE CHECKOUT SESSION
-        // ==========================================
-
-        const session =
-            await stripe.checkout.sessions.create({
-
-                mode: "payment",
-
-                line_items: lineItems,
-
-                expires_at: vipCreditReservation
-                    ? Math.floor(
-                        vipCreditReservation.expiresAt.getTime() / 1000
-                    )
-                    : undefined,
-
-                customer_email:
-                    customerEmail,
-
-metadata: {
-
-    customer_name:
-        customer.name || "",
-
-    customer_phone:
-        customer.phone || "",
-
-    delivery_address:
-        customer.address || "",
-
-    vip_credit_used:
-        useVipCredit ? "true" : "false",
-
-    vip_credit_reservation_id:
-        vipCreditReservation
-            ? vipCreditReservation.reservationId
-            : "",
-
-    vip_membership:
-        hasVipMembership ? "true" : "false"
-
-},
-
-                success_url:
-                    "https://cheriz.boutique.bienmangercommunity.com/success.html",
-
-                cancel_url:
-                    "https://cheriz.boutique.bienmangercommunity.com/checkout.html"
-
-            });
-
-        if (vipCreditReservation) {
-            await linkVipCreditReservation(
-                vipCreditReservation.reservationId,
-                session.id
-            );
-        }
-
-        // ==========================================
-        // RETURN STRIPE URL
-        // ==========================================
-
-        res.json({
-
-            url: session.url
-
-        });
-
-    } catch (error) {
-
-        if (vipCreditReservation) {
-            try {
-                await releaseVipCreditReservation(
-                    vipCreditReservation.reservationId
-                );
-            } catch (releaseError) {
-                console.error(
-                    "VIP credit release error:",
-                    releaseError
-                );
-            }
-        }
-
-        console.error(
-            "Stripe error:",
-            error
-        );
-
-        res.status(500).json({
-
-            error:
-                "Impossible de créer le paiement."
-
-        });
-
-    }
-
-});
-// ==========================================
-// TEMP - CHECK CUSTOMERS TABLE STRUCTURE
-// ==========================================
-
-app.get("/check-table", async (req, res) => {
-
-    try {
-
-        const result = await pool.query(`
-            SELECT
-                column_name,
-                data_type,
-                column_default,
-                is_nullable
-            FROM information_schema.columns
-            WHERE table_name = 'customers'
-            ORDER BY ordinal_position
-        `);
-
-        res.json({
-            success: true,
-            columns: result.rows
-        });
-
-    } catch (error) {
-
-        console.error(
-            "Check table error:",
-            error
-        );
-
-        res.status(500).json({
-            success: false,
-            error: error.message
-        });
-
-    }
-
-});
-// ==========================================
-// TEMP - ADD VIP CREDITS COLUMN
-// ==========================================
-
-app.get("/add-vip-credits-column", async (req, res) => {
-
-    try {
-
-        const key = req.query.key;
-
-        if (key !== process.env.ADMIN_SECRET) {
-
-            return res.status(403).json({
-                success: false,
-                error: "Accès refusé."
-            });
-
-        }
-
-        await pool.query(`
-            ALTER TABLE customers
-            ADD COLUMN IF NOT EXISTS vip_credits INTEGER DEFAULT 0;
-        `);
-
-        res.json({
-            success: true,
-            message: "vip_credits column added successfully."
-        });
-
-    } catch (error) {
-
-        console.error(
-            "Add vip_credits column error:",
-            error
-        );
-
-        res.status(500).json({
-            success: false,
-            error: error.message
-        });
-
-    }
-
-});
-// ==========================================
-// TEMP - LIST CUSTOMERS
-// ==========================================
-
-app.get("/list-customers", async (req, res) => {
-
-    try {
-
-        const key = req.query.key;
-
-        if (key !== process.env.ADMIN_SECRET) {
-
-            return res.status(403).json({
-                success: false,
-                error: "Accès refusé."
-            });
-
-        }
-
-        const result = await pool.query(`
-            SELECT
+        const token =
+            signVipToken({
                 email,
-                name,
-                vip_credits,
-                vip_unlimited,
-                special_member,
-                special_credits
-            FROM customers
-            ORDER BY id
-        `);
-
-        res.json({
-            success: true,
-            customers: result.rows
-        });
-
-    } catch (error) {
-
-        console.error(
-            "List customers error:",
-            error
-        );
-
-        res.status(500).json({
-            success: false,
-            error: error.message
-        });
-
-    }
-
-});
-// ==========================================
-// TEMP - MIGRATE VIP CREDITS
-// ==========================================
-
-app.get("/migrate-vip-credits", async (req, res) => {
-
-    try {
-
-        const key = req.query.key;
-
-        if (key !== process.env.ADMIN_SECRET) {
-
-            return res.status(403).json({
-                success: false,
-                error: "Accès refusé."
+                exp: expiresAt
             });
 
-        }
+        res.cookie(
+            VIP_ACCESS_COOKIE,
+            token,
+            {
+                httpOnly: true,
+                secure:
+                    process.env.NODE_ENV === "production",
+                sameSite: "lax",
+                maxAge: VIP_SESSION_TTL_MS,
+                path: "/"
+            }
+        );
 
-        const result = await pool.query(`
-            UPDATE customers
-            SET
-                vip_credits = -1,
-                updated_at = CURRENT_TIMESTAMP
-            WHERE vip_unlimited = TRUE
-        `);
-
-        res.json({
-            success: true,
-            updated: result.rowCount,
-            message: "VIP credits migrated successfully."
+        return res.json({
+            success: true
         });
 
     } catch (error) {
 
         console.error(
-            "Migrate VIP credits error:",
+            "VIP code verification error:",
             error
         );
 
-        res.status(500).json({
-            success: false,
-            error: error.message
+        return res.status(500).json({
+            error:
+                "Impossible de vérifier le code pour le moment."
         });
 
     }
 
 });
+
+
+app.post("/api/vip-access/logout", (req, res) => {
+
+    res.clearCookie(
+        VIP_ACCESS_COOKIE,
+        {
+            httpOnly: true,
+            sameSite: "lax",
+            path: "/"
+        }
+    );
+
+    res.status(204).end();
+
+});
+
 
 // ==========================================
 // CONTACT EVENEMENT
 // ==========================================
 
 app.post("/send-event-request", async (req, res) => {
+
+    console.log(
+        ">>> SEND EVENT REQUEST HIT"
+    );
+
     try {
+
         const {
             need,
             companySize,
@@ -2314,95 +1358,176 @@ app.post("/send-event-request", async (req, res) => {
             name,
             phone,
             email
-        } = req.body;
+        } = req.body || {};
 
-        // Vérification des champs obligatoires
-        if (!need || !companySize || !name || !phone || !email) {
+
+        // ==========================================
+        // CHECK REQUIRED FIELDS
+        // ==========================================
+
+        if (
+            !need ||
+            !companySize ||
+            !name ||
+            !phone ||
+            !email
+        ) {
+
             return res.status(400).json({
                 success: false,
-                message: "Veuillez remplir tous les champs obligatoires."
+                message:
+                    "Veuillez remplir tous les champs obligatoires."
             });
+
         }
 
-        // Vérification simple de l'email
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        if (!emailRegex.test(String(email).trim())) {
+        // ==========================================
+        // CHECK EMAIL
+        // ==========================================
+
+        const emailValue =
+            String(email).trim();
+
+        const emailRegex =
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailRegex.test(emailValue)) {
+
             return res.status(400).json({
                 success: false,
-                message: "Adresse email invalide."
+                message:
+                    "Adresse email invalide."
             });
+
         }
 
-        // Vérification simple du téléphone
-        const phoneDigits = String(phone).replace(/\D/g, "");
+
+        // ==========================================
+        // CHECK PHONE
+        // ==========================================
+
+        const phoneValue =
+            String(phone).trim();
+
+        const phoneDigits =
+            phoneValue.replace(/\D/g, "");
 
         if (phoneDigits.length < 8) {
+
             return res.status(400).json({
                 success: false,
-                message: "Numéro de téléphone invalide."
+                message:
+                    "Numéro de téléphone invalide."
             });
+
         }
 
-        // Sécurisation des données avant insertion dans le HTML
-        const safeNeed = escapeEmailHtml(need);
-        const safeCompanySize = escapeEmailHtml(companySize);
-        const safeProjectDescription = escapeEmailHtml(
-            projectDescription || "Non renseigné"
-        );
-        const safeName = escapeEmailHtml(name);
-        const safePhone = escapeEmailHtml(phone);
-        const safeEmail = escapeEmailHtml(email);
 
-        const emailHtml = `
-            <div style="font-family: Arial, sans-serif; max-width: 700px; margin: 0 auto; color: #222;">
-                <h2 style="margin-bottom: 24px;">
-                    Nouvelle demande événement / entreprise
-                </h2>
+        // ==========================================
+        // ESCAPE DATA FOR EMAIL HTML
+        // ==========================================
 
-                <div style="margin-bottom: 20px;">
-                    <strong>Besoin :</strong><br>
-                    ${safeNeed}
-                </div>
+        const safeNeed =
+            escapeEmailHtml(need);
 
-                <div style="margin-bottom: 20px;">
-                    <strong>Taille et type d'entreprise :</strong><br>
-                    ${safeCompanySize}
-                </div>
+        const safeCompanySize =
+            escapeEmailHtml(companySize);
 
-                <div style="margin-bottom: 20px;">
-                    <strong>Description du projet :</strong><br>
-                    ${safeProjectDescription}
-                </div>
+        const safeProjectDescription =
+            escapeEmailHtml(
+                projectDescription ||
+                "Non renseigné"
+            );
 
-                <hr style="border: 0; border-top: 1px solid #ddd; margin: 28px 0;">
+        const safeName =
+            escapeEmailHtml(name);
 
-                <div style="margin-bottom: 20px;">
-                    <strong>Nom :</strong><br>
-                    ${safeName}
-                </div>
+        const safePhone =
+            escapeEmailHtml(phoneValue);
 
-                <div style="margin-bottom: 20px;">
-                    <strong>Téléphone :</strong><br>
-                    ${safePhone}
-                </div>
+        const safeEmail =
+            escapeEmailHtml(emailValue);
 
-                <div style="margin-bottom: 20px;">
-                    <strong>Email :</strong><br>
-                    ${safeEmail}
-                </div>
-            </div>
-        `;
 
-        const emailResult = await resend.emails.send({
-            from: "Cheriz <commande@bienmangercommunity.com>",
-            to: ["catherine.139@outlook.com"],
-            replyTo: email,
-            subject: `Nouvelle demande événement - ${name}`,
-            html: emailHtml
-        });
+        // ==========================================
+        // BUILD EMAIL HTML
+        // ==========================================
+
+        const emailHtml =
+            "<div style=\"font-family: Arial, sans-serif; max-width: 700px; margin: 0 auto; color: #222;\">" +
+
+            "<h2 style=\"margin-bottom: 24px;\">" +
+            "Nouvelle demande événement / entreprise" +
+            "</h2>" +
+
+            "<div style=\"margin-bottom: 20px;\">" +
+            "<strong>Besoin :</strong><br>" +
+            safeNeed +
+            "</div>" +
+
+            "<div style=\"margin-bottom: 20px;\">" +
+            "<strong>Taille et type d'entreprise :</strong><br>" +
+            safeCompanySize +
+            "</div>" +
+
+            "<div style=\"margin-bottom: 20px;\">" +
+            "<strong>Description du projet :</strong><br>" +
+            safeProjectDescription +
+            "</div>" +
+
+            "<hr style=\"border: 0; border-top: 1px solid #ddd; margin: 28px 0;\">" +
+
+            "<div style=\"margin-bottom: 20px;\">" +
+            "<strong>Nom :</strong><br>" +
+            safeName +
+            "</div>" +
+
+            "<div style=\"margin-bottom: 20px;\">" +
+            "<strong>Téléphone :</strong><br>" +
+            safePhone +
+            "</div>" +
+
+            "<div style=\"margin-bottom: 20px;\">" +
+            "<strong>Email :</strong><br>" +
+            safeEmail +
+            "</div>" +
+
+            "</div>";
+
+
+        // ==========================================
+        // SEND EMAIL WITH RESEND
+        // ==========================================
+
+        const emailResult =
+            await resend.emails.send({
+
+                from:
+                    "Cheriz <commande@bienmangercommunity.com>",
+
+                to:
+                    ["catherine.139@outlook.com"],
+
+                replyTo:
+                    emailValue,
+
+                subject:
+                    "Nouvelle demande événement - " +
+                    String(name).trim(),
+
+                html:
+                    emailHtml
+
+            });
+
+
+        // ==========================================
+        // CHECK RESEND RESULT
+        // ==========================================
 
         if (emailResult.error) {
+
             console.error(
                 "Erreur Resend contact événement:",
                 emailResult.error
@@ -2410,21 +1535,32 @@ app.post("/send-event-request", async (req, res) => {
 
             return res.status(500).json({
                 success: false,
-                message: "Impossible d'envoyer votre demande."
+                message:
+                    "Impossible d'envoyer votre demande."
             });
+
         }
+
 
         console.log(
             "Demande événement envoyée avec succès:",
-            emailResult.data?.id || emailResult.data
+            emailResult.data?.id ||
+            emailResult.data
         );
+
+
+        // ==========================================
+        // SUCCESS
+        // ==========================================
 
         return res.status(200).json({
             success: true,
-            message: "Votre demande a bien été envoyée."
+            message:
+                "Votre demande a bien été envoyée."
         });
 
     } catch (error) {
+
         console.error(
             "Erreur /send-event-request:",
             error
@@ -2432,17 +1568,1848 @@ app.post("/send-event-request", async (req, res) => {
 
         return res.status(500).json({
             success: false,
-            message: "Une erreur est survenue lors de l'envoi."
+            message:
+                "Une erreur est survenue lors de l'envoi."
         });
+
     }
+
 });
+
+
+// ==========================================
+// PAGES
+// ==========================================
+
+app.get(
+    "/",
+    requireVipPage("index.html")
+);
+
+app.get(
+    "/index.html",
+    requireVipPage("index.html")
+);
+
+app.get(
+    "/blog.html",
+    requireVipPage("blog.html")
+);
+
+app.get(
+    "/nos-evenements.html",
+    requireVipPage("nos-evenements.html")
+);
+
+app.get(
+    "/nos-solutions-entreprise.html",
+    requireVipPage("nos-solutions-entreprise.html")
+);
+
+app.get(
+    "/access-vip.html",
+    sendVipLoginPage
+);
+
+
+// ==========================================
+// STATIC ASSETS
+// ==========================================
+
+// Serve only assets that the protected pages need.
+// Never mount SITE_ROOT with express.static:
+// that would expose server.js, private pages,
+// and any other file in the deployment directory.
+
+app.get(
+    "/css/style.css",
+    (req, res) => {
+
+        res.sendFile(
+            path.join(
+                SITE_ROOT,
+                "style.css"
+            )
+        );
+
+    }
+);
+
+
+app.get(
+    "/js/products.js",
+    (req, res) => {
+
+        res.sendFile(
+            path.join(
+                SITE_ROOT,
+                "products.js"
+            )
+        );
+
+    }
+);
+
+
+app.get(
+    "/js/checkout.js",
+    (req, res) => {
+
+        res.sendFile(
+            path.join(
+                SITE_ROOT,
+                "checkout.js"
+            )
+        );
+
+    }
+);
+
+
+app.use(
+    "/images",
+    express.static(
+        path.join(
+            SITE_ROOT,
+            "images"
+        ),
+        {
+            index: false,
+            fallthrough: true
+        }
+    )
+);
+
+
+app.use(
+    "/assets",
+    express.static(
+        path.join(
+            SITE_ROOT,
+            "assets"
+        ),
+        {
+            index: false,
+            fallthrough: true
+        }
+    )
+);
+
+
+// ==========================================
+// TEST DATABASE
+// ==========================================
+
+app.get(
+    "/test-database",
+    async (req, res) => {
+
+        try {
+
+            const result =
+                await pool.query(
+                    "SELECT NOW()"
+                );
+
+            res.json({
+                success: true,
+                databaseTime:
+                    result.rows[0].now
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Database error:",
+                error
+            );
+
+            res.status(500).json({
+                success: false,
+                error:
+                    error.message
+            });
+
+        }
+
+    }
+);
+
+
+// ==========================================
+// CREATE CUSTOMERS TABLE
+// ==========================================
+
+app.get(
+    "/create-customers-table",
+    async (req, res) => {
+
+        try {
+
+            await pool.query(`
+
+                CREATE TABLE IF NOT EXISTS customers (
+
+                    id SERIAL PRIMARY KEY,
+
+                    email TEXT UNIQUE NOT NULL,
+
+                    name TEXT,
+
+                    phone TEXT,
+
+                    vip_unlimited BOOLEAN DEFAULT FALSE,
+
+                    special_member BOOLEAN DEFAULT FALSE,
+
+                    special_credits INTEGER DEFAULT 0,
+
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
+                );
+
+            `);
+
+            res.json({
+
+                success: true,
+
+                message:
+                    "Customers table created."
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Create customers table error:",
+                error
+            );
+
+            res.status(500).json({
+
+                success: false,
+
+                error:
+                    error.message
+
+            });
+
+        }
+
+    }
+);
+
+
+// ==========================================
+// CHECK CUSTOMER
+// ==========================================
+
+app.get(
+    "/check-customer",
+    async (req, res) => {
+
+        try {
+
+            const email =
+                req.query.email;
+
+            if (!email) {
+
+                return res.status(400).json({
+
+                    error:
+                        "请提供 email"
+
+                });
+
+            }
+
+            const result =
+                await pool.query(
+
+                    `
+                    SELECT
+
+                        email,
+
+                        name,
+
+                        phone,
+
+                        vip_unlimited,
+
+                        special_member,
+
+                        special_credits
+
+                    FROM customers
+
+                    WHERE email = $1
+                    `,
+
+                    [email]
+
+                );
+
+            if (
+                result.rows.length === 0
+            ) {
+
+                return res.json({
+
+                    found: false
+
+                });
+
+            }
+
+            res.json({
+
+                found: true,
+
+                customer:
+                    result.rows[0]
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Check customer error:",
+                error
+            );
+
+            res.status(500).json({
+
+                error:
+                    error.message
+
+            });
+
+        }
+
+    }
+);
+
+
+// ==========================================
+// TEST SPECIAL MEMBER
+// 临时测试账号
+// ==========================================
+
+app.get(
+    "/create-test-special-member",
+    async (req, res) => {
+
+        try {
+
+            await pool.query(
+                `
+                INSERT INTO customers
+                (
+                    email,
+                    name,
+                    phone,
+                    vip_unlimited,
+                    special_member,
+                    special_credits
+                )
+                VALUES
+                (
+                    'test-special-membre@cheriz.test',
+                    'Test Special Membre',
+                    '0000000000',
+                    FALSE,
+                    TRUE,
+                    0
+                )
+
+                ON CONFLICT (email)
+
+                DO UPDATE SET
+
+                    special_member = TRUE,
+
+                    vip_unlimited = FALSE,
+
+                    updated_at = CURRENT_TIMESTAMP
+                `
+            );
+
+            res.json({
+
+                success: true,
+
+                message:
+                    "Test special member created.",
+
+                email:
+                    "test-special-membre@cheriz.test",
+
+                special_member:
+                    true,
+
+                vip_unlimited:
+                    false
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Create test special member error:",
+                error
+            );
+
+            res.status(500).json({
+
+                success: false,
+
+                error:
+                    error.message
+
+            });
+
+        }
+
+    }
+);
+
+
+// ==========================================
+// ADD SPECIAL MEMBER
+// ==========================================
+
+app.get(
+    "/add-special-member",
+    async (req, res) => {
+
+        try {
+
+            const email =
+                req.query.email;
+
+            const key =
+                req.query.key;
+
+
+            // 管理员密码检查
+
+            if (
+                key !== process.env.ADMIN_SECRET
+            ) {
+
+                return res.status(403).json({
+
+                    success: false,
+
+                    error:
+                        "Accès refusé."
+
+                });
+
+            }
+
+
+            if (!email) {
+
+                return res.status(400).json({
+
+                    success: false,
+
+                    error:
+                        "Email manquant."
+
+                });
+
+            }
+
+
+            await pool.query(
+                `
+                INSERT INTO customers
+                (
+                    email,
+                    special_member,
+                    vip_unlimited,
+                    vip_credits,
+                    special_credits
+                )
+                VALUES
+                (
+                    $1,
+                    TRUE,
+                    FALSE,
+                    3,
+                    0
+                )
+
+                ON CONFLICT (email)
+
+                DO UPDATE SET
+
+                    special_member = TRUE,
+
+                    vip_unlimited = FALSE,
+
+                    vip_credits = 3,
+
+                    updated_at = CURRENT_TIMESTAMP
+                `,
+                [
+                    email.trim().toLowerCase()
+                ]
+            );
+
+
+            console.log(
+                "SPECIAL MEMBER ADDED:",
+                email
+            );
+
+
+            res.json({
+
+                success: true,
+
+                message:
+                    "Membre spécial ajouté avec succès.",
+
+                email:
+                    email.trim().toLowerCase()
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Add special member error:",
+                error
+            );
+
+            res.status(500).json({
+
+                success: false,
+
+                error:
+                    error.message
+
+            });
+
+        }
+
+    }
+);
+
+
+// ==========================================
+// FEUILLE D'OR CHECKOUT
+// ==========================================
+
+app.post(
+    "/api/feuilledor/create-checkout-session",
+    async (req, res) => {
+
+        try {
+
+            if (!feuilledorStripe) {
+
+                return res.status(503).json({
+                    error:
+                        "Le paiement Feuille d'Or n'est pas configuré."
+                });
+
+            }
+
+            const items =
+                req.body?.items;
+
+            if (
+                !Array.isArray(items) ||
+                items.length === 0 ||
+                items.length > 20
+            ) {
+
+                return res.status(400).json({
+                    error:
+                        "Panier Feuille d'Or invalide."
+                });
+
+            }
+
+
+            const lineItems =
+                items.map(item => {
+
+                    const product =
+                        FEUILLEDOR_PRODUCTS.find(
+                            candidate =>
+                                candidate.id ===
+                                String(
+                                    item.productId || ""
+                                )
+                        );
+
+                    if (!product) {
+
+                        throw new Error(
+                            "Produit Feuille d'Or introuvable."
+                        );
+
+                    }
+
+
+                    const variant =
+                        (product.variants || [])
+                            .find(candidate =>
+                                candidate.color ===
+                                    String(
+                                        item.color || ""
+                                    ) &&
+                                candidate.shape ===
+                                    String(
+                                        item.shape || ""
+                                    ) &&
+                                candidate.length ===
+                                    String(
+                                        item.length || ""
+                                    ) &&
+                                candidate.personalisation ===
+                                    String(
+                                        item.personalisation || ""
+                                    )
+                            );
+
+
+                    if (!variant) {
+
+                        throw new Error(
+                            `Option invalide pour ${product.name}.`
+                        );
+
+                    }
+
+
+                    const priceText =
+                        String(
+                            variant.price || ""
+                        ).replace(
+                            ",",
+                            "."
+                        );
+
+                    const price =
+                        Number(
+                            priceText.replace(
+                                /[^0-9.]/g,
+                                ""
+                            )
+                        );
+
+
+                    if (
+                        !Number.isFinite(price) ||
+                        price <= 0
+                    ) {
+
+                        throw new Error(
+                            `Prix invalide pour ${product.name}.`
+                        );
+
+                    }
+
+
+                    const quantity =
+                        Number(
+                            item.quantity
+                        );
+
+
+                    if (
+                        !Number.isInteger(quantity) ||
+                        quantity < 1 ||
+                        quantity > 10
+                    ) {
+
+                        throw new Error(
+                            "Quantité invalide."
+                        );
+
+                    }
+
+
+                    const options = [
+
+                        `Couleur : ${variant.color}`,
+
+                        `Forme : ${variant.shape}`,
+
+                        `Longueur : ${variant.length}`,
+
+                        `Personnalisation : ${variant.personalisation}`
+
+                    ].join(" · ");
+
+
+                    return {
+
+                        quantity,
+
+                        price_data: {
+
+                            currency:
+                                "eur",
+
+                            unit_amount:
+                                Math.round(
+                                    price * 100
+                                ),
+
+                            product_data: {
+
+                                name:
+                                    product.name,
+
+                                description:
+                                    options
+
+                            }
+
+                        }
+
+                    };
+
+                });
+
+
+            const siteUrl =
+                "https://bienmangercommunity.com/partenaire/feuilledor";
+
+
+            const session =
+                await feuilledorStripe
+                    .checkout
+                    .sessions
+                    .create({
+
+                        mode:
+                            "payment",
+
+                        line_items:
+                            lineItems,
+
+                        billing_address_collection:
+                            "auto",
+
+                        phone_number_collection:
+                            {
+                                enabled: true
+                            },
+
+                        shipping_address_collection:
+                            {
+
+                                allowed_countries:
+                                    [
+                                        "FR",
+                                        "BE",
+                                        "DE",
+                                        "LU",
+                                        "NL",
+                                        "ES",
+                                        "IT",
+                                        "PT",
+                                        "AT",
+                                        "IE"
+                                    ]
+
+                            },
+
+                        allow_promotion_codes:
+                            true,
+
+                        success_url:
+                            `${siteUrl}/?payment=success`,
+
+                        cancel_url:
+                            `${siteUrl}/?payment=cancel`,
+
+                        metadata:
+                            {
+                                order_type:
+                                    "feuilledor"
+                            }
+
+                    });
+
+
+            return res.json({
+                url:
+                    session.url
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Feuille d'Or Stripe error:",
+                error
+            );
+
+            return res.status(400).json({
+                error:
+                    error.message ||
+                    "Impossible de créer le paiement."
+            });
+
+        }
+
+    }
+);
+
+
+// ==========================================
+// CREATE STRIPE CHECKOUT SESSION
+// ==========================================
+
+app.post(
+    "/create-checkout-session",
+    async (req, res) => {
+
+        let vipCreditReservation =
+            null;
+
+        try {
+
+            const {
+                cart,
+                customer
+            } = req.body;
+
+
+            // ==========================================
+            // CHECK CART
+            // ==========================================
+
+            if (
+                !Array.isArray(cart) ||
+                cart.length === 0
+            ) {
+
+                return res.status(400).json({
+                    error:
+                        "Votre panier est vide."
+                });
+
+            }
+
+
+            if (
+                cart.length > 20
+            ) {
+
+                return res.status(400).json({
+                    error:
+                        "Votre panier contient trop de produits."
+                });
+
+            }
+
+
+            if (
+                !customer ||
+                !customer.email
+            ) {
+
+                return res.status(400).json({
+                    error:
+                        "Email client manquant."
+                });
+
+            }
+
+
+            const customerEmail =
+                customer.email
+                    .trim()
+                    .toLowerCase();
+
+
+            // ==========================================
+            // VALIDATION DU PANIER
+            // Le serveur détermine le prix réel.
+            // ==========================================
+
+            const validatedCart = [];
+
+
+            for (const item of cart) {
+
+                const quantity =
+                    Number(item.quantity);
+
+
+                if (
+                    !Number.isInteger(quantity) ||
+                    quantity < 1 ||
+                    quantity > 20
+                ) {
+
+                    return res.status(400).json({
+                        error:
+                            "Quantité invalide."
+                    });
+
+                }
+
+
+                // ======================================
+                // VIP MEMBERSHIP
+                // ======================================
+
+                if (
+                    item.type ===
+                    "vip-membership"
+                ) {
+
+                    if (
+                        quantity !== 1
+                    ) {
+
+                        return res.status(400).json({
+                            error:
+                                "L'adhésion VIP ne peut être commandée qu'une fois."
+                        });
+
+                    }
+
+
+                    validatedCart.push({
+
+                        type:
+                            "vip-membership",
+
+                        name:
+                            "Adhésion VIP + 1er repas",
+
+                        price:
+                            VIP_MEMBERSHIP_PRICE,
+
+                        quantity:
+                            1
+
+                    });
+
+                    continue;
+
+                }
+
+
+                // ======================================
+                // DAILY DISH
+                // ======================================
+
+                if (
+                    item.type ===
+                    "daily-dish"
+                ) {
+
+                    const clientPrice =
+                        Number(item.price);
+
+
+                    if (
+                        clientPrice !==
+                            NORMAL_PRICE &&
+                        clientPrice !==
+                            VIP_PRICE
+                    ) {
+
+                        return res.status(400).json({
+                            error:
+                                "Tarif du plat du jour invalide."
+                        });
+
+                    }
+
+
+                    validatedCart.push({
+
+                        type:
+                            "daily-dish",
+
+                        name:
+                            "Plat du jour",
+
+                        price:
+                            clientPrice,
+
+                        quantity
+
+                    });
+
+                    continue;
+
+                }
+
+
+                // ======================================
+                // NOS PLATS
+                // ======================================
+
+                if (
+                    item.type ===
+                    "product"
+                ) {
+
+                    const productId =
+                        Number(item.productId);
+
+                    const serverPrice =
+                        PRODUCT_PRICES[
+                            productId
+                        ];
+
+
+                    if (
+                        !Number.isFinite(
+                            serverPrice
+                        ) ||
+                        serverPrice <= 0
+                    ) {
+
+                        return res.status(400).json({
+                            error:
+                                "Prix du produit non configuré."
+                        });
+
+                    }
+
+
+                    validatedCart.push({
+
+                        type:
+                            "product",
+
+                        productId,
+
+                        name:
+                            String(
+                                item.name ||
+                                "Produit"
+                            ),
+
+                        price:
+                            serverPrice,
+
+                        quantity
+
+                    });
+
+                    continue;
+
+                }
+
+
+                // ======================================
+                // AUTRES PRODUITS
+                // ======================================
+
+                if (
+                    item.type ===
+                    "other-product"
+                ) {
+
+                    const productId =
+                        Number(item.productId);
+
+                    const serverPrice =
+                        OTHER_PRODUCT_PRICES[
+                            productId
+                        ];
+
+
+                    if (
+                        !Number.isFinite(
+                            serverPrice
+                        ) ||
+                        serverPrice <= 0
+                    ) {
+
+                        return res.status(400).json({
+                            error:
+                                "Prix de l'autre produit non configuré."
+                        });
+
+                    }
+
+
+                    validatedCart.push({
+
+                        type:
+                            "other-product",
+
+                        productId,
+
+                        name:
+                            String(
+                                item.name ||
+                                "Produit"
+                            ),
+
+                        price:
+                            serverPrice,
+
+                        quantity
+
+                    });
+
+                    continue;
+
+                }
+
+
+                // ======================================
+                // UNKNOWN PRODUCT
+                // ======================================
+
+                return res.status(400).json({
+                    error:
+                        "Produit non reconnu."
+                });
+
+            }
+
+
+            console.log(
+                "================================="
+            );
+
+            console.log(
+                "NOUVELLE COMMANDE"
+            );
+
+            console.log(
+                "Client :",
+                customer
+            );
+
+            console.log(
+                "Panier :",
+                cart
+            );
+
+            console.log(
+                "================================="
+            );
+
+
+            // ==========================================
+            // CHECK CUSTOMER
+            // ==========================================
+
+            const customerResult =
+                await pool.query(
+                    `
+                    SELECT
+                        special_member,
+                        vip_credits,
+                        vip_unlimited
+                    FROM customers
+                    WHERE email = $1
+                    `,
+                    [customerEmail]
+                );
+
+
+            const customerData =
+                customerResult.rows.length > 0
+                    ? customerResult.rows[0]
+                    : null;
+
+
+            // ====================================
+            // CALCULATE ORDER
+            // ====================================
+
+            let useVipCredit =
+                false;
+
+            let hasVipMembership =
+                false;
+
+            let hasDailyDish =
+                false;
+
+
+            // ------------------------------------
+            // VIP MEMBERSHIP
+            // ------------------------------------
+
+            const membershipItems =
+                validatedCart.filter(
+                    item =>
+                        item.type ===
+                        "vip-membership"
+                );
+
+
+            if (
+                membershipItems.length > 0
+            ) {
+
+                hasVipMembership =
+                    true;
+
+
+                if (
+                    membershipItems.length !== 1 ||
+                    membershipItems[0].quantity !== 1
+                ) {
+
+                    return res.status(400).json({
+                        error:
+                            "L'adhésion VIP ne peut être commandée qu'une seule fois."
+                    });
+
+                }
+
+            }
+
+
+            // ------------------------------------
+            // DAILY DISH
+            // ------------------------------------
+
+            const dailyDishItems =
+                validatedCart.filter(
+                    item =>
+                        item.type ===
+                        "daily-dish"
+                );
+
+
+            if (
+                dailyDishItems.length > 0
+            ) {
+
+                hasDailyDish =
+                    true;
+
+
+                if (
+                    dailyDishItems.length > 1
+                ) {
+
+                    return res.status(400).json({
+                        error:
+                            "Un seul plat du jour peut être commandé par commande."
+                    });
+
+                }
+
+
+                const dailyDish =
+                    dailyDishItems[0];
+
+
+                // SPECIAL MEMBER
+
+                if (
+                    customerData?.special_member ===
+                    true
+                ) {
+
+                    if (
+                        Number(
+                            customerData.vip_credits
+                        ) <= 0
+                    ) {
+
+                        return res.status(403).json({
+                            error:
+                                "Votre crédit VIP est épuisé."
+                        });
+
+                    }
+
+
+                    dailyDish.price =
+                        VIP_PRICE;
+
+                    useVipCredit =
+                        true;
+
+                }
+
+
+                // VIP UNLIMITED
+
+                else if (
+                    customerData?.vip_unlimited ===
+                    true
+                ) {
+
+                    dailyDish.price =
+                        VIP_PRICE;
+
+                }
+
+
+                // NORMAL CUSTOMER
+
+                else {
+
+                    dailyDish.price =
+                        NORMAL_PRICE;
+
+                }
+
+            }
+
+
+            // ====================================
+            // RESERVE VIP CREDIT
+            // ====================================
+
+            if (
+                useVipCredit
+            ) {
+
+                vipCreditReservation =
+                    await reserveVipCredit(
+                        customerEmail
+                    );
+
+
+                if (
+                    !vipCreditReservation
+                ) {
+
+                    return res.status(403).json({
+                        error:
+                            "Votre crédit VIP est épuisé."
+                    });
+
+                }
+
+            }
+
+
+            // ====================================
+            // CREATE STRIPE LINE ITEMS
+            // ====================================
+
+            const lineItems =
+                validatedCart.map(
+                    item => {
+
+                        let unitAmount =
+                            Math.round(
+                                Number(
+                                    item.price
+                                ) * 100
+                            );
+
+
+                        // Special member VIP credit
+                        // The daily dish becomes free.
+
+                        if (
+                            useVipCredit &&
+                            item.type ===
+                                "daily-dish"
+                        ) {
+
+                            unitAmount =
+                                0;
+
+                        }
+
+
+                        let productName =
+                            item.name;
+
+
+                        if (
+                            item.type ===
+                            "vip-membership"
+                        ) {
+
+                            productName =
+                                "Adhésion VIP + 1er repas";
+
+                        }
+
+
+                        return {
+
+                            price_data: {
+
+                                currency:
+                                    "eur",
+
+                                product_data: {
+
+                                    name:
+                                        productName
+
+                                },
+
+                                unit_amount:
+                                    unitAmount
+
+                            },
+
+                            quantity:
+                                Number(
+                                    item.quantity
+                                )
+
+                        };
+
+                    }
+                );
+
+
+            // ==========================================
+            // CREATE STRIPE CHECKOUT SESSION
+            // ==========================================
+
+            const session =
+                await stripe
+                    .checkout
+                    .sessions
+                    .create({
+
+                        mode:
+                            "payment",
+
+                        line_items:
+                            lineItems,
+
+                        expires_at:
+                            vipCreditReservation
+                                ? Math.floor(
+                                    vipCreditReservation
+                                        .expiresAt
+                                        .getTime() / 1000
+                                )
+                                : undefined,
+
+                        customer_email:
+                            customerEmail,
+
+                        metadata: {
+
+                            customer_name:
+                                customer.name ||
+                                "",
+
+                            customer_phone:
+                                customer.phone ||
+                                "",
+
+                            delivery_address:
+                                customer.address ||
+                                "",
+
+                            vip_credit_used:
+                                useVipCredit
+                                    ? "true"
+                                    : "false",
+
+                            vip_credit_reservation_id:
+                                vipCreditReservation
+                                    ? vipCreditReservation
+                                        .reservationId
+                                    : "",
+
+                            vip_membership:
+                                hasVipMembership
+                                    ? "true"
+                                    : "false"
+
+                        },
+
+                        success_url:
+                            "https://cheriz.boutique.bienmangercommunity.com/success.html",
+
+                        cancel_url:
+                            "https://cheriz.boutique.bienmangercommunity.com/checkout.html"
+
+                    });
+
+
+            if (
+                vipCreditReservation
+            ) {
+
+                await linkVipCreditReservation(
+                    vipCreditReservation.reservationId,
+                    session.id
+                );
+
+            }
+
+
+            // ==========================================
+            // RETURN STRIPE URL
+            // ==========================================
+
+            res.json({
+
+                url:
+                    session.url
+
+            });
+
+        } catch (error) {
+
+            if (
+                vipCreditReservation
+            ) {
+
+                try {
+
+                    await releaseVipCreditReservation(
+                        vipCreditReservation.reservationId
+                    );
+
+                } catch (releaseError) {
+
+                    console.error(
+                        "VIP credit release error:",
+                        releaseError
+                    );
+
+                }
+
+            }
+
+
+            console.error(
+                "Stripe error:",
+                error
+            );
+
+
+            res.status(500).json({
+
+                error:
+                    "Impossible de créer le paiement."
+
+            });
+
+        }
+
+    }
+);
+
+
+// ==========================================
+// TEMP - CHECK CUSTOMERS TABLE STRUCTURE
+// ==========================================
+
+app.get(
+    "/check-table",
+    async (req, res) => {
+
+        try {
+
+            const result =
+                await pool.query(`
+                    SELECT
+                        column_name,
+                        data_type,
+                        column_default,
+                        is_nullable
+                    FROM information_schema.columns
+                    WHERE table_name = 'customers'
+                    ORDER BY ordinal_position
+                `);
+
+
+            res.json({
+
+                success:
+                    true,
+
+                columns:
+                    result.rows
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Check table error:",
+                error
+            );
+
+
+            res.status(500).json({
+
+                success:
+                    false,
+
+                error:
+                    error.message
+
+            });
+
+        }
+
+    }
+);
+
+
+// ==========================================
+// TEMP - ADD VIP CREDITS COLUMN
+// ==========================================
+
+app.get(
+    "/add-vip-credits-column",
+    async (req, res) => {
+
+        try {
+
+            const key =
+                req.query.key;
+
+
+            if (
+                key !==
+                process.env.ADMIN_SECRET
+            ) {
+
+                return res.status(403).json({
+
+                    success:
+                        false,
+
+                    error:
+                        "Accès refusé."
+
+                });
+
+            }
+
+
+            await pool.query(`
+                ALTER TABLE customers
+                ADD COLUMN IF NOT EXISTS vip_credits INTEGER DEFAULT 0;
+            `);
+
+
+            res.json({
+
+                success:
+                    true,
+
+                message:
+                    "vip_credits column added successfully."
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Add vip_credits column error:",
+                error
+            );
+
+
+            res.status(500).json({
+
+                success:
+                    false,
+
+                error:
+                    error.message
+
+            });
+
+        }
+
+    }
+);
+
+
+// ==========================================
+// TEMP - LIST CUSTOMERS
+// ==========================================
+
+app.get(
+    "/list-customers",
+    async (req, res) => {
+
+        try {
+
+            const key =
+                req.query.key;
+
+
+            if (
+                key !==
+                process.env.ADMIN_SECRET
+            ) {
+
+                return res.status(403).json({
+
+                    success:
+                        false,
+
+                    error:
+                        "Accès refusé."
+
+                });
+
+            }
+
+
+            const result =
+                await pool.query(`
+                    SELECT
+                        email,
+                        name,
+                        vip_credits,
+                        vip_unlimited,
+                        special_member,
+                        special_credits
+                    FROM customers
+                    ORDER BY id
+                `);
+
+
+            res.json({
+
+                success:
+                    true,
+
+                customers:
+                    result.rows
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "List customers error:",
+                error
+            );
+
+
+            res.status(500).json({
+
+                success:
+                    false,
+
+                error:
+                    error.message
+
+            });
+
+        }
+
+    }
+);
+
+
+// ==========================================
+// TEMP - MIGRATE VIP CREDITS
+// ==========================================
+
+app.get(
+    "/migrate-vip-credits",
+    async (req, res) => {
+
+        try {
+
+            const key =
+                req.query.key;
+
+
+            if (
+                key !==
+                process.env.ADMIN_SECRET
+            ) {
+
+                return res.status(403).json({
+
+                    success:
+                        false,
+
+                    error:
+                        "Accès refusé."
+
+                });
+
+            }
+
+
+            const result =
+                await pool.query(`
+                    UPDATE customers
+                    SET
+                        vip_credits = -1,
+                        updated_at = CURRENT_TIMESTAMP
+                    WHERE vip_unlimited = TRUE
+                `);
+
+
+            res.json({
+
+                success:
+                    true,
+
+                updated:
+                    result.rowCount,
+
+                message:
+                    "VIP credits migrated successfully."
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Migrate VIP credits error:",
+                error
+            );
+
+
+            res.status(500).json({
+
+                success:
+                    false,
+
+                error:
+                    error.message
+
+            });
+
+        }
+
+    }
+);
+
 
 // ==========================================
 // START SERVER
 // ==========================================
 
-app.listen(PORT, "0.0.0.0", () => {
-    console.log(
-        `Cheriz payment server running on port ${PORT}`
-    );
-});
+app.listen(
+    PORT,
+    "0.0.0.0",
+    () => {
+
+        console.log(
+            `Cheriz payment server running on port ${PORT}`
+        );
+
+    }
+);
+
