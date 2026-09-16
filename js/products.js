@@ -26,7 +26,7 @@ const DAILY_DISH = {
 
     calories: "≈ 450 kcal / portion",
 
-    image: "https://github.com/yelianying1116/cheriz-boutique/blob/a4beb4101bac5edefc9d1e39fe9911e84af29c27/images/Brocoli%20saut%C3%A9%20aux%20l%C3%A9gumes%20de%20saison%2C%20%20riz%20blanc.jpg"
+    image: "images/Brocoli sauté aux légumes de saison,  riz blanc.jpg"
 
 };
 
