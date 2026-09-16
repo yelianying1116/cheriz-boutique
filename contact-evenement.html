@@ -1,442 +1,236 @@
 
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
+    <title>Contact événement - Cheriz</title>
 
-    <title>Contact événement | Chériz</title>
-
-    <meta
-        name="description"
-        content="Faites-nous part de votre projet événementiel.">
-
-    <link
-        rel="stylesheet"
-        href="contact-evenement.css">
-
+    <link rel="stylesheet" href="contact-evenement.css">
 </head>
 
 <body>
 
     <main class="event-page">
 
-        <section class="event-section">
+        <section class="event-card">
 
-            <div class="event-container">
+            <h1>Par où voulez-vous commencer ?</h1>
 
-                <!-- =========================
-                     TITRE
-                ========================== -->
+            <p class="event-subtitle">
+                On vous oriente vers la bonne solution en quelques secondes.
+            </p>
 
-                <div class="event-heading">
 
-                    <h1>
-                        Par où voulez-vous commencer ?
-                    </h1>
+            <!-- ==========================================
+                 ÉTAPE 1
+            =========================================== -->
 
-                    <p>
-                        On vous oriente vers la bonne solution
-                        en quelques secondes.
-                    </p>
+            <div class="event-step active" id="step-1">
 
+                <h2>Quel est votre besoin ?</h2>
+
+                <div class="select-wrapper">
+                    <select id="need" name="need">
+                        <option value="" selected disabled>
+                            Sélectionnez votre besoin
+                        </option>
+
+                        <option value="GHAJKGHAUR">
+                            GHAJKGHAUR
+                        </option>
+
+                        <option value="hkhuhgoq">
+                            hkhuhgoq
+                        </option>
+
+                        <option value="fglrgji">
+                            fglrgji
+                        </option>
+
+                        <option value="fnalrnl">
+                            fnalrnl
+                        </option>
+                    </select>
+                </div>
+
+                <div class="button-row">
+                    <button
+                        type="button"
+                        class="continue-button"
+                        id="continue-1">
+                        Continuer
+                    </button>
+                </div>
+
+            </div>
+
+
+            <!-- ==========================================
+                 ÉTAPE 2
+            =========================================== -->
+
+            <div class="event-step" id="step-2">
+
+                <h2>Taille et type d'entreprise</h2>
+
+                <div class="select-wrapper">
+                    <select id="company-size" name="companySize">
+                        <option value="" selected disabled>
+                            Sélectionnez une option
+                        </option>
+
+                        <option value="0 a 1 salarie">
+                            0 a 1 salarie
+                        </option>
+
+                        <option value="2 a 10 salarie">
+                            2 a 10 salarie
+                        </option>
+
+                        <option value="11 a 30 salarie">
+                            11 a 30 salarie
+                        </option>
+
+                        <option value="30 a 1000 salarie">
+                            30 a 1000 salarie
+                        </option>
+                    </select>
                 </div>
 
 
-                <!-- =========================
-                     FORMULAIRE
-                ========================== -->
-
-                <div class="event-card">
-
-                    <form
-                        id="event-form"
-                        novalidate>
-
-
-                        <!-- ==================================
-                             ÉTAPE 1
-                        =================================== -->
-
-                        <div
-                            class="event-step active"
-                            data-step="1">
-
-                            <div class="step-content">
-
-                                <label
-                                    for="need"
-                                    class="field-label">
-
-                                    Quel est votre besoin ?
-
-                                </label>
-
-
-                                <div class="select-wrapper">
-
-                                    <select
-                                        id="need"
-                                        name="need"
-                                        required>
-
-                                        <option
-                                            value=""
-                                            selected
-                                            disabled>
-
-                                            Quel est votre besoin ?
-
-                                        </option>
-
-                                        <option value="GHAJKGHAUR">
-                                            GHAJKGHAUR
-                                        </option>
-
-                                        <option value="hkhuhgoq">
-                                            hkhuhgoq
-                                        </option>
-
-                                        <option value="fglrgji">
-                                            fglrgji
-                                        </option>
-
-                                        <option value="fnalrnl">
-                                            fnalrnl
-                                        </option>
-
-                                    </select>
-
-                                </div>
-
-
-                                <p
-                                    class="form-error"
-                                    id="need-error">
-
-                                    Veuillez sélectionner une option.
-
-                                </p>
-
-
-                                <div class="step-actions">
-
-                                    <button
-                                        type="button"
-                                        class="continue-button"
-                                        id="step1-continue">
-
-                                        Continuer
-
-                                    </button>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-
-                        <!-- ==================================
-                             ÉTAPE 2
-                        =================================== -->
-
-                        <div
-                            class="event-step"
-                            data-step="2">
-
-                            <div class="step-content">
-
-                                <label
-                                    for="company-size"
-                                    class="field-label">
-
-                                    Taille et type d'entreprise
-
-                                </label>
-
-
-                                <div class="select-wrapper">
-
-                                    <select
-                                        id="company-size"
-                                        name="companySize"
-                                        required>
-
-                                        <option
-                                            value=""
-                                            selected
-                                            disabled>
-
-                                            Taille et type d'entreprise
-
-                                        </option>
-
-                                        <option value="0 a 1 salarie">
-                                            0 a 1 salarie
-                                        </option>
-
-                                        <option value="2 a 10 salarie">
-                                            2 a 10 salarie
-                                        </option>
-
-                                        <option value="11 a 30 salarie">
-                                            11 a 30 salarie
-                                        </option>
-
-                                        <option value="30 a 1000 salarie">
-                                            30 a 1000 salarie
-                                        </option>
-
-                                    </select>
-
-                                </div>
-
-
-                                <p
-                                    class="form-error"
-                                    id="company-size-error">
-
-                                    Veuillez sélectionner une option.
-
-                                </p>
-
-
-                                <label
-                                    for="project-description"
-                                    class="field-label optional-label">
-
-                                    Décrivez votre projet
-
-                                    <span>
-                                        (optionnel)
-                                    </span>
-
-                                </label>
-
-
-                                <textarea
-                                    id="project-description"
-                                    name="projectDescription"
-                                    rows="5"
-                                    maxlength="2000"
-                                    placeholder="Décrivez votre projet..."></textarea>
-
-
-                                <div class="step-actions">
-
-                                    <button
-                                        type="button"
-                                        class="back-button"
-                                        id="step2-back">
-
-                                        Retour
-
-                                    </button>
-
-                                    <button
-                                        type="button"
-                                        class="continue-button"
-                                        id="step2-continue">
-
-                                        Continuer
-
-                                    </button>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-
-                        <!-- ==================================
-                             ÉTAPE 3
-                        =================================== -->
-
-                        <div
-                            class="event-step"
-                            data-step="3">
-
-                            <div class="step-content">
-
-                                <div class="contact-field">
-
-                                    <label
-                                        for="name"
-                                        class="field-label">
-
-                                        Nom
-
-                                    </label>
-
-                                    <input
-                                        type="text"
-                                        id="name"
-                                        name="name"
-                                        autocomplete="name"
-                                        placeholder="Votre nom"
-                                        required>
-
-                                    <p
-                                        class="form-error"
-                                        id="name-error">
-
-                                        Veuillez renseigner votre nom.
-
-                                    </p>
-
-                                </div>
-
-
-                                <div class="contact-field">
-
-                                    <label
-                                        for="phone"
-                                        class="field-label">
-
-                                        Téléphone
-
-                                    </label>
-
-                                    <input
-                                        type="tel"
-                                        id="phone"
-                                        name="phone"
-                                        autocomplete="tel"
-                                        placeholder="Votre téléphone"
-                                        required>
-
-                                    <p
-                                        class="form-error"
-                                        id="phone-error">
-
-                                        Veuillez renseigner votre téléphone.
-
-                                    </p>
-
-                                </div>
-
-
-                                <div class="contact-field">
-
-                                    <label
-                                        for="email"
-                                        class="field-label">
-
-                                        Email
-
-                                    </label>
-
-                                    <input
-                                        type="email"
-                                        id="email"
-                                        name="email"
-                                        autocomplete="email"
-                                        placeholder="Votre adresse email"
-                                        required>
-
-                                    <p
-                                        class="form-error"
-                                        id="email-error">
-
-                                        Veuillez renseigner une adresse email valide.
-
-                                    </p>
-
-                                </div>
-
-
-                                <p
-                                    class="form-error general-error"
-                                    id="submit-error">
-                                </p>
-
-
-                                <div class="step-actions">
-
-                                    <button
-                                        type="button"
-                                        class="back-button"
-                                        id="step3-back">
-
-                                        Retour
-
-                                    </button>
-
-                                    <button
-                                        type="submit"
-                                        class="continue-button submit-button"
-                                        id="submit-button">
-
-                                        Envoyer ma demande
-
-                                    </button>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-
-                        <!-- ==================================
-                             MESSAGE DE SUCCÈS
-                        =================================== -->
-
-                        <div
-                            class="success-message"
-                            id="success-message">
-
-                            <div class="success-icon">
-                                ✓
-                            </div>
-
-                            <h2>
-                                Merci pour votre demande !
-                            </h2>
-
-                            <p>
-                                Votre demande a bien été envoyée.
-                                Nous reviendrons vers vous rapidement.
-                            </p>
-
-                        </div>
-
-                    </form>
+                <label for="project-description" class="field-label">
+                    Décrivez votre projet (optionnel)
+                </label>
+
+                <textarea
+                    id="project-description"
+                    name="projectDescription"
+                    rows="5"
+                    placeholder="Décrivez votre projet..."></textarea>
+
+
+                <div class="button-row">
+
+                    <button
+                        type="button"
+                        class="back-button"
+                        id="back-2">
+                        Retour
+                    </button>
+
+                    <button
+                        type="button"
+                        class="continue-button"
+                        id="continue-2">
+                        Continuer
+                    </button>
 
                 </div>
 
             </div>
 
+
+            <!-- ==========================================
+                 ÉTAPE 3
+            =========================================== -->
+
+            <form
+                class="event-step"
+                id="step-3">
+
+                <h2>Vos coordonnées</h2>
+
+
+                <label for="name" class="field-label">
+                    Nom
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    autocomplete="name"
+                    required>
+
+
+                <label for="phone" class="field-label">
+                    Téléphone
+                </label>
+
+                <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    autocomplete="tel"
+                    required>
+
+
+                <label for="email" class="field-label">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    autocomplete="email"
+                    required>
+
+
+                <div class="button-row">
+
+                    <button
+                        type="button"
+                        class="back-button"
+                        id="back-3">
+                        Retour
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="continue-button submit-button">
+                        Envoyer ma demande
+                    </button>
+
+                </div>
+
+            </form>
+
+
+            <!-- ==========================================
+                 MESSAGE DE SUCCÈS
+            =========================================== -->
+
+            <div
+                class="success-message"
+                id="success-message">
+
+                <h2>Merci pour votre demande !</h2>
+
+                <p>
+                    Votre demande a bien été envoyée.
+                    Nous reviendrons vers vous rapidement.
+                </p>
+
+            </div>
+
         </section>
 
-
-        <!-- =========================
-             BAS DE PAGE
-        ========================== -->
-
-        <footer class="event-footer">
-
-            <p>
-                © Chériz
-            </p>
-
-        </footer>
-
     </main>
+
+
+    <!-- ==========================================
+         FOOTER
+    =========================================== -->
+
+    <footer class="event-footer">
+        <p>© Cheriz - Bien Manger Community</p>
+    </footer>
 
 
     <script src="contact-evenement.js"></script>
 
 </body>
-
 </html>
