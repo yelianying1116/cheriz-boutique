@@ -2300,6 +2300,144 @@ app.get("/migrate-vip-credits", async (req, res) => {
     }
 
 });
+```js
+// ==========================================
+// CONTACT EVENEMENT
+// ==========================================
+
+app.post("/send-event-request", async (req, res) => {
+    try {
+        const {
+            need,
+            companySize,
+            projectDescription,
+            name,
+            phone,
+            email
+        } = req.body;
+
+        // Vérification des champs obligatoires
+        if (!need || !companySize || !name || !phone || !email) {
+            return res.status(400).json({
+                success: false,
+                message: "Veuillez remplir tous les champs obligatoires."
+            });
+        }
+
+        // Vérification simple de l'email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailRegex.test(String(email).trim())) {
+            return res.status(400).json({
+                success: false,
+                message: "Adresse email invalide."
+            });
+        }
+
+        // Vérification simple du téléphone
+        const phoneDigits = String(phone).replace(/\D/g, "");
+
+        if (phoneDigits.length < 8) {
+            return res.status(400).json({
+                success: false,
+                message: "Numéro de téléphone invalide."
+            });
+        }
+
+        // Sécurisation des données avant insertion dans le HTML
+        const safeNeed = escapeEmailHtml(need);
+        const safeCompanySize = escapeEmailHtml(companySize);
+        const safeProjectDescription = escapeEmailHtml(
+            projectDescription || "Non renseigné"
+        );
+        const safeName = escapeEmailHtml(name);
+        const safePhone = escapeEmailHtml(phone);
+        const safeEmail = escapeEmailHtml(email);
+
+        const emailHtml = `
+            <div style="font-family: Arial, sans-serif; max-width: 700px; margin: 0 auto; color: #222;">
+                <h2 style="margin-bottom: 24px;">
+                    Nouvelle demande événement / entreprise
+                </h2>
+
+                <div style="margin-bottom: 20px;">
+                    <strong>Besoin :</strong><br>
+                    ${safeNeed}
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <strong>Taille et type d'entreprise :</strong><br>
+                    ${safeCompanySize}
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <strong>Description du projet :</strong><br>
+                    ${safeProjectDescription}
+                </div>
+
+                <hr style="border: 0; border-top: 1px solid #ddd; margin: 28px 0;">
+
+                <div style="margin-bottom: 20px;">
+                    <strong>Nom :</strong><br>
+                    ${safeName}
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <strong>Téléphone :</strong><br>
+                    ${safePhone}
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <strong>Email :</strong><br>
+                    ${safeEmail}
+                </div>
+            </div>
+        `;
+
+        const emailResult = await resend.emails.send({
+            from: "Cheriz <commande@bienmangercommunity.com>",
+            to: ["catherine.139@outlook.com"],
+            replyTo: email,
+            subject: `Nouvelle demande événement - ${name}`,
+            html: emailHtml
+        });
+
+        if (emailResult.error) {
+            console.error(
+                "Erreur Resend contact événement:",
+                emailResult.error
+            );
+
+            return res.status(500).json({
+                success: false,
+                message: "Impossible d'envoyer votre demande."
+            });
+        }
+
+        console.log(
+            "Demande événement envoyée avec succès:",
+            emailResult.data?.id || emailResult.data
+        );
+
+        return res.status(200).json({
+            success: true,
+            message: "Votre demande a bien été envoyée."
+        });
+
+    } catch (error) {
+        console.error(
+            "Erreur /send-event-request:",
+            error
+        );
+
+        return res.status(500).json({
+            success: false,
+            message: "Une erreur est survenue lors de l'envoi."
+        });
+    }
+});
+```
+
 // ==========================================
 // START SERVER
 // ==========================================
