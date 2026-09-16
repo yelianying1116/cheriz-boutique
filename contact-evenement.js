@@ -1,10 +1,5 @@
 
 document.addEventListener("DOMContentLoaded", function () {
-
-    // ==========================================
-    // ELEMENTS
-    // ==========================================
-
     const step1 = document.getElementById("step-1");
     const step2 = document.getElementById("step-2");
     const step3 = document.getElementById("step-3");
@@ -28,13 +23,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const successMessage =
         document.getElementById("success-message");
 
-
-    // ==========================================
-    // SHOW STEP
-    // ==========================================
+    /*
+     * IMPORTANT :
+     * Le formulaire est affiché sur le site Cheriz,
+     * mais le serveur API fonctionne sur Render.
+     */
+    const API_URL = "https://cheriz-payment.onrender.com";
 
     function showStep(stepNumber) {
-
         step1.classList.remove("active");
         step2.classList.remove("active");
         step3.classList.remove("active");
@@ -57,13 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-
-    // ==========================================
-    // STEP 1 → STEP 2
-    // ==========================================
-
     continue1.addEventListener("click", function () {
-
         if (!need.value) {
             alert("Veuillez sélectionner votre besoin.");
             return;
@@ -72,13 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
         showStep(2);
     });
 
-
-    // ==========================================
-    // STEP 2 → STEP 3
-    // ==========================================
-
     continue2.addEventListener("click", function () {
-
         if (!companySize.value) {
             alert(
                 "Veuillez sélectionner la taille et le type d'entreprise."
@@ -89,60 +73,32 @@ document.addEventListener("DOMContentLoaded", function () {
         showStep(3);
     });
 
-
-    // ==========================================
-    // STEP 2 → STEP 1
-    // ==========================================
-
     back2.addEventListener("click", function () {
         showStep(1);
     });
-
-
-    // ==========================================
-    // STEP 3 → STEP 2
-    // ==========================================
 
     back3.addEventListener("click", function () {
         showStep(2);
     });
 
-
-    // ==========================================
-    // STEP 3 → SEND
-    // ==========================================
-
     form.addEventListener("submit", async function (event) {
-
         event.preventDefault();
-
 
         const nameValue = name.value.trim();
         const phoneValue = phone.value.trim();
         const emailValue = email.value.trim();
-
-
-        // ------------------------------
-        // VALIDATION NOM
-        // ------------------------------
 
         if (!nameValue) {
             alert("Veuillez renseigner votre nom.");
             return;
         }
 
-
-        // ------------------------------
-        // VALIDATION TELEPHONE
-        // ------------------------------
-
         if (!phoneValue) {
             alert("Veuillez renseigner votre téléphone.");
             return;
         }
 
-        const phoneDigits =
-            phoneValue.replace(/\D/g, "");
+        const phoneDigits = phoneValue.replace(/\D/g, "");
 
         if (phoneDigits.length < 8) {
             alert(
@@ -150,11 +106,6 @@ document.addEventListener("DOMContentLoaded", function () {
             );
             return;
         }
-
-
-        // ------------------------------
-        // VALIDATION EMAIL
-        // ------------------------------
 
         if (!emailValue) {
             alert("Veuillez renseigner votre email.");
@@ -171,68 +122,77 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-
-        // ------------------------------
-        // BOUTON ENVOI
-        // ------------------------------
-
         const submitButton =
             form.querySelector(".submit-button");
 
         submitButton.disabled = true;
         submitButton.textContent = "Envoi...";
 
-
-        // ------------------------------
-        // ENVOI AU SERVEUR
-        // ------------------------------
-
         try {
-
             const response = await fetch(
-                "/send-event-request",
+                API_URL + "/send-event-request",
                 {
                     method: "POST",
-
                     headers: {
-                        "Content-Type": "application/json"
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
                     },
-
                     body: JSON.stringify({
                         need: need.value,
-
-                        companySize:
-                            companySize.value,
-
+                        companySize: companySize.value,
                         projectDescription:
                             projectDescription.value.trim(),
-
                         name: nameValue,
-
                         phone: phoneValue,
-
                         email: emailValue
                     })
                 }
             );
 
+            const responseText =
+                await response.text();
 
-            const result =
-                await response.json();
+            console.log(
+                "Réponse serveur :",
+                response.status,
+                responseText
+            );
 
+            if (
+                responseText
+                    .trim()
+                    .startsWith("<")
+            ) {
+                throw new Error(
+                    "Le serveur a renvoyé une page HTML au lieu de la réponse attendue."
+                );
+            }
 
-            if (!response.ok || !result.success) {
+            let result;
 
+            try {
+                result =
+                    JSON.parse(responseText);
+            } catch (jsonError) {
+                console.error(
+                    "Réponse serveur non JSON :",
+                    responseText
+                );
+
+                throw new Error(
+                    "Réponse invalide du serveur."
+                );
+            }
+
+            if (
+                !response.ok ||
+                !result.success
+            ) {
                 throw new Error(
                     result.message ||
                     "Une erreur est survenue lors de l'envoi."
                 );
             }
-
-
-            // ------------------------------
-            // SUCCÈS
-            // ------------------------------
 
             step1.classList.remove("active");
             step2.classList.remove("active");
@@ -245,32 +205,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 behavior: "smooth"
             });
 
-
         } catch (error) {
-
             console.error(
                 "Erreur contact événement :",
                 error
             );
 
-            alert(
-                error.message ||
-                "Une erreur est survenue lors de l'envoi."
-            );
+            alert(error.message);
 
             submitButton.disabled = false;
             submitButton.textContent =
                 "Envoyer ma demande";
         }
-
     });
 
-
-    // ==========================================
-    // INITIALISATION
-    // ==========================================
-
     showStep(1);
-
 });
-
