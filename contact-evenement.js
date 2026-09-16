@@ -1,143 +1,123 @@
+
 document.addEventListener("DOMContentLoaded", function () {
     const steps = document.querySelectorAll(".event-step");
 
-    const needSelect = document.getElementById("need");
-    const companySizeSelect = document.getElementById("companySize");
+    const form = document.getElementById("event-form");
+
+    const need = document.getElementById("need");
+    const companySize = document.getElementById("companySize");
     const projectDescription = document.getElementById("projectDescription");
 
-    const nameInput = document.getElementById("name");
-    const phoneInput = document.getElementById("phone");
-    const emailInput = document.getElementById("email");
+    const name = document.getElementById("name");
+    const phone = document.getElementById("phone");
+    const email = document.getElementById("email");
 
-    const continueStep1 = document.getElementById("continue-step-1");
-    const continueStep2 = document.getElementById("continue-step-2");
-    const backStep2 = document.getElementById("back-step-2");
-    const backStep3 = document.getElementById("back-step-3");
-
-    const eventForm = document.getElementById("event-form");
     const successMessage = document.getElementById("success-message");
 
     let currentStep = 1;
 
-    function showStep(stepNumber) {
+    function showStep(number) {
         steps.forEach(function (step) {
             step.classList.remove("active");
         });
 
-        const targetStep = document.getElementById(
-            "event-step-" + stepNumber
-        );
+        const step = document.getElementById("event-step-" + number);
 
-        if (targetStep) {
-            targetStep.classList.add("active");
+        if (step) {
+            step.classList.add("active");
         }
 
-        currentStep = stepNumber;
-
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
+        currentStep = number;
     }
 
-    // ==============================
-    // STEP 1
-    // ==============================
+    // ==========================================
+    // BOUTONS CONTINUER
+    // ==========================================
 
-    if (continueStep1) {
-        continueStep1.addEventListener("click", function (event) {
+    document.querySelectorAll(".continue-button").forEach(function (button) {
+        button.addEventListener("click", function (event) {
             event.preventDefault();
 
-            if (!needSelect || !needSelect.value) {
-                alert("Veuillez sélectionner votre besoin.");
+            if (currentStep === 1) {
+                if (!need || !need.value) {
+                    alert("Veuillez sélectionner votre besoin.");
+                    return;
+                }
+
+                showStep(2);
                 return;
             }
 
-            showStep(2);
-        });
-    }
+            if (currentStep === 2) {
+                if (!companySize || !companySize.value) {
+                    alert(
+                        "Veuillez sélectionner la taille et le type d'entreprise."
+                    );
+                    return;
+                }
 
-    // ==============================
-    // STEP 2
-    // ==============================
-
-    if (continueStep2) {
-        continueStep2.addEventListener("click", function (event) {
-            event.preventDefault();
-
-            if (!companySizeSelect || !companySizeSelect.value) {
-                alert("Veuillez sélectionner la taille de votre entreprise.");
+                showStep(3);
                 return;
             }
-
-            showStep(3);
         });
-    }
+    });
 
-    // ==============================
-    // RETOUR STEP 2 -> STEP 1
-    // ==============================
+    // ==========================================
+    // BOUTONS RETOUR
+    // ==========================================
 
-    if (backStep2) {
-        backStep2.addEventListener("click", function (event) {
-            event.preventDefault();
-            showStep(1);
-        });
-    }
-
-    // ==============================
-    // RETOUR STEP 3 -> STEP 2
-    // ==============================
-
-    if (backStep3) {
-        backStep3.addEventListener("click", function (event) {
-            event.preventDefault();
-            showStep(2);
-        });
-    }
-
-    // ==============================
-    // SUBMIT
-    // ==============================
-
-    if (eventForm) {
-        eventForm.addEventListener("submit", async function (event) {
+    document.querySelectorAll(".back-button").forEach(function (button) {
+        button.addEventListener("click", function (event) {
             event.preventDefault();
 
-            const name = nameInput ? nameInput.value.trim() : "";
-            const phone = phoneInput ? phoneInput.value.trim() : "";
-            const email = emailInput ? emailInput.value.trim() : "";
+            if (currentStep === 2) {
+                showStep(1);
+            } else if (currentStep === 3) {
+                showStep(2);
+            }
+        });
+    });
 
-            if (!name) {
+    // ==========================================
+    // ENVOI DU FORMULAIRE
+    // ==========================================
+
+    if (form) {
+        form.addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const nameValue = name ? name.value.trim() : "";
+            const phoneValue = phone ? phone.value.trim() : "";
+            const emailValue = email ? email.value.trim() : "";
+
+            if (!nameValue) {
                 alert("Veuillez renseigner votre nom.");
                 return;
             }
 
-            if (!phone) {
+            if (!phoneValue) {
                 alert("Veuillez renseigner votre téléphone.");
                 return;
             }
 
-            const phoneDigits = phone.replace(/\D/g, "");
-
-            if (phoneDigits.length < 8) {
+            if (phoneValue.replace(/\D/g, "").length < 8) {
                 alert("Veuillez renseigner un numéro de téléphone valide.");
                 return;
             }
 
-            if (!email) {
+            if (!emailValue) {
                 alert("Veuillez renseigner votre email.");
                 return;
             }
 
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-            if (!emailRegex.test(email)) {
+            if (!emailRegex.test(emailValue)) {
                 alert("Veuillez renseigner une adresse email valide.");
                 return;
             }
 
-            const submitButton = eventForm.querySelector(
+            const submitButton = form.querySelector(
                 'button[type="submit"]'
             );
 
@@ -153,16 +133,16 @@ document.addEventListener("DOMContentLoaded", function () {
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        need: needSelect ? needSelect.value : "",
-                        companySize: companySizeSelect
-                            ? companySizeSelect.value
+                        need: need ? need.value : "",
+                        companySize: companySize
+                            ? companySize.value
                             : "",
                         projectDescription: projectDescription
                             ? projectDescription.value.trim()
                             : "",
-                        name: name,
-                        phone: phone,
-                        email: email
+                        name: nameValue,
+                        phone: phoneValue,
+                        email: emailValue
                     })
                 });
 
@@ -175,28 +155,17 @@ document.addEventListener("DOMContentLoaded", function () {
                     );
                 }
 
-                if (successMessage) {
-                    successMessage.style.display = "block";
-                }
-
-                const formSteps = document.querySelectorAll(".event-step");
-
-                formSteps.forEach(function (step) {
-                    step.style.display = "none";
+                steps.forEach(function (step) {
+                    step.classList.remove("active");
                 });
 
                 if (successMessage) {
-                    successMessage.scrollIntoView({
-                        behavior: "smooth",
-                        block: "center"
-                    });
+                    successMessage.style.display = "block";
+                    successMessage.classList.add("active");
                 }
 
             } catch (error) {
-                console.error(
-                    "Erreur envoi formulaire événement:",
-                    error
-                );
+                console.error(error);
 
                 alert(
                     error.message ||
@@ -211,10 +180,10 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // ==============================
-    // INITIALISATION
-    // ==============================
+    // ==========================================
+    // PREMIÈRE ÉTAPE AU CHARGEMENT
+    // ==========================================
 
-    showStep(currentStep);
+    showStep(1);
 });
 
