@@ -5,28 +5,33 @@
 
 const DAILY_DISH = {
 
-    name: "Brocoli sauté aux légumes de saison, riz blanc",
+    name: "Bœuf sauté aux oignons, œuf mariné, riz blanc",
 
     description: `
-        Brocoli sauté aux légumes de saison, délicatement préparé avec des légumes frais et croquants, 
-        accompagné de riz blanc et relevé d’une touche d’ail et d’huile d’olive pour une assiette savoureuse, 
-        équilibrée et pleine de fraîcheur.
+        Bœuf tendre sauté aux oignons fondants, accompagné d'un œuf mariné savoureux et servi avec du riz blanc. 
+        Une association généreuse et réconfortante, relevée par une sauce légèrement parfumée qui sublime la 
+        richesse du bœuf et la douceur des oignons.
+
     `,
 
     ingredients: [
         "Riz blanc",
-        "Brocoli",
-        "Légumes de saison",
+        "Bœuf",
+        "Oignons",
         "Ail",
-        "Huile d’olive",
-        "Sel",
-        "Poivre noir",
-        "Persil frais",
+        "Œuf mariné",
+        "Sauce soja",
+        "Gingembre",
+        "Huile de sésame",
+       "Poivre noir",
+       "Sel",
+       "Huile végétale",
+       "Ciboulette fraîche",
     ],
 
-    calories: "≈ 450 kcal / portion",
+    calories: "≈ 720 kcal / portion",
 
-    image: "images/Brocoli sauté aux légumes de saison,  riz blanc.jpg"
+    image: "images/Bœuf sauté aux oignons, œuf mariné,  riz blanc.jpg"
 
 };
 
