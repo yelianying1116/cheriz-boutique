@@ -5,33 +5,34 @@
 
 const DAILY_DISH = {
 
-    name: "Bœuf sauté aux oignons, œuf mariné, riz blanc",
+    name: "Curry de lentilles et pommes de terre, servi avec du riz blanc",
 
     description: `
-        Bœuf tendre sauté aux oignons fondants, accompagné d'un œuf mariné savoureux et servi avec du riz blanc. 
-        Une association généreuse et réconfortante, relevée par une sauce légèrement parfumée qui sublime la 
-        richesse du bœuf et la douceur des oignons.
+       Curry de lentilles mijotées avec des pommes de terre et des épices parfumées, servi 
+       avec du riz blanc, pour un plat généreux, réconfortant et savoureux aux notes chaleureuses.
 
     `,
 
     ingredients: [
         "Riz blanc",
-        "Bœuf",
-        "Oignons",
+        "lentilles",
+        "pommes de terre",
         "Ail",
-        "Œuf mariné",
-        "Sauce soja",
-        "Gingembre",
-        "Huile de sésame",
+        "oignon",
+        "tomate",
+        "curry",
+        "cumin",
        "Poivre noir",
        "Sel",
-       "Huile végétale",
-       "Ciboulette fraîche",
+       "paprika",
+       "huile d’olive",
+        "persil frais",
+       "épices",
     ],
 
-    calories: "≈ 720 kcal / portion",
+    calories: "≈ 620 kcal / portion",
 
-    image: "images/Bœuf sauté aux oignons, œuf mariné,  riz blanc.jpg"
+    image: "images/Curry de lentilles et pommes de terre, servi avec du riz blanc.jpg"
 
 };
 
