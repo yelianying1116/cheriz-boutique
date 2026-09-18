@@ -687,21 +687,7 @@ const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 const feuilledorStripe = process.env.FEUILLEDOR_STRIPE_SECRET_KEY
     ? Stripe(process.env.FEUILLEDOR_STRIPE_SECRET_KEY)
     : null;
-const dbUrl = process.env.DATABASE_URL || "";
-try {
-    const u = new URL(dbUrl);
-    console.log("DB CHECK:", {
-        protocol: u.protocol,
-        username: u.username,
-        hostname: u.hostname,
-        port: u.port,
-        database: u.pathname,
-        hasPassword: !!u.password
-    });
-} catch (e) {
-    console.log("DB CHECK: DATABASE_URL格式无法解析");
-}
-console.log("DB PASSWORD LENGTH:", new URL(process.env.DATABASE_URL).password.length);
+
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: {
