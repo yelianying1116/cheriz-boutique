@@ -701,6 +701,7 @@ try {
 } catch (e) {
     console.log("DB CHECK: DATABASE_URL格式无法解析");
 }
+console.log("DB PASSWORD LENGTH:", new URL(process.env.DATABASE_URL).password.length);
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: {
