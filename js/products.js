@@ -5,34 +5,33 @@
 
 const DAILY_DISH = {
 
-    name: "Curry de lentilles et pommes de terre, servi avec du riz blanc",
+    name: "Pommes de terre au bacon et aux œufs riz blanc",
 
     description: `
-       Curry de lentilles mijotées avec des pommes de terre et des épices parfumées, servi 
-       avec du riz blanc, pour un plat généreux, réconfortant et savoureux aux notes chaleureuses.
-
+       Pommes de terre fondantes sautées avec du bacon et des œufs, 
+       délicatement assaisonnées et servies avec du riz blanc pour 
+       un plat généreux, savoureux et réconfortant.
     `,
 
     ingredients: [
         "Riz blanc",
-        "lentilles",
         "pommes de terre",
+        "bacon",
         "Ail",
+        "œufs",
         "oignon",
-        "tomate",
-        "curry",
-        "cumin",
-       "Poivre noir",
+        "huile d’olive",
+        "persil frais",
        "Sel",
        "paprika",
        "huile d’olive",
         "persil frais",
-       "épices",
+       
     ],
 
-    calories: "≈ 620 kcal / portion",
+    calories: "≈ 720 kcal / portion",
 
-    image: "images/Curry de lentilles et pommes de terre, servi avec du riz blanc.jpg"
+    image: "images/Pommes de terre au bacon et aux œufs riz blanc.jpg"
 
 };
 
