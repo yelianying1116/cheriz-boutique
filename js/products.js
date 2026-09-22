@@ -8,30 +8,29 @@ const DAILY_DISH = {
     name: "Poulet sauté aux champignons, oignons et maïs grillé, riz",
 
     description: `
-       Poulet tendre sauté avec des champignons frais et des oignons fondants, 
-       accompagné de maïs délicatement grillé.Une préparation savoureuse et généreuse, relevée par des herbes et 
-       des épices qui apportent une touche chaleureuse et gourmande.
+       Pâtes de riz sautées aux œufs, accompagnées de carottes 
+       croquantes et de légumes verts, le tout délicatement assaisonné et relevé pour 
+       offrir une recette savoureuse, équilibrée et pleine de fraîcheur.
     `,
 
     ingredients: [
         "Riz blanc",
-        "Poulet",
-        "champignons frais",
+        "œufs",
+        "carottes",
         "Ail",
-        "maïs",
+        "légumes verts de saison",
         "oignon",
         "huile d’olive",
         "persil frais",
        "Sel",
-       "paprika",
        "poivre noir",
-        "herbes de Provence",
+        "sauce soja",
        
     ],
 
-    calories: "≈ 620 kcal / portion",
+    calories: "≈ 580 kcal / portion",
 
-    image: "images/Poulet sauté aux champignons, oignons et maïs grillé, riz.jpg"
+    image: "images/Pâtes de riz sautées aux œufs, carottes et légumes verts.jpg"
 
 };
 
