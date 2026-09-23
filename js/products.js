@@ -5,32 +5,33 @@
 
 const DAILY_DISH = {
 
-    name: "Poulet sauté aux champignons, oignons et maïs grillé, riz",
+    name: "Riz blanc au curry de légumes de saison",
 
     description: `
-       Pâtes de riz sautées aux œufs, accompagnées de carottes 
-       croquantes et de légumes verts, le tout délicatement assaisonné et relevé pour 
-       offrir une recette savoureuse, équilibrée et pleine de fraîcheur.
+       Riz blanc accompagné d’un curry onctueux aux légumes de saison, délicatement 
+       mijoté avec des épices parfumées pour offrir une harmonie gourmande, chaleureuse et pleine de saveurs.
     `,
 
     ingredients: [
         "Riz blanc",
-        "œufs",
-        "carottes",
+        "légumes de saison",
+        "lait de coco",
         "Ail",
-        "légumes verts de saison",
+        "curry",
         "oignon",
-        "huile d’olive",
+        "curcuma",
         "persil frais",
-       "Sel",
-       "poivre noir",
-        "sauce soja",
+        "Sel",
+        "poivre noir",
+        "cumin",
+        "paprika",
+        "huile d’olive",
        
     ],
 
     calories: "≈ 580 kcal / portion",
 
-    image: "images/Pâtes de riz sautées aux œufs, carottes et légumes verts.jpg"
+    image: "images/Riz blanc au curry de légumes de saison.jpg"
 
 };
 
