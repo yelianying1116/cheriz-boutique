@@ -5,33 +5,34 @@
 
 const DAILY_DISH = {
 
-    name: "Riz blanc au curry de légumes de saison",
+    name: "Riz blanc au pied de porc braisé et pommes de terre",
 
     description: `
-       Riz blanc accompagné d’un curry onctueux aux légumes de saison, délicatement 
-       mijoté avec des épices parfumées pour offrir une harmonie gourmande, chaleureuse et pleine de saveurs.
+       Riz blanc accompagné d’un pied de porc délicatement braisé, fondant et savoureux, servi avec des pommes de terre mijotées 
+       dans une sauce parfumée aux épices. Un plat généreux et réconfortant aux saveurs chaleureuses.
     `,
 
     ingredients: [
         "Riz blanc",
-        "légumes de saison",
-        "lait de coco",
+        "pied de porc",
+        "pommes de terre",
         "Ail",
-        "curry",
+        "gingembre",
         "oignon",
-        "curcuma",
-        "persil frais",
-        "Sel",
-        "poivre noir",
-        "cumin",
         "paprika",
+        "poivre noir",
+        "Sel",
         "huile d’olive",
+        "thym",
+        "persil frais",
+        "épices",
+        "sauce de cuisson",
        
     ],
 
-    calories: "≈ 580 kcal / portion",
+    calories: "≈ 720 kcal / portion",
 
-    image: "images/Riz blanc au curry de légumes de saison.jpg"
+    image: "images/Riz blanc au pied de porc braisé et pommes de terre.jpg"
 
 };
 
