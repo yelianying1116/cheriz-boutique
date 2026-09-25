@@ -5,34 +5,33 @@
 
 const DAILY_DISH = {
 
-    name: "Riz blanc au pied de porc braisé et pommes de terre",
+    name: "Riz blanc au porc aigre-doux et brocoli",
 
     description: `
-       Riz blanc accompagné d’un pied de porc délicatement braisé, fondant et savoureux, servi avec des pommes de terre mijotées 
-       dans une sauce parfumée aux épices. Un plat généreux et réconfortant aux saveurs chaleureuses.
+    Riz blanc accompagné de porc tendre mijoté dans une sauce aigre-douce, servi avec du brocoli légèrement croquant. 
+    Un plat savoureux et équilibré, aux notes sucrées et acidulées qui apportent une touche gourmande et réconfortante.
     `,
 
     ingredients: [
         "Riz blanc",
-        "pied de porc",
-        "pommes de terre",
+        "porc",
+        "brocoli",
         "Ail",
-        "gingembre",
+        "sauce soja",
         "oignon",
-        "paprika",
+        "vinaigre de riz",
         "poivre noir",
         "Sel",
         "huile d’olive",
-        "thym",
-        "persil frais",
-        "épices",
-        "sauce de cuisson",
-       
+        "sucre",
+        "sauce aigre-douce à base de tomate",
+        "ail et épices",
+               
     ],
 
-    calories: "≈ 720 kcal / portion",
+    calories: "≈ 680 kcal / portion",
 
-    image: "images/Riz blanc au pied de porc braisé et pommes de terre.jpg"
+    image: "images/Riz blanc au porc aigre-doux et brocoli.jpg"
 
 };
 
