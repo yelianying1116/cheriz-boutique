@@ -5,17 +5,17 @@
 
 const DAILY_DISH = {
 
-    name: "Riz blanc au porc aigre-doux et brocoli",
+    name: "Riz blanc au porc aigre-doux.jpg",
 
     description: `
-    Riz blanc accompagné de porc tendre mijoté dans une sauce aigre-douce, servi avec du brocoli légèrement croquant. 
-    Un plat savoureux et équilibré, aux notes sucrées et acidulées qui apportent une touche gourmande et réconfortante.
+   Porc tendre sauté et nappé d'une délicieuse sauce aigre-douce, accompagné de riz blanc. 
+   Un plat savoureux qui marie harmonieusement les notes sucrées et légèrement acidulées de la sauce avec la tendreté du porc.
     `,
 
     ingredients: [
         "Riz blanc",
         "porc",
-        "brocoli",
+        "gingembre frais",
         "Ail",
         "sauce soja",
         "oignon",
@@ -25,13 +25,14 @@ const DAILY_DISH = {
         "huile d’olive",
         "sucre",
         "sauce aigre-douce à base de tomate",
-        "ail et épices",
-               
+        "fécule de maïs",
+       "persil frais ",
+              
     ],
 
     calories: "≈ 680 kcal / portion",
 
-    image: "images/Riz blanc au porc aigre-doux et brocoli.jpg"
+    image: "images/Riz blanc au porc aigre-doux.jpg"
 
 };
 
