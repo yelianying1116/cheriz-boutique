@@ -5,34 +5,32 @@
 
 const DAILY_DISH = {
 
-    name: "Riz blanc au porc aigre-doux.jpg",
+    name: "Riz blanc au poitrine sauté aux légumes verts et œuf",
 
     description: `
-   Porc tendre sauté et nappé d'une délicieuse sauce aigre-douce, accompagné de riz blanc. 
-   Un plat savoureux qui marie harmonieusement les notes sucrées et légèrement acidulées de la sauce avec la tendreté du porc.
+Riz blanc accompagné de poitrine de poulet délicatement sautée avec des légumes verts et un œuf, le tout relevé d’un 
+savoureux mélange d’ail et d’épices pour une assiette généreuse, équilibrée et gourmande.
     `,
 
     ingredients: [
         "Riz blanc",
-        "porc",
-        "gingembre frais",
-        "Ail",
+        "poitrine de poulet",
+        "légumes verts de saison",
+        "ail",
         "sauce soja",
         "oignon",
-        "vinaigre de riz",
+        "œuf",
         "poivre noir",
         "Sel",
         "huile d’olive",
-        "sucre",
-        "sauce aigre-douce à base de tomate",
-        "fécule de maïs",
+        "paprika",
        "persil frais ",
               
     ],
 
     calories: "≈ 680 kcal / portion",
 
-    image: "images/Riz blanc au porc aigre-doux.jpg"
+    image: "images/Riz blanc au porc poitrine sauté aux légumes verts et œuf.jpg"
 
 };
 
