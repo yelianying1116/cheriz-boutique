@@ -5,32 +5,29 @@
 
 const DAILY_DISH = {
 
-    name: "Riz blanc au poitrine sauté aux légumes verts et œuf",
+    name: "Riz blanc au poulet au sel et poivre, pommes de terre",
 
     description: `
-Riz blanc accompagné de poitrine de poulet délicatement sautée avec des légumes verts et un œuf, le tout relevé d’un 
-savoureux mélange d’ail et d’épices pour une assiette généreuse, équilibrée et gourmande.
+Poulet tendre délicatement assaisonné au sel et au poivre, accompagné de riz blanc et de pommes de terre 
+fondantes, pour un plat simple, généreux et réconfortant.
     `,
 
     ingredients: [
         "Riz blanc",
-        "poitrine de poulet",
-        "légumes verts de saison",
+        "poulet",
+        "pommes de terre",
         "ail",
-        "sauce soja",
         "oignon",
-        "œuf",
         "poivre noir",
         "Sel",
         "huile d’olive",
-        "paprika",
        "persil frais ",
               
     ],
 
     calories: "≈ 680 kcal / portion",
 
-    image: "images/Riz blanc au porc poitrine sauté aux légumes verts et œuf.jpg"
+    image: "images/Riz blanc au poulet au sel et poivre, pommes de terre.jpg"
 
 };
 
