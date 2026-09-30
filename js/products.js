@@ -5,19 +5,20 @@
 
 const DAILY_DISH = {
 
-    name: "Riz blanc au poulet au sel et poivre, pommes de terre",
+    name: "Riz blanc au poulet, brocoli et pommes de terre",
 
     description: `
-Poulet tendre délicatement assaisonné au sel et au poivre, accompagné de riz blanc et de pommes de terre 
-fondantes, pour un plat simple, généreux et réconfortant.
+Poulet tendre accompagné de riz blanc, de brocoli et de pommes de terre délicatement cuisinés, 
+pour un plat complet, savoureux et réconfortant, relevé par une touche d’ail et d’épices.
     `,
 
     ingredients: [
         "Riz blanc",
         "poulet",
-        "pommes de terre",
+        "brocoli",
         "ail",
-        "oignon",
+        "cumin",
+        "paprika",
         "poivre noir",
         "Sel",
         "huile d’olive",
@@ -25,7 +26,7 @@ fondantes, pour un plat simple, généreux et réconfortant.
               
     ],
 
-    calories: "≈ 680 kcal / portion",
+    calories: "≈ 620 kcal / portion",
 
     image: "images/Riz blanc au poulet au sel et poivre, pommes de terre.jpg"
 
