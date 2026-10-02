@@ -5,26 +5,25 @@
 
 const DAILY_DISH = {
 
-    name: "Riz blanc au tofu Mapo",
+    name: "Riz blanc aux crevettes sautées aux oignon",
 
     description: `
-Tofu délicatement mijoté dans une sauce Mapo parfumée aux épices, accompagné de riz blanc, avec une touche d’ail, 
-de gingembre et de piment pour une saveur généreuse, chaleureuse et légèrement relevée.
+Crevettes délicatement sautées aux oignons avec des épices parfumées, 
+servies avec du riz blanc, pour un plat savoureux et généreux aux notes légèrement relevées
     `,
 
     ingredients: [
         "Riz blanc",
-        "tofu",
-        "gingembre",
+        "crevettes",
+        "oignons",
         "ail",
-        "sauce soja",
-        "ciboulette fraîche",
-        "épices",
+        "cumin",
+        "poivre noir",
+        "jus de citron",
         "paprika",
-        "pâte de piment",
+        "épices",
         "Sel",
         "huile de sésame",
-        "poivre de Sichuan",
         "huile d’olive",
         "persil frais ",
               
@@ -32,7 +31,7 @@ de gingembre et de piment pour une saveur généreuse, chaleureuse et légèreme
 
     calories: "≈ 580 kcal / portion",
 
-    image: "images/Riz blanc au tofu Mapo.jpg"
+    image: "images/Riz blanc aux crevettes sautées aux oignons.jpg"
 
 };
 
