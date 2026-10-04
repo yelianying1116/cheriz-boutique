@@ -5,31 +5,30 @@
 
 const DAILY_DISH = {
 
-    name: "Riz blanc aux crevettes sautées aux oignon",
+    name: "Riz blanc aux travers de porc braisés et brocoli",
 
     description: `
-Crevettes délicatement sautées aux oignons avec des épices parfumées, 
-servies avec du riz blanc, pour un plat savoureux et généreux aux notes légèrement relevées
+Des travers de porc tendrement braisés, mijotés avec des aromates pour révéler toute leur saveur, servis avec du riz blanc moelleux et du brocoli frais légèrement croquant. Un plat généreux 
+et réconfortant, alliant la richesse de la viande à la fraîcheur des légumes.
     `,
 
     ingredients: [
         "Riz blanc",
-        "crevettes",
+        "travers de porc",
         "oignons",
         "ail",
-        "cumin",
+        "brocoli",
         "poivre noir",
-        "jus de citron",
-        "paprika",
-        "épices",
+        "gingembre",
+        "huile végétale",
+        "épices et aromates",
         "Sel",
-        "huile de sésame",
         "huile d’olive",
-        "persil frais ",
-              
+        "eau",
+        "sauce soja",
     ],
 
-    calories: "≈ 580 kcal / portion",
+    calories: "≈ 750 kcal / portion",
 
     image: "images/Riz blanc aux crevettes sautées aux oignons.jpg"
 
