@@ -8,27 +8,26 @@ const DAILY_DISH = {
     name: "Riz blanc aux travers de porc braisés et brocoli",
 
     description: `
-Des travers de porc tendrement braisés, mijotés avec des aromates pour révéler toute leur saveur, servis avec du riz blanc moelleux et du brocoli frais légèrement croquant. Un plat généreux 
-et réconfortant, alliant la richesse de la viande à la fraîcheur des légumes.
+Riz délicatement sauté avec des noix de cajou croquantes, des carottes et du chou-fleur, 
+relevé par de l’ail et des épices douces pour une recette savoureuse, généreuse et pleine de fraîcheur.
     `,
 
     ingredients: [
         "Riz blanc",
-        "travers de porc",
-        "oignons",
+        "noix de cajou",
+        "carottes",
         "ail",
-        "brocoli",
+        "chou-fleur",
         "poivre noir",
-        "gingembre",
-        "huile végétale",
-        "épices et aromates",
+        "oignon",
         "Sel",
         "huile d’olive",
-        "eau",
+        "paprika",
         "sauce soja",
+        "persil frais",
     ],
 
-    calories: "≈ 750 kcal / portion",
+    calories: "≈ 580 kcal / portion",
 
     image: "images/Riz blanc aux crevettes sautées aux oignons.jpg"
 
