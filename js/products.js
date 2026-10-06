@@ -5,31 +5,29 @@
 
 const DAILY_DISH = {
 
-    name: "Riz blanc aux travers de porc braisés et brocoli",
+    name: "Riz sauté aux œufs, carottes et oignons",
 
     description: `
-Riz délicatement sauté avec des noix de cajou croquantes, des carottes et du chou-fleur, 
-relevé par de l’ail et des épices douces pour une recette savoureuse, généreuse et pleine de fraîcheur.
+Riz délicatement sauté avec des œufs, des carottes fraîches et des oignons fondants, le 
+tout assaisonné avec soin pour offrir un plat savoureux, équilibré et réconfortant, aux saveurs simples et authentiques.
     `,
 
     ingredients: [
         "Riz blanc",
-        "noix de cajou",
+        "œufs",
         "carottes",
         "ail",
-        "chou-fleur",
+        "oignons",
         "poivre noir",
-        "oignon",
         "Sel",
         "huile d’olive",
-        "paprika",
         "sauce soja",
         "persil frais",
     ],
 
-    calories: "≈ 580 kcal / portion",
+    calories: "≈ 450 kcal / portion",
 
-    image: "images/Riz blanc aux crevettes sautées aux oignons.jpg"
+    image: "images/Riz sauté aux œufs, carottes et oignons.jpg"
 
 };
 
