@@ -5,27 +5,28 @@
 
 const DAILY_DISH = {
 
-    name: "Riz sauté aux œufs, carottes et oignons",
+    name: "Riz sautées au saumon",
 
     description: `
-Riz délicatement sauté avec des œufs, des carottes fraîches et des oignons fondants, le 
-tout assaisonné avec soin pour offrir un plat savoureux, équilibré et réconfortant, aux saveurs simples et authentiques.
+Riz délicatement sauté avec des morceaux de saumon tendres et savoureux, agrémenté d’ail, de légumes frais 
+et d’une touche de citron. Un plat gourmand et équilibré, aux saveurs délicates et parfumées.
     `,
 
-    ingredients: [
+    ingredients: [ 
         "Riz blanc",
-        "œufs",
+        "saumon",
         "carottes",
         "ail",
         "oignons",
         "poivre noir",
         "Sel",
         "huile d’olive",
-        "sauce soja",
+        "petits pois",
+         "jus de citron",        
         "persil frais",
     ],
 
-    calories: "≈ 450 kcal / portion",
+    calories: "≈ 500 kcal / portion",
 
     image: "images/Riz sauté aux œufs, carottes et oignons.jpg"
 
