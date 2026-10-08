@@ -5,30 +5,31 @@
 
 const DAILY_DISH = {
 
-    name: "Riz sautées au saumon",
+    name: "Tomates sautées au porc haché, riz blanc",
 
     description: `
-Riz délicatement sauté avec des morceaux de saumon tendres et savoureux, agrémenté d’ail, de légumes frais 
-et d’une touche de citron. Un plat gourmand et équilibré, aux saveurs délicates et parfumées.
+Tomates fraîches délicatement sautées avec du porc haché assaisonné, mijotées avec 
+de l’ail et des épices, puis servies avec du riz blanc pour un plat savoureux, généreux et réconfortant.
     `,
 
     ingredients: [ 
         "Riz blanc",
-        "saumon",
-        "carottes",
+        "porc haché",
+        "tomates fraîches",
+        "oignon",
+        "paprika",
         "ail",
         "oignons",
         "poivre noir",
         "Sel",
         "huile d’olive",
-        "petits pois",
-         "jus de citron",        
+        "épices",    
         "persil frais",
     ],
 
-    calories: "≈ 500 kcal / portion",
+    calories: "≈ 620 kcal / portion",
 
-    image: "images/Riz sauté aux œufs, carottes et oignons.jpg"
+    image: "images/Tomates sautées au porc haché,  riz blanc.jpg"
 
 };
 
