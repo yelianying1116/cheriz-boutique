@@ -5,31 +5,33 @@
 
 const DAILY_DISH = {
 
-    name: "Tomates sautées au porc haché, riz blanc",
+    name: "Vermicelles de riz aux nems, porc grillé, carottes et concombre",
 
     description: `
-Tomates fraîches délicatement sautées avec du porc haché assaisonné, mijotées avec 
-de l’ail et des épices, puis servies avec du riz blanc pour un plat savoureux, généreux et réconfortant.
+Des vermicelles de riz délicats accompagnés de nems croustillants, de porc mariné et grillé, de 
+carottes fraîches et de concombre croquant. Un plat généreux et équilibré qui associe des 
+textures variées et des saveurs gourmandes, avec une touche de fraîcheur à chaque bouchée.
     `,
 
     ingredients: [ 
-        "Riz blanc",
-        "porc haché",
-        "tomates fraîches",
-        "oignon",
+        "Vermicelles de riz",
+        "porc mariné",
+        "nems",
+        "carottes",
+        "concombre",
+        "sauce soja",
         "paprika",
         "ail",
-        "oignons",
+        "sucre",
+        "sauce de poisson",
         "poivre noir",
-        "Sel",
-        "huile d’olive",
-        "épices",    
-        "persil frais",
+       "herbes fraîches",
+        "huile végétale",
     ],
 
-    calories: "≈ 620 kcal / portion",
+    calories: "≈ 750 kcal / portion",
 
-    image: "images/Tomates sautées au porc haché,  riz blanc.jpg"
+    image: "images/Vermicelles de riz aux nems, porc grillé, carottes et concombre.jpg"
 
 };
 
