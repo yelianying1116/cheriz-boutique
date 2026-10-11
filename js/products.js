@@ -5,33 +5,27 @@
 
 const DAILY_DISH = {
 
-    name: "Vermicelles de riz aux nems, porc grillé, carottes et concombre",
+    name: "Brocoli sauté aux légumes de saison, riz blanc",
 
     description: `
-Des vermicelles de riz délicats accompagnés de nems croustillants, de porc mariné et grillé, de 
-carottes fraîches et de concombre croquant. Un plat généreux et équilibré qui associe des 
-textures variées et des saveurs gourmandes, avec une touche de fraîcheur à chaque bouchée.
+Des brocolis frais sautés avec des légumes de saison, délicatement assaisonnés à l’ail et à l’huile d’olive, puis servis avec du riz blanc moelleux. Un plat végétarien savoureux et équilibré, 
+qui met à l’honneur la fraîcheur des légumes et la simplicité d’une cuisine maison.
     `,
 
-    ingredients: [ 
-        "Vermicelles de riz",
-        "porc mariné",
-        "nems",
-        "carottes",
-        "concombre",
-        "sauce soja",
-        "paprika",
+    ingredients: [
+        "riz blanc",
+        "Brocoli",
+        "légumes de saison",
         "ail",
-        "sucre",
-        "sauce de poisson",
+        "huile d’olive",
+        "sel",
         "poivre noir",
-       "herbes fraîches",
-        "huile végétale",
-    ],
+        "herbes aromatiques",
+         ],
 
-    calories: "≈ 750 kcal / portion",
+    calories: "≈ 450 kcal / portion",
 
-    image: "images/Vermicelles de riz aux nems, porc grillé, carottes et concombre.jpg"
+    image: "images/nos plats Brocoli sauté aux légumes de saison,  riz blanc.jpg"
 
 };
 
