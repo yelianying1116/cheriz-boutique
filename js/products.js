@@ -5,25 +5,28 @@
 
 const DAILY_DISH = {
 
-    name: "Brocoli sauté aux légumes de saison, riz blanc",
+    name: "Bœuf braisé aux pommes de terre, sauce soja, riz blanc",
 
     description: `
-Des brocolis frais sautés avec des légumes de saison, délicatement assaisonnés à l’ail et à l’huile d’olive, puis servis avec du riz blanc moelleux. Un plat végétarien savoureux et équilibré, 
-qui met à l’honneur la fraîcheur des légumes et la simplicité d’une cuisine maison.
+Du bœuf mijoté lentement jusqu’à obtenir une texture tendre et fondante, accompagné de pommes de terre moelleuses et d’une sauce soja savoureuse aux notes légèrement salées. Servi avec du riz blanc, ce plat 
+généreux et réconfortant offre un bel équilibre entre douceur, richesse et saveurs asiatiques.
     `,
 
     ingredients: [
         "riz blanc",
-        "Brocoli",
-        "légumes de saison",
+        "Bœuf",
+        "pommes de terre",
         "ail",
-        "huile d’olive",
+        "huile végétale",
         "sel",
+        "épices et eau de cuisson",   
+         "sauce soja",
+         "oignon",
         "poivre noir",
-        "herbes aromatiques",
+        "gingembre",
          ],
 
-    calories: "≈ 450 kcal / portion",
+    calories: "≈ 700 kcal / portion",
 
     image: "images/nos plats Brocoli sauté aux légumes de saison,  riz blanc.jpg"
 
