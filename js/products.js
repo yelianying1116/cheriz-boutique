@@ -5,11 +5,11 @@
 
 const DAILY_DISH = {
 
-    name: "Bœuf braisé aux pommes de terre, sauce soja, riz blanc",
+    name: "Bœuf mijoté aux pommes de terre, riz blanc",
 
     description: `
-Du bœuf mijoté lentement jusqu’à obtenir une texture tendre et fondante, accompagné de pommes de terre moelleuses et d’une sauce soja savoureuse aux notes légèrement salées. Servi avec du riz blanc, ce plat 
-généreux et réconfortant offre un bel équilibre entre douceur, richesse et saveurs asiatiques.
+Bœuf mijoté lentement avec des pommes de terre fondantes et des épices parfumées, servi avec du riz blanc moelleux. Une sauce savoureuse aux notes d’ail et d’épices 
+vient sublimer ce plat généreux, réconfortant et riche en saveurs.
     `,
 
     ingredients: [
@@ -17,18 +17,19 @@ généreux et réconfortant offre un bel équilibre entre douceur, richesse et s
         "Bœuf",
         "pommes de terre",
         "ail",
-        "huile végétale",
+        "paprika",         
+        "huile d’olive",
         "sel",
-        "épices et eau de cuisson",   
-         "sauce soja",
+        "cumin",   
+         "bouillon et épices",
          "oignon",
         "poivre noir",
-        "gingembre",
+        "persil frais",
          ],
 
     calories: "≈ 700 kcal / portion",
 
-    image: "images/nos plats Brocoli sauté aux légumes de saison,  riz blanc.jpg"
+    image: "images/nos plats Bœuf mijoté aux pommes de terre,  riz blanc.jpg"
 
 };
 
