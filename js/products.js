@@ -5,31 +5,28 @@
 
 const DAILY_DISH = {
 
-    name: "Bœuf mijoté aux pommes de terre, riz blanc",
+    name: "Bœuf sauté aux oignons et au poivre noir, riz blanc",
 
     description: `
-Bœuf mijoté lentement avec des pommes de terre fondantes et des épices parfumées, servi avec du riz blanc moelleux. Une sauce savoureuse aux notes d’ail et d’épices 
-vient sublimer ce plat généreux, réconfortant et riche en saveurs.
+Bœuf tendre sauté à la poêle avec des oignons fondants et du poivre noir fraîchement moulu, accompagné de riz blanc moelleux. Une recette savoureuse et parfumée, qui allie la 
+richesse du bœuf à la douceur des oignons et aux notes légèrement relevées du poivre noir.
     `,
 
     ingredients: [
         "riz blanc",
         "Bœuf",
-        "pommes de terre",
+        "sauce soja",
         "ail",
-        "paprika",         
         "huile d’olive",
         "sel",
-        "cumin",   
-         "bouillon et épices",
-         "oignon",
+        "oignon",
         "poivre noir",
         "persil frais",
          ],
 
-    calories: "≈ 700 kcal / portion",
+    calories: "≈ 680 kcal / portion",
 
-    image: "images/nos plats Bœuf mijoté aux pommes de terre,  riz blanc.jpg"
+    image: "images/nos plats Bœuf sauté aux oignons et au poivre noir,  riz blanc.jpg"
 
 };
 
