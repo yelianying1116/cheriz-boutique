@@ -5,11 +5,11 @@
 
 const DAILY_DISH = {
 
-    name: "Bœuf sauté aux oignons et au poivre noir, riz blanc",
+    name: "Bœuf sauté aux oignons, œuf mariné, riz blanc",
 
     description: `
-Bœuf tendre sauté à la poêle avec des oignons fondants et du poivre noir fraîchement moulu, accompagné de riz blanc moelleux. Une recette savoureuse et parfumée, qui allie la 
-richesse du bœuf à la douceur des oignons et aux notes légèrement relevées du poivre noir.
+Bœuf tendre sauté à la poêle avec des oignons fondants, accompagné d’un œuf mariné savoureux et de riz blanc moelleux. Un plat généreux et réconfortant, 
+sublimé par les saveurs délicates de la sauce soja et des épices.
     `,
 
     ingredients: [
@@ -17,16 +17,18 @@ richesse du bœuf à la douceur des oignons et aux notes légèrement relevées 
         "Bœuf",
         "sauce soja",
         "ail",
-        "huile d’olive",
+        "gingembre",
+        "huile végétale",
         "sel",
+        "sucre",
         "oignon",
         "poivre noir",
-        "persil frais",
+        "graines de sésame",
          ],
 
     calories: "≈ 680 kcal / portion",
 
-    image: "images/nos plats Bœuf sauté aux oignons et au poivre noir,  riz blanc.jpg"
+    image: "images/nos plats Bœuf sauté aux oignons, œuf mariné,  riz blanc.jpg"
 
 };
 
