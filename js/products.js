@@ -5,30 +5,31 @@
 
 const DAILY_DISH = {
 
-    name: "Bœuf sauté aux oignons, œuf mariné, riz blanc",
+    name: "Champignons de Paris sautés au porc, riz blanc",
 
     description: `
-Bœuf tendre sauté à la poêle avec des oignons fondants, accompagné d’un œuf mariné savoureux et de riz blanc moelleux. Un plat généreux et réconfortant, 
-sublimé par les saveurs délicates de la sauce soja et des épices.
+Champignons de Paris frais sautés avec du porc tendre et savoureux, assaisonnés d’ail et d’épices, 
+puis servis avec du riz blanc moelleux. 
+Un plat généreux et réconfortant, aux saveurs délicates et gourmandes.
     `,
 
     ingredients: [
         "riz blanc",
-        "Bœuf",
+        "porc",
         "sauce soja",
         "ail",
-        "gingembre",
-        "huile végétale",
+        "champignons de Paris",
+        "huile d’olive",
         "sel",
-        "sucre",
+        "",
         "oignon",
         "poivre noir",
-        "graines de sésame",
+        "persil frais",
          ],
 
-    calories: "≈ 680 kcal / portion",
+    calories: "≈ 620 kcal / portion",
 
-    image: "images/nos plats Bœuf sauté aux oignons, œuf mariné,  riz blanc.jpg"
+    image: "images/nos plats Champignons de Paris sautés au porc,  riz blanc.jpg"
 
 };
 
