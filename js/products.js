@@ -5,31 +5,34 @@
 
 const DAILY_DISH = {
 
-    name: "Champignons de Paris sautés au porc, riz blanc",
+    name: "Curry de lentilles et pommes de terre, servi avec du riz blanc",
 
     description: `
-Champignons de Paris frais sautés avec du porc tendre et savoureux, assaisonnés d’ail et d’épices, 
-puis servis avec du riz blanc moelleux. 
-Un plat généreux et réconfortant, aux saveurs délicates et gourmandes.
+Un curry végétarien généreux et réconfortant, préparé avec des lentilles fondantes et des pommes de terre mijotées dans une sauce parfumée aux épices. Servi avec du riz blanc moelleux, ce plat savoureux 
+et équilibré offre une délicieuse harmonie de textures et de saveurs.
     `,
 
     ingredients: [
         "riz blanc",
-        "porc",
-        "sauce soja",
+        "lentilles",
+        "pommes de terre",
         "ail",
-        "champignons de Paris",
+        "tomates",
         "huile d’olive",
         "sel",
-        "",
+        "lait de coco",
         "oignon",
         "poivre noir",
         "persil frais",
+        "curry",
+        "cumin",
+        "curcuma",
+        "paprika",
          ],
 
-    calories: "≈ 620 kcal / portion",
+    calories: "≈ 580 kcal / portion",
 
-    image: "images/nos plats Champignons de Paris sautés au porc,  riz blanc.jpg"
+    image: "images/nos plats Curry de lentilles et pommes de terre, servi avec du riz blanc.jpg"
 
 };
 
