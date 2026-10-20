@@ -5,19 +5,19 @@
 
 const DAILY_DISH = {
 
-    name: "Curry de lentilles et pommes de terre, servi avec du riz blanc",
+    name: "Curry de pois chiches et chou-fleur, riz parfumé",
 
     description: `
-Un curry végétarien généreux et réconfortant, préparé avec des lentilles fondantes et des pommes de terre mijotées dans une sauce parfumée aux épices. Servi avec du riz blanc moelleux, ce plat savoureux 
-et équilibré offre une délicieuse harmonie de textures et de saveurs.
+Un curry végétarien savoureux à base de pois chiches fondants et de chou-fleur tendre, mijotés dans une sauce onctueuse aux épices douces. Servi avec du riz parfumé, ce 
+plat généreux et réconfortant offre un bel équilibre de saveurs et de textures.
     `,
 
     ingredients: [
-        "riz blanc",
-        "lentilles",
-        "pommes de terre",
+        "riz parfumé",
+        "pois chiches",
+        "chou-fleur",
         "ail",
-        "tomates",
+        "tomate",
         "huile d’olive",
         "sel",
         "lait de coco",
@@ -28,11 +28,12 @@ et équilibré offre une délicieuse harmonie de textures et de saveurs.
         "cumin",
         "curcuma",
         "paprika",
+        "coriandre fraîche",
          ],
 
     calories: "≈ 580 kcal / portion",
 
-    image: "images/nos plats Curry de lentilles et pommes de terre, servi avec du riz blanc.jpg"
+    image: "images/nos plats Curry de pois chiches et chou-fleur, riz parfumé.jpg"
 
 };
 
