@@ -5,35 +5,29 @@
 
 const DAILY_DISH = {
 
-    name: "Curry de pois chiches et chou-fleur, riz parfumé",
+    name: "Nouilles sautées au brocoli et aux piments",
 
     description: `
-Un curry végétarien savoureux à base de pois chiches fondants et de chou-fleur tendre, mijotés dans une sauce onctueuse aux épices douces. Servi avec du riz parfumé, ce 
-plat généreux et réconfortant offre un bel équilibre de saveurs et de textures.
+Des nouilles savoureusement sautées au wok avec du brocoli frais et des piments, relevées d’ail et d’un mélange d’épices parfumées. Un plat généreux et équilibré, qui associe la douceur des 
+légumes à une touche piquante pour une expérience gourmande et pleine de caractère.
     `,
 
     ingredients: [
-        "riz parfumé",
-        "pois chiches",
-        "chou-fleur",
+        "Nouilles",
+        "brocoli frais",
+        "piments",
         "ail",
-        "tomate",
-        "huile d’olive",
+        "sauce soja",
+        "huile végétale",
         "sel",
-        "lait de coco",
+        "graines de sésame",
         "oignon",
-        "poivre noir",
-        "persil frais",
-        "curry",
-        "cumin",
-        "curcuma",
-        "paprika",
-        "coriandre fraîche",
+        "poivre noir",       
          ],
 
-    calories: "≈ 580 kcal / portion",
+    calories: "≈ 480 kcal / portion",
 
-    image: "images/nos plats Curry de pois chiches et chou-fleur, riz parfumé.jpg"
+    image: "images/nos plats Nouilles sautées au brocoli et aux piments.jpg"
 
 };
 
