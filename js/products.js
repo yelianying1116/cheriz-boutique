@@ -5,29 +5,28 @@
 
 const DAILY_DISH = {
 
-    name: "Nouilles sautées au brocoli et aux piments",
+    name: "Nouilles sautées aux oignons et aux carottes",
 
     description: `
-Des nouilles savoureusement sautées au wok avec du brocoli frais et des piments, relevées d’ail et d’un mélange d’épices parfumées. Un plat généreux et équilibré, qui associe la douceur des 
-légumes à une touche piquante pour une expérience gourmande et pleine de caractère.
+Des nouilles délicatement sautées au wok avec des oignons fondants et des carottes croquantes, relevées d’un assaisonnement savoureux 
+qui apporte un bel équilibre entre douceur des légumes et notes légèrement parfumées.
     `,
 
     ingredients: [
         "Nouilles",
-        "brocoli frais",
-        "piments",
+        "carottes",
+        "persil frais",
         "ail",
         "sauce soja",
         "huile végétale",
         "sel",
-        "graines de sésame",
         "oignon",
         "poivre noir",       
          ],
 
-    calories: "≈ 480 kcal / portion",
+    calories: "≈ 450 kcal / portion",
 
-    image: "images/nos plats Nouilles sautées au brocoli et aux piments.jpg"
+    image: "images/nos plats Nouilles sautées aux oignons et aux carottes.jpg"
 
 };
 
