@@ -5,20 +5,21 @@
 
 const DAILY_DISH = {
 
-    name: "Nouilles sautées aux oignons et aux carottes",
+    name: "Pommes de terre au bacon et aux œufs riz blanc",
 
     description: `
-Des nouilles délicatement sautées au wok avec des oignons fondants et des carottes croquantes, relevées d’un assaisonnement savoureux 
-qui apporte un bel équilibre entre douceur des légumes et notes légèrement parfumées.
+Pommes de terre fondantes et dorées, accompagnées de bacon savoureux et d’œufs délicatement cuisinés, servis avec du riz blanc. Un plat généreux et réconfortant, aux saveurs gourmandes 
+qui allient la douceur des pommes de terre au goût fumé du bacon.
     `,
 
     ingredients: [
-        "Nouilles",
-        "carottes",
+        "Riz blanc",
+        "pommes de terre",
+        "œufs",
         "persil frais",
         "ail",
-        "sauce soja",
-        "huile végétale",
+        "bacon",
+        "huile d’olive",
         "sel",
         "oignon",
         "poivre noir",       
