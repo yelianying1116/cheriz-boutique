@@ -5,29 +5,29 @@
 
 const DAILY_DISH = {
 
-    name: "Pommes de terre au bacon et aux œufs riz blanc",
+    name: "Poulet sauté aux champignons, oignons et maïs grillé, riz",
 
     description: `
-Pommes de terre fondantes et dorées, accompagnées de bacon savoureux et d’œufs délicatement cuisinés, servis avec du riz blanc. Un plat généreux et réconfortant, aux saveurs gourmandes 
-qui allient la douceur des pommes de terre au goût fumé du bacon.
+Le poulet tendre est sauté avec des champignons savoureux, des oignons fondants et du maïs délicatement grillé, puis servi avec du riz blanc. Une combinaison gourmande aux saveurs douces et légèrement caramélisées, 
+qui apporte une touche chaleureuse et réconfortante.
     `,
 
     ingredients: [
         "Riz blanc",
-        "pommes de terre",
-        "œufs",
-        "persil frais",
+        "poulet",
+        "champignons",
+        "oignons",
         "ail",
-        "bacon",
+        "maïs",
         "huile d’olive",
         "sel",
-        "oignon",
+        "persil frais",
         "poivre noir",       
          ],
 
-    calories: "≈ 450 kcal / portion",
+    calories: "≈ 620 kcal / portion",
 
-    image: "images/nos plats Nouilles sautées aux oignons et aux carottes.jpg"
+    image: "Poulet sauté aux champignons, oignons et maïs grillé, riz"
 
 };
 
