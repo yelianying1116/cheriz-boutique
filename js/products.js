@@ -5,29 +5,29 @@
 
 const DAILY_DISH = {
 
-    name: "Poulet sauté aux champignons, oignons et maïs grillé, riz",
+    name: "Pommes de terre, maïs et brocoli aux légumes, servis avec du riz blanc",
 
     description: `
-Le poulet tendre est sauté avec des champignons savoureux, des oignons fondants et du maïs délicatement grillé, puis servi avec du riz blanc. Une combinaison gourmande aux saveurs douces et légèrement caramélisées, 
-qui apporte une touche chaleureuse et réconfortante.
+Des pommes de terre fondantes, du maïs doux et du brocoli frais, accompagnés de légumes de saison et servis avec du riz blanc. Un plat végétarien simple 
+et équilibré, aux saveurs naturelles, idéal pour un repas gourmand et réconfortant.
     `,
 
     ingredients: [
         "Riz blanc",
-        "poulet",
-        "champignons",
-        "oignons",
+        "pommes de terre",
+        "brocoli",
+        "légumes de saison",
         "ail",
-        "maïs",
+        "maïs doux",
         "huile d’olive",
         "sel",
-        "persil frais",
+        "herbes aromatiques",
         "poivre noir",       
          ],
 
-    calories: "≈ 620 kcal / portion",
+    calories: "≈ 480 kcal / portion",
 
-    image: "Poulet sauté aux champignons, oignons et maïs grillé, riz"
+    image: "images/nos plats Pommes de terre, maïs et brocoli aux légumes, servis avec du riz blanc.jpg"
 
 };
 
