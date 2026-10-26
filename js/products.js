@@ -5,29 +5,29 @@
 
 const DAILY_DISH = {
 
-    name: "Pommes de terre, maïs et brocoli aux légumes, servis avec du riz blanc",
+    name: "Porc sauté aux champignons de Paris, œuf au plat, riz blanc",
 
     description: `
-Des pommes de terre fondantes, du maïs doux et du brocoli frais, accompagnés de légumes de saison et servis avec du riz blanc. Un plat végétarien simple 
-et équilibré, aux saveurs naturelles, idéal pour un repas gourmand et réconfortant.
+Porc sauté à la poêle avec des champignons de Paris frais, accompagné d’un œuf au plat au jaune fondant et de riz blanc moelleux. Un plat généreux et savoureux, qui 
+associe la tendreté du porc, les arômes délicats des champignons et la douceur de l’œuf.
     `,
 
     ingredients: [
         "Riz blanc",
-        "pommes de terre",
-        "brocoli",
-        "légumes de saison",
+        "porc",
+        "champignons de Paris",
+        "œuf",
         "ail",
-        "maïs doux",
+        "sauce soja",, 
         "huile d’olive",
         "sel",
-        "herbes aromatiques",
+        "persil frais",
         "poivre noir",       
          ],
 
-    calories: "≈ 480 kcal / portion",
+    calories: "≈ 680 kcal / portion",
 
-    image: "images/nos plats Pommes de terre, maïs et brocoli aux légumes, servis avec du riz blanc.jpg"
+    image: "images/nos plats Porc sauté aux champignons de Paris, œuf au plat,  riz blanc.jpg"
 
 };
 
