@@ -5,29 +5,33 @@
 
 const DAILY_DISH = {
 
-    name: "Porc sauté aux champignons de Paris, œuf au plat, riz blanc",
+    name: "Poulet Kung Pao, riz blanc",
 
     description: `
-Porc sauté à la poêle avec des champignons de Paris frais, accompagné d’un œuf au plat au jaune fondant et de riz blanc moelleux. Un plat généreux et savoureux, qui 
-associe la tendreté du porc, les arômes délicats des champignons et la douceur de l’œuf.
+Poulet tendre sauté au wok avec des poivrons, des cacahuètes croquantes et une sauce savoureuse légèrement épicée, mêlant des notes salées, sucrées et acidulées. Servi avec du riz blanc moelleux, ce plat emblématique de la cuisine chinoise 
+offre un bel équilibre entre gourmandise et caractère.
     `,
 
     ingredients: [
         "Riz blanc",
-        "porc",
-        "champignons de Paris",
-        "œuf",
+        "poulet",
+        "cacahuètes",
+        "gingembre",
         "ail",
-        "sauce soja",, 
-        "huile d’olive",
+        "sauce soja",
+        "huile végétale",
         "sel",
         "persil frais",
-        "poivre noir",       
+        "poivre",  
+        "oignons verts",  
+        "vinaigre de riz",  
+        "sauce légèrement sucrée et épicée",  
+        "piment",  
          ],
 
-    calories: "≈ 680 kcal / portion",
+    calories: "≈ 700 kcal / portion",
 
-    image: "images/nos plats Porc sauté aux champignons de Paris, œuf au plat,  riz blanc.jpg"
+    image: "images/nos plats Poulet Kung Pao,  riz blanc.jpg"
 
 };
 
