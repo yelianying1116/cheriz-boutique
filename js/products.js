@@ -5,33 +5,32 @@
 
 const DAILY_DISH = {
 
-    name: "Poulet Kung Pao, riz blanc",
+    name: "Poulet au curry et pommes de terre, riz blanc",
 
     description: `
-Poulet tendre sauté au wok avec des poivrons, des cacahuètes croquantes et une sauce savoureuse légèrement épicée, mêlant des notes salées, sucrées et acidulées. Servi avec du riz blanc moelleux, ce plat emblématique de la cuisine chinoise 
-offre un bel équilibre entre gourmandise et caractère.
+Poulet tendre mijoté dans une sauce au curry parfumée, accompagné de pommes de terre fondantes et servi avec du riz blanc. Un plat généreux et réconfortant, 
+aux saveurs délicatement épicées, qui allie douceur et gourmandise.
     `,
 
     ingredients: [
         "Riz blanc",
         "poulet",
-        "cacahuètes",
-        "gingembre",
+        "pommes de terre",
+        "oignon",
         "ail",
-        "sauce soja",
-        "huile végétale",
+        "bouillon de volaille",
+        "huile d’olive",
         "sel",
-        "persil frais",
-        "poivre",  
-        "oignons verts",  
-        "vinaigre de riz",  
-        "sauce légèrement sucrée et épicée",  
-        "piment",  
-         ],
+        "crème ou lait de coco",
+        "poivre noir",  
+        "curcuma",  
+        "cumin",  
+        "curry",  
+        ],
 
-    calories: "≈ 700 kcal / portion",
+    calories: "≈ 680 kcal / portion",
 
-    image: "images/nos plats Poulet Kung Pao,  riz blanc.jpg"
+    image: "images/nos plats Poulet au curry et pommes de terre,  riz blanc.jpg"
 
 };
 
