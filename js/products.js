@@ -5,32 +5,33 @@
 
 const DAILY_DISH = {
 
-    name: "Poulet au curry et pommes de terre, riz blanc",
+    name: "Poulet croustillant pané, sauce curry et riz parfumé",
 
     description: `
-Poulet tendre mijoté dans une sauce au curry parfumée, accompagné de pommes de terre fondantes et servi avec du riz blanc. Un plat généreux et réconfortant, 
-aux saveurs délicatement épicées, qui allie douceur et gourmandise.
+Un délicieux poulet enrobé d’une panure dorée et croustillante, accompagné d’un riz parfumé et nappé d’une sauce curry onctueuse et délicatement épicée. Une recette généreuse et savoureuse qui associe le 
+croustillant du poulet à la douceur des épices pour un repas gourmand et réconfortant.
     `,
 
     ingredients: [
-        "Riz blanc",
+        "Riz parfumé",
         "poulet",
-        "pommes de terre",
+        "chapelure",
         "oignon",
         "ail",
-        "bouillon de volaille",
-        "huile d’olive",
+        "farine de blé",
+        "huile végétale",
         "sel",
         "crème ou lait de coco",
         "poivre noir",  
-        "curcuma",  
-        "cumin",  
+        "paprika",  
+        "œuf",  
         "curry",  
+        "épices",  
         ],
 
-    calories: "≈ 680 kcal / portion",
+    calories: "≈ 750 kcal / portion",
 
-    image: "images/nos plats Poulet au curry et pommes de terre,  riz blanc.jpg"
+    image: "images/nos plats Poulet croustillant pané, sauce curry et riz parfumé.jpg"
 
 };
 
