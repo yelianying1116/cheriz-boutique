@@ -5,33 +5,30 @@
 
 const DAILY_DISH = {
 
-    name: "Poulet croustillant pané, sauce curry et riz parfumé",
+    name: "Poulet mijoté aux légumes, sauce douce au curry et riz",
 
     description: `
-Un délicieux poulet enrobé d’une panure dorée et croustillante, accompagné d’un riz parfumé et nappé d’une sauce curry onctueuse et délicatement épicée. Une recette généreuse et savoureuse qui associe le 
-croustillant du poulet à la douceur des épices pour un repas gourmand et réconfortant.
+Poulet tendrement mijoté avec des légumes frais, accompagné de riz blanc et nappé d’une sauce douce au curry, délicatement parfumée aux épices. Un plat réconfortant et savoureux, 
+aux notes douces et chaleureuses, qui allie gourmandise et équilibre.
     `,
 
     ingredients: [
-        "Riz parfumé",
+        "Riz blanc",
         "poulet",
-        "chapelure",
+        "carottes",
         "oignon",
         "ail",
-        "farine de blé",
-        "huile végétale",
+        "curry doux",
+        "huile d’olive",
         "sel",
-        "crème ou lait de coco",
+        "crème de cuisson",
         "poivre noir",  
-        "paprika",  
-        "œuf",  
-        "curry",  
-        "épices",  
-        ],
+        "persil frais",  
+         ],
 
-    calories: "≈ 750 kcal / portion",
+    calories: "≈ 620 kcal / portion",
 
-    image: "images/nos plats Poulet croustillant pané, sauce curry et riz parfumé.jpg"
+    image: "images/nos plats Poulet mijoté aux légumes, sauce douce au curry et riz.jpg"
 
 };
 
