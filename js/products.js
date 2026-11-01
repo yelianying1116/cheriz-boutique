@@ -8,7 +8,8 @@ const DAILY_DISH = {
     name: "Poulet sauté aux champignons, oignons et maïs grillé, riz",
 
     description: `
-Poulet tendre sauté avec des champignons savoureux, des oignons fondants et du maïs délicatement grillé, servi avec du riz blanc. Une association gourmande aux saveurs douces et 
+Poulet tendre sauté avec des champignons savoureux, des oignons fondants et du maïs 
+délicatement grillé, servi avec du riz blanc. Une association gourmande aux saveurs douces et 
 légèrement grillées, pour un repas maison généreux et réconfortant.
     `,
 
