@@ -5,30 +5,29 @@
 
 const DAILY_DISH = {
 
-    name: "Poulet mijoté aux légumes, sauce douce au curry et riz",
+    name: "Poulet sauté aux champignons, oignons et maïs grillé, riz",
 
     description: `
-Poulet tendrement mijoté avec des légumes frais, accompagné de riz blanc et nappé d’une sauce douce au curry, délicatement parfumée aux épices. Un plat réconfortant et savoureux, 
-aux notes douces et chaleureuses, qui allie gourmandise et équilibre.
+Poulet tendre sauté avec des champignons savoureux, des oignons fondants et du maïs délicatement grillé, servi avec du riz blanc. Une association gourmande aux saveurs douces et 
+légèrement grillées, pour un repas maison généreux et réconfortant.
     `,
 
     ingredients: [
         "Riz blanc",
         "poulet",
-        "carottes",
+        "champignons",
         "oignon",
         "ail",
-        "curry doux",
+        "maïs",
         "huile d’olive",
         "sel",
-        "crème de cuisson",
         "poivre noir",  
         "persil frais",  
          ],
 
     calories: "≈ 620 kcal / portion",
 
-    image: "images/nos plats Poulet mijoté aux légumes, sauce douce au curry et riz.jpg"
+    image: "images/nos plats Poulet sauté aux champignons, oignons et maïs grillé, riz.jpg"
 
 };
 
