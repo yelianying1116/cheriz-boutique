@@ -5,30 +5,27 @@
 
 const DAILY_DISH = {
 
-    name: "Poulet sauté aux champignons, oignons et maïs grillé, riz",
+    name: "Saumon cuit à la vapeur, riz blanc",
 
     description: `
-Poulet tendre sauté avec des champignons savoureux, des oignons fondants et du maïs 
-délicatement grillé, servi avec du riz blanc. Une association gourmande aux saveurs douces et 
-légèrement grillées, pour un repas maison généreux et réconfortant.
+Saumon frais délicatement cuit à la vapeur pour préserver sa tendreté et ses saveurs naturelles, servi avec du riz blanc moelleux et assaisonné d'une touche de 
+citron, d'ail et de persil frais pour un repas équilibré, léger et savoureux.
     `,
 
     ingredients: [
         "Riz blanc",
-        "poulet",
-        "champignons",
-        "oignon",
+        "saumon frais",
+        "citron",
         "ail",
-        "maïs",
-        "huile d’olive",
+        "persil frais",
+        "huile d’olive",     
         "sel",
         "poivre noir",  
-        "persil frais",  
          ],
 
-    calories: "≈ 620 kcal / portion",
+    calories: "≈ 580 kcal / portion",
 
-    image: "images/nos plats Poulet sauté aux champignons, oignons et maïs grillé, riz.jpg"
+    image: "images/nos plats Saumon cuit à la vapeur,  riz blanc.jpg"
 
 };
 
