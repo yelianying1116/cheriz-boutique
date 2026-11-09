@@ -1,33 +1,3 @@
-// ====================================
-// PLAT DU JOUR
-// 每天只需要修改这里
-// ====================================
-
-const DAILY_DISH = {
-
-    name: "Saumon cuit à la vapeur, riz blanc",
-
-    description: `
-Saumon frais délicatement cuit à la vapeur pour préserver sa tendreté et ses saveurs naturelles, servi avec du riz blanc moelleux et assaisonné d'une touche de 
-citron, d'ail et de persil frais pour un repas équilibré, léger et savoureux.
-    `,
-
-    ingredients: [
-        "Riz blanc",
-        "saumon frais",
-        "citron",
-        "ail",
-        "persil frais",
-        "huile d’olive",     
-        "sel",
-        "poivre noir",  
-         ],
-
-    calories: "≈ 580 kcal / portion",
-
-    image: "images/nos plats Saumon cuit à la vapeur,  riz blanc.jpg"
-
-};
 
 // ====================================
 // PRODUCTS DATABASE
