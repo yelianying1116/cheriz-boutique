@@ -1354,3 +1354,65 @@ MOBILE
     }
 
 }
+/* =======================================
+   PLAT DU JOUR - CONTENT
+======================================= */
+
+.daily-content {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.daily-title {
+    font-size: 23px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #333;
+    margin: 0;
+}
+
+.daily-description {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #666;
+    margin: 0;
+}
+
+.daily-details {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 5px;
+}
+
+.daily-info {
+    padding: 13px 16px;
+    background: #f8f6f1;
+    border-radius: 10px;
+}
+
+.daily-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    color: #a47739;
+    margin-bottom: 6px;
+}
+
+.daily-info p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #555;
+    margin: 0;
+}
+
+.daily-calories {
+    background: #fff3e5;
+}
+
+.daily-calories p {
+    font-weight: 700;
+    color: #9a642b;
+}
